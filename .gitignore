@@ -1,0 +1,12 @@
+*.stackdump
+.DS_Store
+.c9
+.nyc_output
+.project
+.settings
+OWNERS
+Thumbs.db
+coverage
+debug.log
+node_modules
+npm-debug.log*

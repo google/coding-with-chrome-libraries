@@ -17,249 +17,256 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.lib.protocol.Buffer');
+goog.module('cwc.lib.protocol.Buffer');
 
-goog.require('cwc.lib.protocol.BufferType');
-
-
-/**
- * @constructor
- */
-cwc.lib.protocol.Buffer = function() {
-  /** @type {!Array} */
-  this.data = [];
-
-  /** @type {Object.<cwc.lib.protocol.BufferType|string|number>} */
-  this.headers = {};
-};
+const BufferType = goog.module.get('cwc.lib.protocol.BufferType');
 
 
 /**
- * Writes a byte into the buffer.
- * @param {number} value
- * @param {number=} defaultValue
- * @return {THIS}
- * @template THIS
- * @export
+ * @class
  */
-cwc.lib.protocol.Buffer.prototype.writeByte = function(value,
-    defaultValue = 0x00) {
-  this.addHeader(cwc.lib.protocol.BufferType.BYTE);
-  this.write(value === undefined ? defaultValue : value);
-  return this;
-};
+class Buffer {
+  /**
+   * @param {Array=} data
+   */
+  constructor(data) {
+    /** @type {!Array} */
+    this.data = data || [];
 
-
-/**
- * Writes null byte with 0x00.
- * @return {THIS}
- * @template THIS
- * @export
- */
-cwc.lib.protocol.Buffer.prototype.writeNullByte = function() {
-  this.writeByte(0x00);
-  return this;
-};
-
-
-/**
- * Writes single byte with 0x01.
- * @return {THIS}
- * @template THIS
- * @export
- */
-cwc.lib.protocol.Buffer.prototype.writeSingleByte = function() {
-  this.writeByte(0x01);
-  return this;
-};
-
-
-/**
- * Writes a short into the buffer.
- * @param {number} value
- * @return {THIS}
- * @template THIS
- * @export
- */
-cwc.lib.protocol.Buffer.prototype.writeShort = function(value) {
-  this.addHeader(cwc.lib.protocol.BufferType.SHORT);
-  this.write(value);
-  this.write(value >> 8);
-  return this;
-};
-
-
-/**
- * Writes an integer into the buffer.
- * @param {number} value
- * @return {THIS}
- * @template THIS
- * @export
- */
-cwc.lib.protocol.Buffer.prototype.writeInt = function(value) {
-  this.addHeader(cwc.lib.protocol.BufferType.INT);
-  this.write(value);
-  this.write(value >> 8);
-  this.write(value >> 16);
-  this.write(value >> 24);
-  return this;
-};
-
-
-/**
- * Writes an unsigned integer into the buffer.
- * @param {number} value
- * @return {THIS}
- * @template THIS
- * @export
- */
-cwc.lib.protocol.Buffer.prototype.writeUInt = function(value) {
-  this.addHeader(cwc.lib.protocol.BufferType.UINT);
-  this.write(value & 0xFF);
-  return this;
-};
-
-
-/**
- * Writes an unsigned 16bit integer into the buffer.
- * @param {number} value
- * @return {THIS}
- * @template THIS
- * @export
- */
-cwc.lib.protocol.Buffer.prototype.writeUInt16 = function(value) {
-  this.addHeader(cwc.lib.protocol.BufferType.UINT16);
-  this.write(value >> 8);
-  this.write(value & 0xFF);
-  return this;
-};
-
-
-/**
- * Writes a string into the buffer.
- * @param {string} value
- * @return {THIS}
- * @template THIS
- * @export
- */
-cwc.lib.protocol.Buffer.prototype.writeString = function(value) {
-  this.addHeader(cwc.lib.protocol.BufferType.STR);
-  let valueLength = value.length;
-  for (let i = 0; i < valueLength; i++) {
-    this.write(value.charCodeAt(i));
+    /** @type {Object.<BufferType|string|number>} */
+    this.headers = {};
   }
-  this.write(0x00);
-  return this;
-};
 
-
-/**
- * @param {!Array|!string} command
- * @return {THIS}
- * @template THIS
- */
-cwc.lib.protocol.Buffer.prototype.writeCommand = function(command) {
-  if (command instanceof Array) {
-    this.write(command[0]);
-    this.write(command[1]);
-  } else {
-    this.write(command);
+  /**
+   * Writes a byte into the buffer.
+   * @param {number} value
+   * @param {number=} defaultValue
+   * @return {THIS}
+   * @template THIS
+   */
+  writeByte(value, defaultValue = 0x00) {
+    this.addHeader(BufferType.BYTE);
+    this.write(value === undefined ? defaultValue : value);
+    return this;
   }
-  return this;
-};
 
-
-/**
- * Writes an index integer into the buffer.
- * @param {number} value
- * @return {THIS}
- * @template THIS
- * @export
- */
-cwc.lib.protocol.Buffer.prototype.writeIndex = function(value) {
-  this.addHeader(cwc.lib.protocol.BufferType.INDEX);
-  this.write(value || 0x00);
-  return this;
-};
-
-
-/**
- * @param {string|number} data
- * @return {THIS}
- * @template THIS
- * @export
- */
-cwc.lib.protocol.Buffer.prototype.write = function(data) {
-  this.data.push(data);
-  return this;
-};
-
-
-/**
- * @return {number}
- * @export
- */
-cwc.lib.protocol.Buffer.prototype.length = function() {
-  return this.data.length;
-};
-
-
-/**
- * @return {!Array}
- * @export
- */
-cwc.lib.protocol.Buffer.prototype.getData = function() {
-  return this.data;
-};
-
-
-/**
- * @export
- */
-cwc.lib.protocol.Buffer.prototype.clearData = function() {
-  this.data = [];
-};
-
-
-/**
- * @param {cwc.lib.protocol.BufferType} type
- * @export
- */
-cwc.lib.protocol.Buffer.prototype.addHeader = function(type) {
-  if (this.hasHeader(type)) {
-    this.write(this.headers[type]);
+  /**
+   * Writes null byte with 0x00.
+   * @return {THIS}
+   * @template THIS
+   * @export
+   */
+  writeNullByte() {
+    this.writeByte(0x00);
+    return this;
   }
-};
 
 
-/**
- * @param {cwc.lib.protocol.BufferType} type
- * @param {string|number} data
- * @export
- */
-cwc.lib.protocol.Buffer.prototype.setHeader = function(type, data) {
-  this.headers[type] = data;
-};
-
-
-/**
- * @param {cwc.lib.protocol.BufferType} type
- * @return {boolean}
- * @export
- */
-cwc.lib.protocol.Buffer.prototype.hasHeader = function(type) {
-  if (type) {
-    return this.headers[type] !== undefined;
+  /**
+   * Writes single byte with 0x01.
+   * @return {THIS}
+   * @template THIS
+   * @export
+   */
+  writeSingleByte() {
+    this.writeByte(0x01);
+    return this;
   }
-  return false;
-};
 
 
-/**
- * @param {cwc.lib.protocol.BufferType} type
- * @return {string|number}
- * @export
- */
-cwc.lib.protocol.Buffer.prototype.getHeader = function(type) {
-  return this.headers[type];
-};
+  /**
+   * Writes a short into the buffer.
+   * @param {number} value
+   * @return {THIS}
+   * @template THIS
+   * @export
+   */
+  writeShort(value) {
+    this.addHeader(BufferType.SHORT);
+    this.write(value);
+    this.write(value >> 8);
+    return this;
+  }
+
+
+  /**
+   * Writes an integer into the buffer.
+   * @param {number} value
+   * @return {THIS}
+   * @template THIS
+   * @export
+   */
+  writeInt(value) {
+    this.addHeader(BufferType.INT);
+    this.write(value);
+    this.write(value >> 8);
+    this.write(value >> 16);
+    this.write(value >> 24);
+    return this;
+  }
+
+
+  /**
+   * Writes an unsigned integer into the buffer.
+   * @param {number} value
+   * @return {THIS}
+   * @template THIS
+   * @export
+   */
+  writeUInt(value) {
+    this.addHeader(BufferType.UINT);
+    this.write(value & 0xFF);
+    return this;
+  }
+
+
+  /**
+   * Writes an unsigned 16bit integer into the buffer.
+   * @param {number} value
+   * @return {THIS}
+   * @template THIS
+   * @export
+   */
+  writeUInt16(value) {
+    this.addHeader(BufferType.UINT16);
+    this.write(value >> 8);
+    this.write(value & 0xFF);
+    return this;
+  }
+
+
+  /**
+   * Writes a string into the buffer.
+   * @param {string} value
+   * @return {THIS}
+   * @template THIS
+   * @export
+   */
+  writeString(value) {
+    this.addHeader(BufferType.STR);
+    let valueLength = value.length;
+    for (let i = 0; i < valueLength; i++) {
+      this.write(value.charCodeAt(i));
+    }
+    this.write(0x00);
+    return this;
+  }
+
+
+  /**
+   * @param {!Array|!string} command
+   * @return {THIS}
+   * @template THIS
+   */
+  writeCommand(command) {
+    if (command instanceof Array) {
+      this.write(command[0]);
+      this.write(command[1]);
+    } else {
+      this.write(command);
+    }
+    return this;
+  }
+
+
+  /**
+   * Writes an index integer into the buffer.
+   * @param {number} value
+   * @return {THIS}
+   * @template THIS
+   * @export
+   */
+  writeIndex(value) {
+    this.addHeader(BufferType.INDEX);
+    this.write(value || 0x00);
+    return this;
+  }
+
+
+  /**
+   * @param {string|number} data
+   * @return {THIS}
+   * @template THIS
+   * @export
+   */
+  write(data) {
+    this.data.push(data);
+    return this;
+  }
+
+
+  /**
+   * @return {number}
+   * @export
+   */
+  length() {
+    return this.data.length;
+  }
+
+
+  /**
+   * @return {!Array}
+   * @export
+   */
+  getData() {
+    return this.data;
+  }
+
+
+  /**
+   * @export
+   */
+  clearData() {
+    this.data = [];
+  }
+
+
+  /**
+   * @param {BufferType} type
+   * @export
+   */
+  addHeader(type) {
+    if (this.hasHeader(type)) {
+      this.write(this.headers[type]);
+    }
+  }
+
+
+  /**
+   * @param {BufferType} type
+   * @param {string|number} data
+   * @return {THIS}
+   * @template THIS
+   * @export
+   */
+  setHeader(type, data) {
+    this.headers[type] = data;
+    return this;
+  }
+
+
+  /**
+   * @param {BufferType} type
+   * @return {boolean}
+   * @export
+   */
+  hasHeader(type) {
+    if (type) {
+      return this.headers[type] !== undefined;
+    }
+    return false;
+  }
+
+
+  /**
+   * @param {BufferType} type
+   * @return {string|number}
+   * @export
+   */
+  getHeader(type) {
+    return this.headers[type];
+  }
+}
+
+
+exports = Buffer;

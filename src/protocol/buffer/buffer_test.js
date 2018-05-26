@@ -14,11 +14,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ *cwc.lib.protocol.Buffer
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.require('cwc.lib.protocol.Buffer');
-goog.require('cwc.lib.protocol.BufferType');
+goog.module('cwc.lib.protocol.BufferTest');
+goog.setTestOnly('cwc.lib.protocol.BufferTest');
+
+const Buffer = goog.require('cwc.lib.protocol.Buffer');
+const BufferType = goog.require('cwc.lib.protocol.BufferType');
 
 
 describe('buffer', function() {
@@ -29,27 +32,27 @@ describe('buffer', function() {
   let stringHeader = Math.random();
 
   it('opt_header', function() {
-    let buffer = new cwc.lib.protocol.Buffer();
-    buffer.setHeader(cwc.lib.protocol.BufferType.BYTE, byteHeader);
-    buffer.setHeader(cwc.lib.protocol.BufferType.SHORT, shortHeader);
-    buffer.setHeader(cwc.lib.protocol.BufferType.INT, integerHeader);
-    buffer.setHeader(cwc.lib.protocol.BufferType.INDEX, indexHeader);
-    buffer.setHeader(cwc.lib.protocol.BufferType.STR, stringHeader);
+    let buffer = new Buffer();
+    buffer.setHeader(BufferType.BYTE, byteHeader);
+    buffer.setHeader(BufferType.SHORT, shortHeader);
+    buffer.setHeader(BufferType.INT, integerHeader);
+    buffer.setHeader(BufferType.INDEX, indexHeader);
+    buffer.setHeader(BufferType.STR, stringHeader);
 
-    expect(buffer.getHeader(cwc.lib.protocol.BufferType.BYTE))
+    expect(buffer.getHeader(BufferType.BYTE))
       .toBe(byteHeader);
-    expect(buffer.getHeader(cwc.lib.protocol.BufferType.SHORT))
+    expect(buffer.getHeader(BufferType.SHORT))
       .toBe(shortHeader);
-    expect(buffer.getHeader(cwc.lib.protocol.BufferType.INT))
+    expect(buffer.getHeader(BufferType.INT))
       .toBe(integerHeader);
-    expect(buffer.getHeader(cwc.lib.protocol.BufferType.INDEX))
+    expect(buffer.getHeader(BufferType.INDEX))
       .toBe(indexHeader);
-    expect(buffer.getHeader(cwc.lib.protocol.BufferType.STR))
+    expect(buffer.getHeader(BufferType.STR))
       .toBe(stringHeader);
   });
 
   it('clearData', function() {
-    let buffer = new cwc.lib.protocol.Buffer();
+    let buffer = new Buffer();
     expect(buffer.getData()).toEqual([]);
     buffer.clearData();
     expect(buffer.getData()).toEqual([]);

@@ -17,13 +17,13 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.provide('cwc.lib.protocol.BufferType');
+goog.module('cwc.lib.protocol.BufferType');
 
 
 /**
  * @enum {!number}
  */
-cwc.lib.protocol.BufferType = {
+exports = {
   BYTE: 1,
   SHORT: 2,
   INT: 3,

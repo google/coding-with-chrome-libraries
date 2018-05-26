@@ -1,6 +1,8 @@
 Coding with Chrome Libraries
 =============================
 
+[![Build Status](https://travis-ci.org/google/coding-with-chrome-libraries.svg?branch=master)](https://travis-ci.org/google/coding-with-chrome-libraries)
+
 * [Licensing](#licensing)
 * [Report Issues](#report-issues)
 * [Contributing](#contributing)

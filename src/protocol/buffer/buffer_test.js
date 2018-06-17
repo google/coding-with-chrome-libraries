@@ -31,7 +31,7 @@ describe('buffer', function() {
   let shortHeader = Math.random();
   let stringHeader = Math.random();
 
-  it('opt_header', function() {
+  it('setHeader', function() {
     let buffer = new Buffer();
     buffer.setHeader(BufferType.BYTE, byteHeader);
     buffer.setHeader(BufferType.SHORT, shortHeader);

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Buffer types.
+ * @fileoverview Listener helper.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,19 +17,23 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.module('cwc.lib.protocol.BufferType');
-goog.module.declareLegacyNamespace();
+goog.module('cwc.lib.utils.events.Data');
 
 
 /**
- * @enum {!number}
+ * @param {!string} type
+ * @param {ArrayBuffer|Object|string|number=} data
+ * @param {string|number=} source
+ * @constructor
+ * @final
  */
-exports = {
-  BYTE: 1,
-  SHORT: 2,
-  INT: 3,
-  UINT: 4,
-  UINT16: 5,
-  STR: 6,
-  INDEX: 7,
+exports = function(type, data, source) {
+  /** @type {!string} */
+  this.type = type;
+
+  /** @type {!ArrayBuffer|Object|string|number|null} */
+  this.data = typeof data !== 'undefined' ? data : {};
+
+  /** @type {!string|number} */
+  this.source = typeof source !== 'undefined' ? source : '';
 };

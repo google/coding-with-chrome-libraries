@@ -18,7 +18,6 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.module('cwc.lib.protocol.BufferType');
-goog.module.declareLegacyNamespace();
 
 
 /**

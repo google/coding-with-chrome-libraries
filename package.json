@@ -16,7 +16,6 @@
     "karma-chrome-launcher": "latest",
     "karma-closure": "latest",
     "karma-coverage": "^1.1.2",
-    "karma-googmodule-preprocessor": "^1.0.1",
     "karma-jasmine": "^1.1.2",
     "markdownlint": "^0.8.1",
     "markdownlint-cli": "^0.8.1"
@@ -25,6 +24,7 @@
     "lint": "npm run lint-javascript && npm run lint-markdown",
     "lint-javascript": "eslint .",
     "lint-markdown": "markdownlint doc/ training/ *.md src/**/*.md",
+    "depswriter": "python third_party/closure-library/closure/bin/build/depswriter.py --root_with_prefix=\"src/ ../../../../src/\"",
     "pretest": "npm run lint",
     "test": "echo Starting tests ... && karma start src/tests.conf",
     "sync": "echo Syncing. Please wait ... && git pull && git submodule init && git submodule update && npm run update",

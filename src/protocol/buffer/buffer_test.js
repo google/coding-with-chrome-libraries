@@ -17,11 +17,12 @@
  *cwc.lib.protocol.Buffer
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.module('cwc.lib.protocol.BufferTest');
-goog.setTestOnly('cwc.lib.protocol.BufferTest');
+goog.require('cwc.lib.protocol.Buffer');
+goog.require('cwc.lib.protocol.BufferType');
 
-const Buffer = goog.require('cwc.lib.protocol.Buffer');
-const BufferType = goog.require('cwc.lib.protocol.BufferType');
+goog.scope(function() {
+const Buffer = goog.module.get('cwc.lib.protocol.Buffer');
+const BufferType = goog.module.get('cwc.lib.protocol.BufferType');
 
 
 describe('buffer', function() {
@@ -57,4 +58,5 @@ describe('buffer', function() {
     buffer.clearData();
     expect(buffer.getData()).toEqual([]);
   });
+});
 });

@@ -18,9 +18,8 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 goog.module('cwc.lib.protocol.Buffer');
-goog.module.declareLegacyNamespace();
 
-const BufferType = goog.module.get('cwc.lib.protocol.BufferType');
+const BufferType = goog.require('cwc.lib.protocol.BufferType');
 
 
 /**

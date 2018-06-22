@@ -21,7 +21,7 @@ goog.module('cwc.lib.protocol.BufferType');
 
 
 /**
- * @enum {!number}
+ * @enum {number}
  */
 exports = {
   BYTE: 1,

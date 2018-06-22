@@ -28,28 +28,28 @@ const EventTarget = goog.require('goog.events.EventTarget');
  */
 class Device {
   /**
-   * @constructor
+   *
    */
   constructor() {
-    /** @type {!string} */
+    /** @type {string} */
     this.address = '';
 
-    /** @type {!boolean} */
+    /** @type {boolean} */
     this.connected = false;
 
-    /** @type {!string} */
+    /** @type {string} */
     this.name = '';
 
-    /** @type {!boolean} */
+    /** @type {boolean} */
     this.paired = false;
 
-    /** @type {!string} */
+    /** @type {string} */
     this.id = '';
 
-    /** @type {!string} */
+    /** @type {string} */
     this.type = '';
 
-    /** @type {!string} */
+    /** @type {string} */
     this.icon = '';
 
     /** @type {!cwc.protocol.bluetooth.classic.supportedDevices|
@@ -67,7 +67,7 @@ class Device {
 
 
   /**
-   * @param {!string} address
+   * @param {string} address
    * @return {THIS}
    * @template THIS
    */
@@ -78,7 +78,7 @@ class Device {
 
 
   /**
-   * @return {!string}
+   * @return {string}
    */
   getAddress() {
     return this.address || '';
@@ -86,7 +86,7 @@ class Device {
 
 
   /**
-   * @param {!boolean} connected
+   * @param {boolean} connected
    * @return {THIS}
    * @template THIS
    */
@@ -97,7 +97,7 @@ class Device {
 
 
   /**
-   * @return {!boolean}
+   * @return {boolean}
    */
   isConnected() {
     return this.connected;
@@ -120,14 +120,14 @@ class Device {
    */
   getEventHandler() {
     if (!this.eventHandler) {
-      this.eventHandler = new goog.events.EventTarget();
+      this.eventHandler = new EventTarget();
     }
     return this.eventHandler;
   }
 
 
   /**
-   * @param {!boolean} paired
+   * @param {boolean} paired
    * @return {THIS}
    * @template THIS
    */
@@ -138,7 +138,7 @@ class Device {
 
 
   /**
-   * @return {!boolean}
+   * @return {boolean}
    */
   isPaired() {
     return this.paired;
@@ -146,7 +146,7 @@ class Device {
 
 
   /**
-   * @param {!string} id
+   * @param {string} id
    * @return {THIS}
    * @template THIS
    */
@@ -157,7 +157,7 @@ class Device {
 
 
   /**
-   * @return {!string}
+   * @return {string}
    */
   getId() {
     return this.id || '';
@@ -165,7 +165,7 @@ class Device {
 
 
   /**
-   * @param {!string} name
+   * @param {string} name
    * @return {THIS}
    * @template THIS
    */
@@ -176,7 +176,7 @@ class Device {
 
 
   /**
-   * @return {!string}
+   * @return {string}
    */
   getName() {
     return this.name || '';
@@ -184,7 +184,7 @@ class Device {
 
 
   /**
-   * @param {!string} type
+   * @param {string} type
    * @return {THIS}
    * @template THIS
    */
@@ -195,7 +195,7 @@ class Device {
 
 
   /**
-   * @return {!string}
+   * @return {string}
    */
   getType() {
     return this.type || '';
@@ -228,7 +228,7 @@ class Device {
 
 
   /**
-   * @param {!string} icon
+   * @param {string} icon
    * @return {THIS}
    * @template THIS
    */
@@ -239,7 +239,7 @@ class Device {
 
 
   /**
-   * @return {!string}
+   * @return {string}
    */
   getIcon() {
     return this.icon || '';
@@ -247,12 +247,12 @@ class Device {
 
 
   /**
-   * @param {!string} name
+   * @param {string} name
    * @return {THIS}
    * @template THIS
    */
   setLogName(name) {
-    this.log = new cwc.utils.Logger(name);
+    this.log = new Logger(name);
     return this;
   }
 }

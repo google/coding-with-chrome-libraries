@@ -21,14 +21,14 @@ goog.module('cwc.lib.utils.events.Data');
 
 
 /**
- * @param {!string} type
+ * @param {string} type
  * @param {ArrayBuffer|Object|string|number=} data
  * @param {string|number=} source
  * @constructor
  * @final
  */
 exports = function(type, data, source) {
-  /** @type {!string} */
+  /** @type {string} */
   this.type = type;
 
   /** @type {!ArrayBuffer|Object|string|number|null} */

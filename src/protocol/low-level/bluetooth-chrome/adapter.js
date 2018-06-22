@@ -29,22 +29,21 @@ const Logger = goog.require('cwc.lib.utils.Logger');
 class Adapter {
   /**
    * @param {!goog.events.EventTarget} eventHandler
-   * @constuctor
    */
   constructor(eventHandler) {
-    /** @type {!string} */
+    /** @type {string} */
     this.name = 'Bluetooth Adapter';
 
-    /** @type {!string} */
+    /** @type {string} */
     this.address = '';
 
-    /** @type {!boolean} */
+    /** @type {boolean} */
     this.powered = false;
 
-    /** @type {!boolean} */
+    /** @type {boolean} */
     this.available = false;
 
-    /** @type {!boolean} */
+    /** @type {boolean} */
     this.discovering = false;
 
     /** @type {boolean} */

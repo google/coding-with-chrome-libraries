@@ -23,7 +23,7 @@ let EventData = goog.require('cwc.utils.EventData');
 
 
 /**
- * @enum {!number}
+ * @enum {number}
  */
 const Type = {
   ADAPTER_STATE_CHANGE: 1,

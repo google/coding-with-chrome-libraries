@@ -55,17 +55,17 @@ cwc.lib.utils.LogLevel = {
  */
 cwc.lib.utils.Logger = function(name = 'Logger',
     logLevel = cwc.lib.utils.LogLevel.NOTICE) {
-  /** @type {!string} */
+  /** @type {string} */
   this.name = name;
 
-  /** @type {!string} */
+  /** @type {string} */
   this.displayName = this.name ? '%c' + this.name : '';
 
-  /** @type {!number} */
+  /** @type {number} */
   this.logLevel = typeof cwc.config !== 'undefined' ?
     Number(cwc.config.Logging.LEVEL) : logLevel;
 
-  /** @type {!boolean} */
+  /** @type {boolean} */
   this.enabled_ = typeof ENABLE_LOGGING === 'undefined' ? true : ENABLE_LOGGING;
 
   /** @type {!Function} */
@@ -146,7 +146,7 @@ cwc.lib.utils.Logger.prototype.setLogLevel = function(logLevel) {
 
 
 /**
- * @param {!string} name
+ * @param {string} name
  * @param {!cwc.lib.utils.LogLevel} logLevel
  * @param {!Function} logger
  * @param {boolean=} raw

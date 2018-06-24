@@ -21,8 +21,32 @@ goog.module('cwc.lib.protocol.bluetoothWeb.Profile');
 
 
 /**
- * List of know devices with their charactersticis and services.
+ * List of know charactersticis.
  * The default characteristric will be used as default for sending data.
+ *
+ * @enum {!Object.<!Object>}
+ */
+const Characteristic = {
+  SPHERO: {
+    default: '22bb746f-2ba1-7554-2d6f-726568705327',
+    robotControl: {
+      command: '22bb746f-2ba1-7554-2d6f-726568705327',
+      response: '22bb746f-2ba6-7554-2d6f-726568705327',
+    },
+    spheroBLE: {
+      antiDOS: '22bb746f-2bbd-7554-2d6f-726568705327',
+      antiDOSTimeout: '22bb746f-2bbe-7554-2d6f-726568705327',
+      rssi: '22bb746f-2bb6-7554-2d6f-726568705327',
+      sleep: '22bb746f-2bb7-7554-2d6f-726568705327',
+      txPower: '22bb746f-2bb2-7554-2d6f-726568705327',
+      wake: '22bb746f-2bbf-7554-2d6f-726568705327',
+    },
+  },
+};
+
+
+/**
+ * List of know devices with their charactersticis and services.
  *
  * @enum {!Object.<!Object>}
  */
@@ -31,21 +55,7 @@ const Device = {
     name: 'Sphero SPRK+',
     namePrefix: 'SK-',
     icon: 'adjust',
-    characteristic: {
-      default: '22bb746f-2ba1-7554-2d6f-726568705327',
-      robotControl: {
-        command: '22bb746f-2ba1-7554-2d6f-726568705327',
-        response: '22bb746f-2ba6-7554-2d6f-726568705327',
-      },
-      spheroBLE: {
-        antiDOS: '22bb746f-2bbd-7554-2d6f-726568705327',
-        antiDOSTimeout: '22bb746f-2bbe-7554-2d6f-726568705327',
-        rssi: '22bb746f-2bb6-7554-2d6f-726568705327',
-        sleep: '22bb746f-2bb7-7554-2d6f-726568705327',
-        txPower: '22bb746f-2bb2-7554-2d6f-726568705327',
-        wake: '22bb746f-2bbf-7554-2d6f-726568705327',
-      },
-    },
+    characteristic: Characteristic.SPHERO,
     services: {
       robotControl: '22bb746f-2ba0-7554-2d6f-726568705327',
       spheroBLE: '22bb746f-2bb0-7554-2d6f-726568705327',
@@ -55,21 +65,7 @@ const Device = {
     name: 'Sphero BB-8',
     namePrefix: 'BB-',
     icon: 'adjust',
-    characteristic: {
-      default: '22bb746f-2ba1-7554-2d6f-726568705327',
-      robotControl: {
-        command: '22bb746f-2ba1-7554-2d6f-726568705327',
-        response: '22bb746f-2ba6-7554-2d6f-726568705327',
-      },
-      spheroBLE: {
-        antiDOS: '22bb746f-2bbd-7554-2d6f-726568705327',
-        antiDOSTimeout: '22bb746f-2bbe-7554-2d6f-726568705327',
-        rssi: '22bb746f-2bb6-7554-2d6f-726568705327',
-        sleep: '22bb746f-2bb7-7554-2d6f-726568705327',
-        txPower: '22bb746f-2bb2-7554-2d6f-726568705327',
-        wake: '22bb746f-2bbf-7554-2d6f-726568705327',
-      },
-    },
+    characteristic: Characteristic.SPHERO,
     services: {
       robotControl: '22bb746f-2ba0-7554-2d6f-726568705327',
       spheroBLE: '22bb746f-2bb0-7554-2d6f-726568705327',
@@ -79,21 +75,7 @@ const Device = {
     name: 'Sphero Ollie',
     namePrefix: '2B-',
     icon: 'adjust',
-    characteristic: {
-      default: '22bb746f-2ba1-7554-2d6f-726568705327',
-      robotControl: {
-        command: '22bb746f-2ba1-7554-2d6f-726568705327',
-        response: '22bb746f-2ba6-7554-2d6f-726568705327',
-      },
-      spheroBLE: {
-        antiDOS: '22bb746f-2bbd-7554-2d6f-726568705327',
-        antiDOSTimeout: '22bb746f-2bbe-7554-2d6f-726568705327',
-        rssi: '22bb746f-2bb6-7554-2d6f-726568705327',
-        sleep: '22bb746f-2bb7-7554-2d6f-726568705327',
-        txPower: '22bb746f-2bb2-7554-2d6f-726568705327',
-        wake: '22bb746f-2bbf-7554-2d6f-726568705327',
-      },
-    },
+    characteristic: Characteristic.SPHERO,
     services: {
       robotControl: '22bb746f-2ba0-7554-2d6f-726568705327',
       spheroBLE: '22bb746f-2bb0-7554-2d6f-726568705327',
@@ -105,7 +87,7 @@ const Device = {
     characteristic: {
     },
     services: {
-      control: '00001523-1212-efde-1523-785feabcd123',
+      robotControl: '00001523-1212-efde-1523-785feabcd123',
     },
   },
 /*
@@ -117,3 +99,4 @@ const Device = {
 
 
 exports.Device = Device;
+exports.Characteristic = Characteristic;

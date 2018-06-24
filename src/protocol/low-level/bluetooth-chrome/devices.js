@@ -32,11 +32,11 @@ const Throttle = goog.require('goog.async.Throttle');
  */
 class Devices {
   /**
-   * @param {!goog.events.EventTarget} eventHandler
+   * @param {!goog.events.EventTarget} eventTarget
    */
-  constructor(eventHandler) {
+  constructor(eventTarget) {
     /** @type {string} */
-    this.name = 'Bluetooth Devices';
+    this.name = 'Bluetooth Chrome Devices';
 
     /** @type {Object} */
     this.devices = {};
@@ -54,7 +54,7 @@ class Devices {
     this.updateDevicesInterval = 5000;
 
     /** @private {!goog.events.EventTarget} */
-    this.eventHandler_ = eventHandler;
+    this.eventTarget_ = eventTarget;
 
     /** @private {string} */
     this.deviceCache_ = '';
@@ -62,7 +62,7 @@ class Devices {
     /** @private {!Array} */
     this.autoConnectDeviceCache_ = [];
 
-    /** @type {!cwc.utils.Logger} */
+    /** @type {!cwc.lib.utils.Logger} */
     this.log_ = new Logger(this.name);
 
     /** @type {!cwc.lib.protocol.bluetoothChrome.Profile} */
@@ -88,7 +88,7 @@ class Devices {
     chrome.bluetooth.onDeviceRemoved.addListener(
         this.handleDeviceRemoved_.bind(this));
     this.updateDevices();
-    this.preapred = true;
+    this.prepared = true;
   }
 
 
@@ -300,7 +300,7 @@ class Devices {
             .setConnectEvent(this.handleConnect_.bind(this))
             .setConnected(deviceEntry['connected'])
             .setDisconnectEvent(this.handleDisconnect_.bind(this))
-            .setEventHandler(this.eventHandler_)
+            .setEventTarget(this.eventTarget_)
             .setLogName('Bluetooth Device ' + address)
             .setName(deviceEntry['name'])
             .setPaired(deviceEntry['paired'])

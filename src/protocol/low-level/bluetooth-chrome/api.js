@@ -36,7 +36,7 @@ class Api {
    */
   constructor() {
     /** @type {string} */
-    this.name = 'Bluetooth';
+    this.name = 'Bluetooth Chrome';
 
     /** @type {boolean} */
     this.enabled = false;
@@ -48,13 +48,13 @@ class Api {
     this.connectionIds = {};
 
     /** @private {!goog.events.EventTarget} */
-    this.eventHandler_ = new EventTarget();
+    this.eventTarget_ = new EventTarget();
 
     /** @private {!cwc.protocol.bluetooth.classic.Adapter} */
-    this.adapter_ = new Adapter(this.eventHandler_);
+    this.adapter_ = new Adapter(this.eventTarget_);
 
     /** @private {!cwc.lib.protocol.bluetoothChrome.Devices} */
-    this.devices_ = new BluetoothDevices(this.eventHandler_);
+    this.devices_ = new BluetoothDevices(this.eventTarget_);
 
     /** @private {!cwc.lib.utils.Logger} */
     this.log_ = new Logger(this.name);
@@ -75,7 +75,7 @@ class Api {
     this.log_.debug('Preparing Chrome Bluetooth support...');
 
     // Monitor Bluetooth adapter
-    goog.events.listen(this.eventHandler_,
+    goog.events.listen(this.eventTarget_,
       Events.Type.ADAPTER_STATE_CHANGE,
       this.updateDevices, false, this);
     this.adapter_.prepare();
@@ -129,8 +129,8 @@ class Api {
   /**
    * @return {!goog.events.EventTarget}
    */
-  getEventHandler() {
-    return this.eventHandler_;
+  getEventTarget() {
+    return this.eventTarget_;
   }
 
 

@@ -19,7 +19,7 @@
  */
 goog.module('cwc.lib.protocol.bluetoothChrome.Events');
 
-let EventData = goog.require('cwc.utils.EventData');
+let EventData = goog.require('cwc.lib.utils.event.Data');
 
 
 /**

@@ -28,9 +28,9 @@ const Logger = goog.require('cwc.lib.utils.Logger');
  */
 class Adapter {
   /**
-   * @param {!goog.events.EventTarget} eventHandler
+   * @param {!goog.events.EventTarget} eventTarget
    */
-  constructor(eventHandler) {
+  constructor(eventTarget) {
     /** @type {string} */
     this.name = 'Bluetooth Adapter';
 
@@ -53,7 +53,7 @@ class Adapter {
     this.enabled = undefined;
 
     /** @private {!goog.events.EventTarget} */
-    this.eventHandler_ = eventHandler;
+    this.eventTarget_ = eventTarget;
 
     /** @type {!cwc.utils.Logger} */
     this.log_ = new Logger(this.name);
@@ -66,7 +66,7 @@ class Adapter {
   prepare() {
     if (!this.prepared) {
       this.log_.info('Preparing ...');
-      this.eventHandler_.dispatchEvent(
+      this.eventTarget_.dispatchEvent(
         Events.adapterState({enabled: false}));
 
       // Monitor adapter state
@@ -114,7 +114,7 @@ class Adapter {
       this.enabled = false;
     }
 
-    this.eventHandler_.dispatchEvent(
+    this.eventTarget_.dispatchEvent(
       Events.adapterState({enabled: this.enabled}));
   }
 }

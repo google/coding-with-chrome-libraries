@@ -19,6 +19,7 @@
  */
 goog.module('cwc.lib.protocol.bluetoothChrome.Device');
 
+const BluetoothEvents = goog.require('cwc.lib.protocol.bluetoothChrome.Events');
 const DefaultDevice = goog.require('cwc.lib.protocol.Device');
 
 
@@ -258,8 +259,7 @@ class Device extends DefaultDevice {
     if (!data) {
       return;
     }
-    this.eventHandler.dispatchEvent(
-      cwc.protocol.bluetooth.classic.Events.onReceive(data));
+    this.eventTarget.dispatchEvent(BluetoothEvents.onReceive(data));
   }
 
 
@@ -386,8 +386,8 @@ class Device extends DefaultDevice {
       this.connectCallback = null;
     }
     this.connecting = false;
-    this.eventHandler.dispatchEvent(
-      cwc.protocol.bluetooth.classic.Events.deviceState({connected: true}));
+    this.eventTarget.dispatchEvent(
+      BluetoothEvents.deviceState({connected: true}));
   }
 
 
@@ -407,8 +407,8 @@ class Device extends DefaultDevice {
       this.disconnectCallback = null;
     }
     this.connecting = false;
-    this.eventHandler.dispatchEvent(
-      cwc.protocol.bluetooth.classic.Events.deviceState({connected: false}));
+    this.eventTarget.dispatchEvent(
+      BluetoothEvents.deviceState({connected: false}));
   }
 }
 

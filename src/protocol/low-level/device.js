@@ -38,7 +38,7 @@ class Device {
     this.connected = false;
 
     /** @type {string} */
-    this.name = '';
+    this.name = 'Default Device';
 
     /** @type {boolean} */
     this.paired = false;
@@ -52,17 +52,27 @@ class Device {
     /** @type {string} */
     this.icon = '';
 
-    /** @type {!cwc.protocol.bluetooth.classic.supportedDevices|
-     *         !cwc.protocol.bluetooth.lowEnergy.supportedDevices|
+    /** @type {!cwc.lib.protocol.bluetoothChrome.Profile.Device|
+     *         !cwc.lib.protocol.bluetoothWeb.Profile.Device|
      *         !Object}
      */
     this.profile = {};
 
     /** @type {!cwc.utils.Logger} */
-    this.log = new Logger();
+    this.log = new Logger(this.name);
 
     /** @type {!goog.events.EventTarget} */
-    this.eventHandler = new EventTarget();
+    this.eventTarget = new EventTarget();
+  }
+
+
+  /**
+   * Disconnects device.
+   * @return {boolean}
+   */
+  disconnect() {
+    this.connected = false;
+    return this.connected;
   }
 
 
@@ -105,12 +115,12 @@ class Device {
 
 
   /**
-   * @param {!goog.events.EventTarget} eventHandler
+   * @param {!goog.events.EventTarget} eventTarget
    * @return {THIS}
    * @template THIS
    */
-  setEventHandler(eventHandler) {
-    this.eventHandler = eventHandler;
+  setEventTarget(eventTarget) {
+    this.eventTarget = eventTarget;
     return this;
   }
 
@@ -118,13 +128,12 @@ class Device {
   /**
    * @return {!goog.events.EventTarget}
    */
-  getEventHandler() {
-    if (!this.eventHandler) {
-      this.eventHandler = new EventTarget();
+  getEventTarget() {
+    if (!this.eventTarget) {
+      this.eventTarget = new EventTarget();
     }
-    return this.eventHandler;
+    return this.eventTarget;
   }
-
 
   /**
    * @param {boolean} paired

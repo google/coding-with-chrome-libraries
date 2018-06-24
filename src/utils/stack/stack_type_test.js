@@ -1,7 +1,7 @@
 /**
- * @fileoverview Listener helper.
+ * @fileoverview Stack Type tests.
  *
- * @license Copyright 2018 The Coding with Chrome Authors.
+ * @license Copyright 2016 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,23 +17,27 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.module('cwc.lib.utils.events.Data');
+goog.require('cwc.lib.utils.Stack');
 
 
-/**
- * @param {string} type
- * @param {ArrayBuffer|Object|string|number=} data
- * @param {string|number=} source
- * @constructor
- * @final
- */
-exports = function(type, data, source) {
-  /** @type {string} */
-  this.type = type;
+goog.scope(function() {
+const StackType = goog.module.get('cwc.lib.utils.Stack').Type;
 
-  /** @type {!ArrayBuffer|Object|string|number|null} */
-  this.data = typeof data !== 'undefined' ? data : {};
+describe('StackType', function() {
+  it('enum', function() {
+    expect(typeof StackType).toEqual('object');
+  });
 
-  /** @type {!string|number} */
-  this.source = typeof source !== 'undefined' ? source : '';
-};
+  it('CMD', function() {
+    expect(StackType.CMD).toEqual('cmd');
+  });
+
+  it('DELAY', function() {
+    expect(StackType.DELAY).toEqual('delay');
+  });
+
+  it('PROMISE', function() {
+    expect(StackType.PROMISE).toEqual('promise');
+  });
+});
+});

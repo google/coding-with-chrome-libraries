@@ -22,7 +22,7 @@ goog.module('cwc.lib.protocol.bluetoothChrome.Devices');
 const BluetoothDevice = goog.require('cwc.lib.protocol.bluetoothChrome.Device');
 const BluetoothProfile =
   goog.require('cwc.lib.protocol.bluetoothChrome.Profile');
-const Logger = goog.require('cwc.lib.utils.Logger');
+const Logger = goog.require('cwc.lib.utils.log.Logger');
 
 const Throttle = goog.require('goog.async.Throttle');
 

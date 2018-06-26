@@ -20,7 +20,7 @@
 goog.module('cwc.lib.protocol.bluetoothChrome.Adapter');
 
 const Events = goog.require('cwc.lib.protocol.bluetoothChrome.Events');
-const Logger = goog.require('cwc.lib.utils.Logger');
+const Logger = goog.require('cwc.lib.utils.log.Logger');
 
 
 /**

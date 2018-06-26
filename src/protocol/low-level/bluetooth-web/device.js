@@ -101,10 +101,6 @@ class Device extends DefaultDevice {
    * @param {!Function} func
    */
   listen(characteristicId, func) {
-    if (!this.characteristic_[characteristicId]) {
-      this.log.error('Unknown characteristic', characteristicId);
-      return;
-    }
     this.characteristic_[characteristicId]['startNotifications']().then(() => {
       this.log.info('Adding event listener for', characteristicId);
       this.characteristic_[characteristicId]['addEventListener'](
@@ -150,10 +146,50 @@ class Device extends DefaultDevice {
 
 
   /**
+   * Sends the buffer to the specific characteristic and descriptor.
+   * @param {!Array|ArrayBuffer|Uint8Array} buffer
+   * @param {string} characteristicId
+   * @param {string} descriptorId
+   * @param {Function=} callback
+   */
+  sendDescriptor(buffer, characteristicId, descriptorId, callback) {
+    this.stack_.addPromise(() => {
+      return this.characteristic_[characteristicId]['getDescriptor'](
+        descriptorId).then((descriptor) => {
+          return descriptor['writeValue'](buffer);
+        });
+    }, callback);
+  }
+
+
+  /**
    * Clears stacks queue.
    */
   reset() {
     this.stack_.clear();
+  }
+
+
+  /**
+   * @return {string}
+   */
+  getAddress() {
+    console.error('Bluetooth Web devices are not using addresses.');
+    return this.id || '';
+  }
+
+
+  /**
+   * @param {string} characteristicId
+   * @return {Object}
+   */
+  getCharacteristic(characteristicId) {
+    if (!this.characteristic_[characteristicId]) {
+      this.log.error('Unknown characteristic', characteristicId);
+      this.log.error('Please make sure it\'s listed in the device profile!');
+      return;
+    }
+    return this.characteristic_[characteristicId];
   }
 
 

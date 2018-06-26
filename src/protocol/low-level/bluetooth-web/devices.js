@@ -21,7 +21,7 @@ goog.module('cwc.lib.protocol.bluetoothWeb.Devices');
 
 const BluetoothDevice = goog.require('cwc.lib.protocol.bluetoothWeb.Device');
 const BluetoothProfile = goog.require('cwc.lib.protocol.bluetoothWeb.Profile');
-const Logger = goog.require('cwc.lib.utils.Logger');
+const Logger = goog.require('cwc.lib.utils.log.Logger');
 
 
 /**
@@ -69,13 +69,15 @@ class Devices {
     let services = Object.keys(device.services).map(
       (service) => device.services[service]
     );
+    let filter = {
+      'filters': [
+        {'namePrefix': device.namePrefix},
+      ],
+      'optionalServices': services,
+    };
+    this.log_.info('Request device with filter', filter);
     return new Promise((resolve, reject) => {
-      navigator.bluetooth.requestDevice({
-        'filters': [
-          {'namePrefix': device.namePrefix},
-        ],
-        'optionalServices': services,
-      }).then((bluetoothDevice) => {
+      navigator.bluetooth.requestDevice(filter).then((bluetoothDevice) => {
         resolve(this.handleRequestDevice_(bluetoothDevice));
       }).catch(() => reject);
     });

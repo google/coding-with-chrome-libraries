@@ -19,7 +19,7 @@
  */
 goog.module('cwc.lib.utils.event.Handler');
 
-const Logger = goog.require('cwc.lib.utils.Logger');
+const Logger = goog.require('cwc.lib.utils.log.Logger');
 goog.require('goog.events');
 
 
@@ -32,7 +32,7 @@ class Handler {
    * @param {string=} prefix
    * @param {Object=} scope
    */
-  construtor(name = 'Events', prefix = '', scope = undefined) {
+  constructor(name = 'Events', prefix = '', scope = undefined) {
     /** @type {string} */
     this.name = name || '';
 

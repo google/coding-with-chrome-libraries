@@ -19,7 +19,7 @@
  */
 goog.module('cwc.lib.protocol.Device');
 
-const Logger = goog.require('cwc.lib.utils.Logger');
+const Logger = goog.require('cwc.lib.utils.log.Logger');
 const EventTarget = goog.require('goog.events.EventTarget');
 
 

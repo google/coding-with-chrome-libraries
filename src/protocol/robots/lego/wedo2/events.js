@@ -1,7 +1,7 @@
 /**
- * @fileoverview Bluetooth Event definitions.
+ * @fileoverview Lego WeDo 2.0 Event definitions.
  *
- * @license Copyright 2015 The Coding with Chrome Authors.
+ * @license Copyright 2018 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,18 +17,19 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.module('cwc.lib.protocol.bluetoothChrome.Events');
+goog.module('cwc.lib.protocol.lego.weDo2.Events');
 
 const EventData = goog.require('cwc.lib.utils.event.Data');
 
 
 /**
- * @enum {number}
+ * Custom events.
+ * @enum {string}
  */
 const Type = {
-  ADAPTER_STATE_CHANGE: 1,
-  DEVICE_STATE_CHANGE: 2,
-  ON_RECEIVE: 3,
+  BUTTON_PRESSED: 'BUTTON_PRESSED',
+  CHANGED_DEVICE: 'CHANGED_DEVICE',
+  CONNECT: 'connect',
 };
 
 exports.Type = Type;
@@ -37,28 +38,27 @@ exports.Type = Type;
 /**
  * @param {Object} data
  * @return {!cwc.utils.EventData}
- * @final
  */
-exports.adapterState = function(data) {
-  return new EventData(Type.ADAPTER_STATE_CHANGE, data);
+exports.buttonPressed = function(data) {
+  return new EventData(Type.BUTTON_PRESSED, data);
+};
+
+
+/**
+ * @param {string} data
+ * @param {number} step
+ * @return {!cwc.utils.EventData}
+ */
+exports.connect = function(data, step) {
+  return new EventData(Type.CONNECT, data, step);
 };
 
 
 /**
  * @param {Object} data
+ * @param {number=} port
  * @return {!cwc.utils.EventData}
- * @final
  */
-exports.deviceState = function(data) {
-  return new EventData(Type.DEVICE_STATE_CHANGE, data);
-};
-
-
-/**
- * @param {!ArrayBuffer} data
- * @return {!cwc.utils.EventData}
- * @final
- */
-exports.onReceive = function(data) {
-  return new EventData(Type.ON_RECEIVE, data);
+exports.changedDevice = function(data, port) {
+  return new EventData(Type.CHANGED_DEVICE, data, port);
 };

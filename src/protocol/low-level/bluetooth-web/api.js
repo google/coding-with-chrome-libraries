@@ -20,7 +20,7 @@
 goog.module('cwc.lib.protocol.bluetoothWeb.Api');
 
 const BluetoothDevices = goog.require('cwc.lib.protocol.bluetoothWeb.Devices');
-const Logger = goog.require('cwc.lib.utils.Logger');
+const Logger = goog.require('cwc.lib.utils.log.Logger');
 
 
 /**

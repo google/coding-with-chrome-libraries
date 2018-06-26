@@ -27,6 +27,28 @@ goog.module('cwc.lib.protocol.bluetoothWeb.Profile');
  * @enum {!Object.<!Object>}
  */
 const Characteristic = {
+  LEGO: {
+    WEDO2: {
+      default: '00001565-1212-efde-1523-785feabcd123',
+      device: {
+        alertHighCurrent: '00001529-1212-efde-1523-785feabcd123',
+        alertLowSignal: '0000152a-1212-efde-1523-785feabcd123',
+        alertLowVoltage: '00001528-1212-efde-1523-785feabcd123',
+        battery: '0000152d-1212-efde-1523-785feabcd123',
+        button: '00001526-1212-efde-1523-785feabcd123',
+        disconnect: '0000152e-1212-efde-1523-785feabcd123',
+        port: '00001527-1212-efde-1523-785feabcd123',
+        sleep: '0000152b-1212-efde-1523-785feabcd123',
+        vcc: '0000152c-1212-efde-1523-785feabcd123',
+      },
+      control: {
+        format: '00001561-1212-efde-1523-785feabcd123',
+        input: '00001563-1212-efde-1523-785feabcd123',
+        output: '00001565-1212-efde-1523-785feabcd123',
+        sensor: '00001560-1212-efde-1523-785feabcd123',
+      },
+    },
+  },
   SPHERO: {
     default: '22bb746f-2ba1-7554-2d6f-726568705327',
     robotControl: {
@@ -83,11 +105,11 @@ const Device = {
   },
   LEGO_WEDO_2: {
     name: 'Lego WeDo 2.0',
-    namePrefix: 'LPF2 Smart Hub 2 I/O',
-    characteristic: {
-    },
+    namePrefix: 'LPF2',
+    characteristic: Characteristic.LEGO.WEDO2,
     services: {
-      robotControl: '00001523-1212-efde-1523-785feabcd123',
+      device: '00001523-1212-efde-1523-785feabcd123',
+      control: '00004f0e-1212-efde-1523-785feabcd123',
     },
   },
 /*

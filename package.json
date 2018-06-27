@@ -17,6 +17,7 @@
     "karma-closure": "latest",
     "karma-coverage": "^1.1.2",
     "karma-jasmine": "^1.1.2",
+    "karma-mocha-reporter": "^2.2.5",
     "markdownlint": "^0.8.1",
     "markdownlint-cli": "^0.8.1"
   },

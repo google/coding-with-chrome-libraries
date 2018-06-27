@@ -1,7 +1,7 @@
 /**
- * @fileoverview Buffer types.
+ * @fileoverview Data Types.
  *
- * @license Copyright 2018 The Coding with Chrome Authors.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.module('cwc.lib.protocol.BufferType');
+goog.module('cwc.lib.utils.byte.array.DataType');
 
 
 /**
@@ -27,8 +27,6 @@ exports = {
   BYTE: 1,
   SHORT: 2,
   INT: 3,
-  UINT: 4,
-  UINT16: 5,
-  STR: 6,
-  INDEX: 7,
+  STR: 4,
+  INDEX: 5,
 };

@@ -1,5 +1,5 @@
 /**
- * @fileoverview General-purpose ByteArray.
+ * @fileoverview General-purpose ArrayBuffer.
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -17,24 +17,13 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.module('cwc.lib.utils.byte.Array');
+goog.module('cwc.lib.utils.byte.array.Buffer');
+
+const DataType = goog.require('cwc.lib.utils.byte.array.DataType');
 
 
 /**
- * @enum {number}
- */
-const DataType = {
-  BYTE: 1,
-  SHORT: 2,
-  INT: 3,
-  UINT: 4,
-  UINT16: 5,
-  STR: 6,
-  INDEX: 7,
-};
-
-
-/**
+ * ByteArray class with meta data support.
  * @class
  */
 class Buffer {
@@ -47,6 +36,20 @@ class Buffer {
 
     /** @type {Object.<DataType|string|number>} */
     this.headers = {};
+
+    /** @type {Object.<string|number>} */
+    this.meta = {};
+  }
+
+
+  /**
+   * @param {string|number} data
+   * @return {THIS}
+   * @template THIS
+   */
+  write(data) {
+    this.data.push(data);
+    return this;
   }
 
 
@@ -59,7 +62,7 @@ class Buffer {
    */
   writeByte(value, defaultValue = 0x00) {
     this.addHeader(DataType.BYTE);
-    this.write(value === undefined ? defaultValue : value);
+    this.write(value === undefined ? defaultValue : value & 0xFF);
     return this;
   }
 
@@ -70,7 +73,8 @@ class Buffer {
    * @template THIS
    */
   writeNullByte() {
-    this.writeByte(0x00);
+    this.addHeader(DataType.BYTE);
+    this.write(0x00);
     return this;
   }
 
@@ -81,81 +85,8 @@ class Buffer {
    * @template THIS
    */
   writeSingleByte() {
-    this.writeByte(0x01);
-    return this;
-  }
-
-
-  /**
-   * Writes a short into the buffer.
-   * @param {number} value
-   * @return {THIS}
-   * @template THIS
-   */
-  writeShort(value) {
-    this.addHeader(DataType.SHORT);
-    this.write(value);
-    this.write(value >> 8);
-    return this;
-  }
-
-
-  /**
-   * Writes an integer into the buffer.
-   * @param {number} value
-   * @return {THIS}
-   * @template THIS
-   */
-  writeInt(value) {
-    this.addHeader(DataType.INT);
-    this.write(value);
-    this.write(value >> 8);
-    this.write(value >> 16);
-    this.write(value >> 24);
-    return this;
-  }
-
-
-  /**
-   * Writes an unsigned integer into the buffer.
-   * @param {number} value
-   * @return {THIS}
-   * @template THIS
-   */
-  writeUInt(value) {
-    this.addHeader(DataType.UINT);
-    this.write(value & 0xFF);
-    return this;
-  }
-
-
-  /**
-   * Writes an unsigned 16bit integer into the buffer.
-   * @param {number} value
-   * @return {THIS}
-   * @template THIS
-   */
-  writeUInt16(value) {
-    this.addHeader(DataType.UINT16);
-    this.write(value >> 8);
-    this.write(value & 0xFF);
-    return this;
-  }
-
-
-  /**
-   * Writes a string into the buffer.
-   * @param {string} value
-   * @return {THIS}
-   * @template THIS
-   */
-  writeString(value) {
-    this.addHeader(DataType.STR);
-    let valueLength = value.length;
-    for (let i = 0; i < valueLength; i++) {
-      this.write(value.charCodeAt(i));
-    }
-    this.write(0x00);
+    this.addHeader(DataType.BYTE);
+    this.write(0x01);
     return this;
   }
 
@@ -190,17 +121,6 @@ class Buffer {
 
 
   /**
-   * @param {string|number} data
-   * @return {THIS}
-   * @template THIS
-   */
-  write(data) {
-    this.data.push(data);
-    return this;
-  }
-
-
-  /**
    * @return {number}
    */
   length() {
@@ -225,10 +145,11 @@ class Buffer {
 
 
   /**
-   * Clears data.
+   * Clears data and meta-data;
    */
   clear() {
     this.data = [];
+    this.meta = {};
   }
 
 
@@ -270,7 +191,22 @@ class Buffer {
   getHeader(type) {
     return this.headers[type];
   }
+
+
+  /**
+   * @param {string} characteristic
+   */
+  setCharacteristic(characteristic) {
+    this.meta['characteristic'] = characteristic;
+  }
+
+
+  /**
+   * @return {string}
+   */
+  getCharacteristic() {
+    return this.meta['characteristic'];
+  }
 }
 
-exports.Buffer = Buffer;
-exports.DataType = DataType;
+exports = Buffer;

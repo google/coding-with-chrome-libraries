@@ -19,13 +19,13 @@
  */
 goog.module('cwc.lib.protocol.lego.weDo2.Buffer');
 
-const ByteArray = goog.require('cwc.lib.utils.byte.Array');
+const ByteArrayBuffer = goog.require('cwc.lib.utils.byte.array.BufferLSB');
 
 
 /**
  * @class
  */
-class Buffer extends ByteArray.Buffer {
+class Buffer extends ByteArrayBuffer {
   /**
    *
    */

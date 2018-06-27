@@ -22,7 +22,7 @@ goog.require('cwc.lib.utils.stream.Reader');
 goog.scope(function() {
 const StreamReader = goog.module.get('cwc.lib.utils.stream.Reader');
 
-describe('Database', function() {
+describe('StreamReader', function() {
   it('constructor', function() {
     let reader = new StreamReader();
     expect(typeof reader).toEqual('object');

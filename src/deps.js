@@ -18,8 +18,6 @@
  * @author mbordihn@google.com (Markus Bordihn)
  */
 /* eslint-disable max-len */
-goog.addDependency('../../../../src/protocol/buffer/buffer.js', ['cwc.lib.protocol.Buffer'], ['cwc.lib.protocol.BufferType'], {'module': 'goog'});
-goog.addDependency('../../../../src/protocol/buffer/type.js', ['cwc.lib.protocol.BufferType'], [], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/low-level/bluetooth-chrome/adapter.js', ['cwc.lib.protocol.bluetoothChrome.Adapter'], ['cwc.lib.protocol.bluetoothChrome.Events', 'cwc.lib.utils.log.Logger'], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/low-level/bluetooth-chrome/api.js', ['cwc.lib.protocol.bluetoothChrome.Api'], ['cwc.lib.protocol.bluetoothChrome.Adapter', 'cwc.lib.protocol.bluetoothChrome.Devices', 'cwc.lib.protocol.bluetoothChrome.Events', 'cwc.lib.utils.log.Logger', 'goog.events.EventTarget'], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/low-level/bluetooth-chrome/device.js', ['cwc.lib.protocol.bluetoothChrome.Device'], ['cwc.lib.protocol.Device', 'cwc.lib.protocol.bluetoothChrome.Events'], {'module': 'goog'});
@@ -33,12 +31,15 @@ goog.addDependency('../../../../src/protocol/low-level/bluetooth-web/profile.js'
 goog.addDependency('../../../../src/protocol/low-level/device.js', ['cwc.lib.protocol.Device'], ['cwc.lib.utils.log.Logger', 'goog.events.EventTarget'], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/robots/api.js', ['cwc.lib.protocol.Api'], ['cwc.lib.utils.event.Handler', 'cwc.lib.utils.log.Logger', 'cwc.lib.utils.stream.Reader', 'goog.events.EventTarget'], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/robots/lego/wedo2/api.js', ['cwc.lib.protocol.lego.weDo2.Api'], ['cwc.lib.protocol.Api', 'cwc.lib.protocol.bluetoothWeb.Profile', 'cwc.lib.protocol.lego.weDo2.Events', 'cwc.lib.protocol.lego.weDo2.Handler', 'cwc.lib.utils.byte.Tools'], {'module': 'goog'});
-goog.addDependency('../../../../src/protocol/robots/lego/wedo2/buffer.js', ['cwc.lib.protocol.lego.weDo2.Buffer'], ['cwc.lib.utils.byte.Array'], {'module': 'goog'});
+goog.addDependency('../../../../src/protocol/robots/lego/wedo2/buffer.js', ['cwc.lib.protocol.lego.weDo2.Buffer'], ['cwc.lib.utils.byte.array.BufferLSB'], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/robots/lego/wedo2/commands.js', ['cwc.lib.protocol.lego.weDo2.Commands'], ['cwc.lib.protocol.lego.weDo2.Buffer', 'cwc.lib.protocol.lego.weDo2.Constants'], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/robots/lego/wedo2/constants.js', ['cwc.lib.protocol.lego.weDo2.Constants'], [], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/robots/lego/wedo2/events.js', ['cwc.lib.protocol.lego.weDo2.Events'], ['cwc.lib.utils.event.Data'], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/robots/lego/wedo2/handler.js', ['cwc.lib.protocol.lego.weDo2.Handler'], ['cwc.lib.protocol.lego.weDo2.Commands', 'cwc.lib.protocol.lego.weDo2.Constants'], {'module': 'goog'});
-goog.addDependency('../../../../src/utils/byte/array/array.js', ['cwc.lib.utils.byte.Array'], [], {'module': 'goog'});
+goog.addDependency('../../../../src/utils/byte/array/buffer/buffer.js', ['cwc.lib.utils.byte.array.Buffer'], ['cwc.lib.utils.byte.array.DataType'], {'module': 'goog'});
+goog.addDependency('../../../../src/utils/byte/array/buffer/buffer_lsb.js', ['cwc.lib.utils.byte.array.BufferLSB'], ['cwc.lib.utils.byte.array.Buffer', 'cwc.lib.utils.byte.array.DataType'], {'module': 'goog'});
+goog.addDependency('../../../../src/utils/byte/array/buffer/buffer_msb.js', ['cwc.lib.utils.byte.array.BufferMSB'], ['cwc.lib.utils.byte.array.Buffer', 'cwc.lib.utils.byte.array.DataType'], {'module': 'goog'});
+goog.addDependency('../../../../src/utils/byte/array/data_type.js', ['cwc.lib.utils.byte.array.DataType'], [], {'module': 'goog'});
 goog.addDependency('../../../../src/utils/byte/tools/tools.js', ['cwc.lib.utils.byte.Tools'], [], {'module': 'goog'});
 goog.addDependency('../../../../src/utils/event/data.js', ['cwc.lib.utils.event.Data'], [], {'module': 'goog'});
 goog.addDependency('../../../../src/utils/event/handler.js', ['cwc.lib.utils.event.Handler'], ['cwc.lib.utils.log.Logger', 'goog.events'], {'module': 'goog'});

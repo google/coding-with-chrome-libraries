@@ -26,7 +26,7 @@ goog.module('cwc.lib.utils.byte.array.DataType');
 exports = {
   BYTE: 1,
   SHORT: 2,
-  INT: 3,
-  STR: 4,
-  INDEX: 5,
+  LONG: 3,
+  STR: 5,
+  INDEX: 6,
 };

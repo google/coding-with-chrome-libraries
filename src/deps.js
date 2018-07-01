@@ -28,6 +28,7 @@ goog.addDependency('../../../../src/protocol/low-level/bluetooth-web/api.js', ['
 goog.addDependency('../../../../src/protocol/low-level/bluetooth-web/device.js', ['cwc.lib.protocol.bluetoothWeb.Device'], ['cwc.lib.protocol.Device', 'cwc.lib.utils.Stack'], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/low-level/bluetooth-web/devices.js', ['cwc.lib.protocol.bluetoothWeb.Devices'], ['cwc.lib.protocol.bluetoothWeb.Device', 'cwc.lib.protocol.bluetoothWeb.Profile', 'cwc.lib.utils.log.Logger'], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/low-level/bluetooth-web/profile.js', ['cwc.lib.protocol.bluetoothWeb.Profile'], [], {'module': 'goog'});
+goog.addDependency('../../../../src/protocol/low-level/bluetooth-web/profile/device/device.js', ['cwc.lib.protocol.bluetoothWeb.profile.Device'], [], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/low-level/device.js', ['cwc.lib.protocol.Device'], ['cwc.lib.utils.log.Logger', 'goog.events.EventTarget'], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/robots/api.js', ['cwc.lib.protocol.Api'], ['cwc.lib.utils.event.Handler', 'cwc.lib.utils.log.Logger', 'cwc.lib.utils.stream.Reader', 'goog.events.EventTarget'], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/robots/lego/wedo2/api.js', ['cwc.lib.protocol.lego.weDo2.Api'], ['cwc.lib.protocol.Api', 'cwc.lib.protocol.bluetoothWeb.Profile', 'cwc.lib.protocol.lego.weDo2.Events', 'cwc.lib.protocol.lego.weDo2.Handler', 'cwc.lib.utils.byte.Tools'], {'module': 'goog'});

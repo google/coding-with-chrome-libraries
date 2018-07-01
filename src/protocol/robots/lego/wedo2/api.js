@@ -22,7 +22,8 @@
  */
 goog.module('cwc.lib.protocol.lego.weDo2.Api');
 
-const BluetoothProfile = goog.require('cwc.lib.protocol.bluetoothWeb.Profile');
+const BluetoothProfile =
+  goog.require('cwc.lib.protocol.bluetoothWeb.profile.Device');
 const ByteTools = goog.require('cwc.lib.utils.byte.Tools');
 const DefaultApi = goog.require('cwc.lib.protocol.Api');
 const Events = goog.require('cwc.lib.protocol.lego.weDo2.Events');
@@ -48,23 +49,16 @@ class Api extends DefaultApi {
    * @export
    */
   connect(device) {
-    if (!device) {
-      return false;
-    } else if (!device.isConnected()) {
-      console.error('WeDo 2.0 device is not ready yet...');
-      return false;
-    }
-
-    if (!this.prepared) {
-      console.log('Preparing Lego WeDo 2.0 api for', device.getId());
+    if (super.connect(device)) {
+      this.log_.info('Preparing Lego WeDo 2.0 api for', device.getId());
       this.eventTarget_.dispatchEvent(Events.connect(
         'Prepare Lego WeDo 2.0 api for' + device.getId(), 2));
-      this.device = device;
       this.prepare();
       this.runTest();
       this.eventTarget_.dispatchEvent(Events.connect('Ready ...', 3));
+      return true;
     }
-    return true;
+    return false;
   }
 
 
@@ -72,15 +66,15 @@ class Api extends DefaultApi {
    * @export
    */
   prepare() {
-    this.device.listen('0000152d-1212-efde-1523-785feabcd123', (e) => {
-      console.log('battery', e);
+    this.device.listen(BluetoothProfile.LEGO_WEDO2.service.device.battery,
+      (e) => {
+        this.log_.info('battery', e);
     });
-    this.device.listen(BluetoothProfile.Characteristic.LEGO.WEDO2.device.button,
+    this.device.listen(BluetoothProfile.LEGO_WEDO2.service.device.button,
       this.handleButtonEvent_.bind(this));
-    this.device.listen(BluetoothProfile.Characteristic.LEGO.WEDO2.device.port,
+    this.device.listen(BluetoothProfile.LEGO_WEDO2.service.device.port,
       this.handlePortEvent_.bind(this));
-    this.device.listen(
-      BluetoothProfile.Characteristic.LEGO.WEDO2.control.sensor,
+    this.device.listen(BluetoothProfile.LEGO_WEDO2.service.control.sensor,
       this.handleSensorEvent_.bind(this));
     this.exec('playTone', {'frequency': 2000, 'duration': 200});
     this.exec('playTone', {'frequency': 3000, 'duration': 200});
@@ -149,12 +143,11 @@ class Api extends DefaultApi {
    */
   enableSensorEvents_(port, type) {
     this.log_.info('Enable Sensor Events for', type, 'on', port);
-    let buffer = this.getBuffer('setSensorMode', {
+    this.exec('setSensorMode', {
       'port': port,
       'type': type,
       'mode': 0x00,
     });
-    this.device.sendRaw(buffer, '00001563-1212-efde-1523-785feabcd123');
   }
 
 

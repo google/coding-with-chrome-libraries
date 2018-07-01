@@ -46,12 +46,12 @@ describe('ByteBuffer LSB', function() {
     expect(byteBufferTest.get()[11]).toEqual(0x01);
   });
 
-  it('writeInt', function() {
+  it('writeLong', function() {
     let byteBufferTest = new ByteBuffer();
-    byteBufferTest.writeInt(128);
-    byteBufferTest.writeInt(512);
-    byteBufferTest.writeInt(1024);
-    byteBufferTest.writeInt(1653465824);
+    byteBufferTest.writeLong(128);
+    byteBufferTest.writeLong(512);
+    byteBufferTest.writeLong(1024);
+    byteBufferTest.writeLong(1653465824);
     expect(byteBufferTest.get()[0]).toEqual(0x80);
     expect(byteBufferTest.get()[1]).toEqual(0x00);
     expect(byteBufferTest.get()[2]).toEqual(0x00);

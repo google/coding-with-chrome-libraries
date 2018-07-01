@@ -40,8 +40,15 @@ class Api {
     /** @type {boolean} */
     this.prepared = false;
 
-    /** @type {Object} */
-    this.device = null;
+    /** @type {cwc.lib.protocol.bluetoothWeb.Device|Object} */
+    this.device = {
+      disconnect: function() {},
+      isConnected: function() {
+        return false;
+      },
+      reset: function() {},
+      send: function() {},
+    };
 
     /** @type {!goog.events.EventTarget} */
     this.eventTarget_ = new EventTarget();
@@ -49,8 +56,8 @@ class Api {
     /** @private {!cwc.lib.utils.event.Handler} */
     this.events_ = new EventHandler(this.name);
 
-    /** @type {!Function} */
-    this.handler = new Handler();
+    /** @orivate {!Function} */
+    this.handler_ = new Handler();
 
     /** @private {!cwc.lib.utils.StreamReader} */
     this.streamReader_ = new StreamReader();
@@ -61,13 +68,55 @@ class Api {
 
 
   /**
+   * Connects the device.
+   * @param {!cwc.protocol.bluetooth.lowEnergy.Device} device
+   * @return {boolean} Was able to prepare and connect to the device.
+   */
+  connect(device) {
+    if (device && device.isConnected()) {
+      this.device = device;
+      return !this.prepared;
+    }
+    this.log_.error('Device is not ready yet...');
+    return false;
+  }
+
+
+  /**
+   * Disconnects the device.
+   */
+  disconnect() {
+    if (this.device) {
+      this.device.disconnect();
+    }
+    this.cleanUp();
+  }
+
+
+  /**
+   * Resets the device.
+   */
+  reset() {
+    if (this.device) {
+      this.device.reset();
+    }
+  }
+
+  /**
    * Executer for the default handler commands.
    * @param {string} command
    * @param {Object=} data
    * @export
    */
   exec(command, data = {}) {
-    this.send_(this.handler[command](data));
+    let buffer = this.handler_[command](data);
+    if (Array.isArray(buffer)) {
+      for (let i = 0, len = buffer.length; i < len; ++i) {
+        this.send_(buffer[i].readSigned(), buffer[i].getCharacteristic());
+      }
+    } else {
+      this.send_(buffer.readSigned(), buffer.getCharacteristic());
+    }
   }
 
 
@@ -77,7 +126,7 @@ class Api {
    * @return {!ArrayBuffer}
    */
   getBuffer(command, data = {}) {
-    return this.handler[command](data);
+    return this.handler_[command](data);
   }
 
 
@@ -88,14 +137,30 @@ class Api {
     return this.eventTarget_;
   }
 
+
+  /**
+   * @return {?}
+   */
+  getHandler() {
+    return this.handler_;
+  }
+
+
+  /**
+   * @return {boolean}
+   */
+  isConnected() {
+    return (this.device && this.device.isConnected()) ? true : false;
+  }
+
+
   /**
    * @param {!Array<ArrayBuffer>|ArrayBuffer} buffer
+   * @param {string=} characteristicId
    * @private
    */
-  send_(buffer) {
-    if (this.device) {
-      this.device.send(buffer);
-    }
+  send_(buffer, characteristicId) {
+    this.device.send(buffer, characteristicId);
   }
 }
 

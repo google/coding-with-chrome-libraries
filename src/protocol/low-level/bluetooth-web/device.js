@@ -39,9 +39,6 @@ class Device extends DefaultDevice {
     /** @private {Object} */
     this.services_ = {};
 
-    /** @private {string} */
-    this.defaultCharacteristic_ = '';
-
     /** @private {Object} */
     this.characteristic_ = {};
 
@@ -112,23 +109,14 @@ class Device extends DefaultDevice {
 
 
   /**
-   * Sends the buffer to the socket and the default characteristic.
-   * @param {!Array<ArrayBuffer>|ArrayBuffer} buffer
+   * Sends the buffer to the socket and the defined or default characteristic.
+   * @param {ArrayBuffer} buffer
+   * @param {string=} characteristicId
    */
-  send(buffer) {
-    let defaultCharacteristic =
-      this.characteristic_[this.defaultCharacteristic_];
-    if (Array.isArray(buffer)) {
-      for (let i = 0, len = buffer.length; i < len; ++i) {
-        this.stack_.addPromise(() => {
-          return defaultCharacteristic['writeValue'](buffer[i]);
-        });
-      }
-    } else {
-      this.stack_.addPromise(() => {
-        return defaultCharacteristic['writeValue'](buffer);
-      });
-    }
+  send(buffer, characteristicId = this.defaultCharacteristic_) {
+    this.stack_.addPromise(() => {
+      return this.characteristic_[characteristicId]['writeValue'](buffer);
+    });
   }
 
 
@@ -194,19 +182,22 @@ class Device extends DefaultDevice {
 
 
   /**
+   * Handles connect and pre-connect avaible services.
    * @return {Promise}
    * @private
    */
   handleConnect_() {
     let promises = [];
-    // Set default characteristic for send command.
-    this.defaultCharacteristic_ = this.profile.characteristic.default;
 
-    // Pre-connect available services.
-    for (let entry in this.profile.services) {
-      if (this.profile.services.hasOwnProperty(entry)) {
-        let serviceEntry = this.profile.services[entry];
-        promises.push(this.connectService_(serviceEntry, entry));
+    // Pre-connect available services and characteristics.
+    for (let service in this.profile.service) {
+      if (this.profile.service.hasOwnProperty(service)) {
+        let serviceEntry = this.profile.service[service];
+        let serviceId = serviceEntry._id_;
+        let characteristics = (Object.keys(serviceEntry).map(
+          (characteristic) => serviceEntry[characteristic]
+        )).filter((id) => id !== serviceId);
+        promises.push(this.connectService_(serviceId, characteristics));
       }
     }
     return Promise.all(promises);
@@ -224,30 +215,41 @@ class Device extends DefaultDevice {
 
 
   /**
+   * Handles connected service and pre-connect avalible characteristic.
    * @param {string} serviceId
-   * @param {string=} characteristic
+   * @param {Array=} characteristics
    * @return {Promise}
    * @private
    */
-  connectService_(serviceId, characteristic) {
+  connectService_(serviceId, characteristics) {
     this.log.info('Connect service', serviceId);
     return this.server_['getPrimaryService'](serviceId).then((service) => {
-      this.services_[service['uuid']] = service;
-      // Preconnecting Characteristic.
-      if (characteristic) {
-        let characterisiticProfiles =
-          this.profile.characteristic[characteristic];
-        let promises = [];
-        for (let entry in characterisiticProfiles) {
-          if (characterisiticProfiles.hasOwnProperty(entry)) {
-            let characteristicEntry = characterisiticProfiles[entry];
-            promises.push(
-              this.connectCharacteristic_(characteristicEntry, serviceId));
-          }
-        }
-        return Promise.all(promises);
-      }
+      return this.handleConnectService_(service, characteristics);
     });
+  }
+
+
+  /**
+   * @param {?} service
+   * @param {Array=} characteristics
+   * @return {Promise}
+   * @private
+   */
+  handleConnectService_(service, characteristics) {
+    let serviceId = service['uuid'];
+    this.services_[serviceId] = service;
+    if (!characteristics) {
+      return Promise.resolve();
+    }
+
+    // Preconnecting characteristic.
+    let promises = [];
+    this.log.info('Pre-connecting', characteristics.length, 'characteristics',
+      'on service', serviceId);
+    for (const characteristic of characteristics) {
+      promises.push(this.connectCharacteristic_(characteristic, serviceId));
+    }
+    return Promise.all(promises);
   }
 
 

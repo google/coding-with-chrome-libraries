@@ -177,8 +177,8 @@ class Buffer {
    * @return {boolean}
    */
   hasHeader(type) {
-    if (this.headers && type) {
-      return type in this.headers;
+    if (typeof this.headers[type] !== 'undefined') {
+      return true;
     }
     return false;
   }
@@ -195,9 +195,12 @@ class Buffer {
 
   /**
    * @param {string} characteristic
+   * @return {THIS}
+   * @template THIS
    */
   setCharacteristic(characteristic) {
     this.meta['characteristic'] = characteristic;
+    return this;
   }
 
 

@@ -22,6 +22,8 @@ goog.module('cwc.lib.protocol.lego.weDo2.Commands');
 const Buffer = goog.require('cwc.lib.protocol.lego.weDo2.Buffer');
 const Constants = goog.require('cwc.lib.protocol.lego.weDo2.Constants');
 
+const defaultCharacteristic = '00001565-1212-efde-1523-785feabcd123';
+
 
 /**
  * Plays a tone with the frequency and duration.
@@ -31,12 +33,12 @@ const Constants = goog.require('cwc.lib.protocol.lego.weDo2.Constants');
  */
 exports.playTone = function(frequency, duration = 500) {
   return new Buffer()
+    .setCharacteristic(defaultCharacteristic)
     .writeChannel(Constants.Channel.TONE)
     .writeByte(0x02)
     .writeLength(4)
     .writeShort(frequency)
-    .writeShort(duration)
-    .readSigned();
+    .writeShort(duration);
 };
 
 
@@ -47,11 +49,11 @@ exports.playTone = function(frequency, duration = 500) {
  */
 exports.setRGB = function(color = 0) {
   return new Buffer()
+    .setCharacteristic(defaultCharacteristic)
     .writeChannel(Constants.Channel.RGB)
     .writeByte(0x04)
     .writeLength(1)
-    .writeByte(color)
-    .readSigned();
+    .writeByte(color);
 };
 
 
@@ -63,11 +65,11 @@ exports.setRGB = function(color = 0) {
  */
 exports.movePower = function(power, port = Constants.Channel.PORT1) {
   return new Buffer()
+    .setCharacteristic(defaultCharacteristic)
     .writeChannel(port)
     .writeByte(0x01)
     .writeLength(1)
-    .writeByte(power)
-    .readSigned();
+    .writeByte(power);
 };
 
 
@@ -79,6 +81,7 @@ exports.movePower = function(power, port = Constants.Channel.PORT1) {
  */
 exports.setSensorMode = function(port, type, mode = 0x00) {
   return new Buffer()
+    .setCharacteristic('00001563-1212-efde-1523-785feabcd123')
     .writeByte(0x01)
     .writeByte(0x02)
     .writeChannel(port)
@@ -89,6 +92,5 @@ exports.setSensorMode = function(port, type, mode = 0x00) {
     .writeByte(0x00)
     .writeByte(0x00)
     .writeByte(0x02)
-    .writeByte(0x01)
-    .readSigned();
+    .writeByte(0x01);
 };

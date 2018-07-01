@@ -51,13 +51,13 @@ class BufferLSB extends ByteArrayBuffer {
 
 
   /**
-   * Writes an integer into the buffer.
+   * Writes an long into the buffer.
    * @param {number} value
    * @return {THIS}
    * @template THIS
    */
-  writeInt(value) {
-    this.addHeader(DataType.INT);
+  writeLong(value) {
+    this.addHeader(DataType.LONG);
     this.write(value & 0xFF);
     this.write(value >> 8 & 0xFF);
     this.write(value >> 16 & 0xFF);

@@ -12,6 +12,7 @@
     "eslint-config-google": "^0.9.1",
     "jasmine-core": "latest",
     "jsdoc": "^3.5.5",
+    "jsdoc-to-markdown": "^4.0.1",
     "karma": "^2.0.4",
     "karma-chrome-launcher": "latest",
     "karma-closure": "latest",

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Sphero Classic General definitions of devices and bytecodes.
+ * @fileoverview Sphero SPRK+ General definitions of devices and bytecodes.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *

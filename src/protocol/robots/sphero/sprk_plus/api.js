@@ -41,7 +41,7 @@ class Api extends DefaultApi {
   constructor() {
     super('Sphero Sprk+', Handler);
 
-    /** @type {cwc.protocol.sphero.v1.Monitoring} */
+    /** @type {!cwc.lib.protocol.sphero.sprkPlus.Monitoring} */
     this.monitoring = new Monitoring(this);
 
     /** @private {number} */
@@ -307,7 +307,6 @@ class Api extends DefaultApi {
     for (let i = 2; i < packetLength; i++) {
       bufferChecksum += buffer[i];
     }
-
     return (checksum === (bufferChecksum % 256) ^ 0xFF) ? true : false;
   }
 }

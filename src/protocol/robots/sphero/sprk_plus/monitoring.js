@@ -32,8 +32,6 @@ class Monitoring {
   /**
    * @constructor
    * @param {!cwc.protocol.sphero.v1.Api} api
-   * @struct
-   * @final
    */
   constructor(api) {
     /** @type {!cwc.protocol.sphero.v1.Api} */

@@ -139,7 +139,6 @@ exports.setMotionTimeout = function(timeout) {
 
 /**
  * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
- * @exports
  */
 exports.enableDeloperMode = function() {
   return new Buffer()

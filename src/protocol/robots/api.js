@@ -56,7 +56,7 @@ class Api {
     /** @private {!cwc.lib.utils.event.Handler} */
     this.events_ = new EventHandler(this.name);
 
-    /** @orivate {!Function} */
+    /** @private {!Function} */
     this.handler_ = new Handler();
 
     /** @private {!cwc.lib.utils.StreamReader} */

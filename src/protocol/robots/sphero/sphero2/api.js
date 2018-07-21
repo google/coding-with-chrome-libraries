@@ -1,10 +1,10 @@
 /**
- * @fileoverview Handles the communication with the Sphero 2.0 unit.
+ * @fileoverview Handles the communication with the Sphero Classic unit.
  *
  * This api allows to read and control the Sphero sensors and actors over an
  * Bluetooth connection.
  *
- * @license Copyright 2018 The Coding with Chrome Authors.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,14 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.module('cwc.lib.protocol.sphero.sprkPlus.Api');
+goog.module('cwc.lib.protocol.sphero.sphero2.Api');
 
-const ByteTools = goog.require('cwc.lib.utils.byte.Tools');
-const Constants = goog.require('cwc.lib.protocol.sphero.sprkPlus.Constants');
+const BluetoothEvents = goog.require('cwc.lib.protocol.bluetoothChrome.Events');
+const Constants = goog.require('cwc.lib.protocol.sphero.sphero2.Constants');
 const DefaultApi = goog.require('cwc.lib.protocol.Api');
-const Events = goog.require('cwc.lib.protocol.sphero.sprkPlus.Events');
-const Handler = goog.require('cwc.lib.protocol.sphero.sprkPlus.Handler');
-const Monitoring = goog.require('cwc.lib.protocol.sphero.sprkPlus.Monitoring');
+const Events = goog.require('cwc.lib.protocol.sphero.sphero2.Events');
+const Handler = goog.require('cwc.lib.protocol.sphero.sphero2.Handler');
+const Monitoring = goog.require('cwc.lib.protocol.sphero.sphero2.Monitoring');
 const StreamReader = goog.require('cwc.lib.utils.stream.Reader');
 
 
@@ -39,9 +39,9 @@ class Api extends DefaultApi {
    *
    */
   constructor() {
-    super('Sphero Sprk+', Handler);
+    super('Sphero 2.0', Handler);
 
-    /** @type {!cwc.lib.protocol.sphero.sprkPlus.Monitoring} */
+    /** @type {!cwc.lib.protocol.sphero.sphero2.Monitoring} */
     this.monitoring = new Monitoring(this);
 
     /** @private {number} */
@@ -71,39 +71,22 @@ class Api extends DefaultApi {
 
 
   /**
-   * Connects the Sphero ball.
-   * @param {!cwc.protocol.bluetooth.lowEnergy.Device} device
+   * Connects the Sphero device.
+   * @param {!cwc.lib.protocol.bluetoothChrome.Device} device
    * @return {boolean} Was able to prepare and connect to the Sphero.
    * @export
    */
   connect(device) {
     if (super.connect(device)) {
-      this.log_.info('Preparing Sphero bluetooth LE api for', device.getId());
+      this.log_.info('Preparing Sphero 2.0 api for', device.getAddress());
       this.eventTarget_.dispatchEvent(
         Events.connect('Preparing device ...', 1));
-
-      // Enable Developer mode.
-      this.device.sendRaw(
-        new TextEncoder('utf-8').encode('011i3'),
-        '22bb746f-2bbd-7554-2d6f-726568705327', () => {
-          this.eventTarget_.dispatchEvent(Events.connect(
-            'Enable developer mode ...', 2));
-      });
-
-      // Power on device.
-      this.device.sendRaw(
-        new Uint8Array([0x07]), '22bb746f-2bb2-7554-2d6f-726568705327', () => {
-          this.eventTarget_.dispatchEvent(Events.connect(
-            'Power on device. Waiting until device wakes up ...', 2));
-      });
-
-      // Wakeup device.
-      this.device.sendRaw(
-        new Uint8Array([0x01]), '22bb746f-2bbf-7554-2d6f-726568705327', () => {
-          this.prepare();
-          this.runTest();
-          this.eventTarget_.dispatchEvent(Events.connect('Ready ...', 3));
-      });
+      this.eventTarget_.dispatchEvent(
+        Events.connect('Prepare Sphero 2.0 api for' + device.getAddress(), 2));
+      this.prepare();
+      this.runTest();
+      this.eventTarget_.dispatchEvent(
+        Events.connect('Ready ...', 3));
       return true;
     }
     return false;
@@ -114,7 +97,9 @@ class Api extends DefaultApi {
    * @export
    */
   prepare() {
-    this.device.listen('22bb746f-2ba6-7554-2d6f-726568705327',
+    this.events_.listen(
+      this.device.getEventTarget(),
+      BluetoothEvents.Type.ON_RECEIVE,
       this.handleData_.bind(this));
     this.exec('setRGB', {'red': 255, 'persistent': true});
     this.exec('getRGB');
@@ -160,7 +145,7 @@ class Api extends DefaultApi {
 
 
   /**
-   * Basic cleanup for the Sphero ball.
+   * Basic cleanup for the Sphero device.
    */
   cleanUp() {
     this.log_.info('Clean up ...');
@@ -175,11 +160,11 @@ class Api extends DefaultApi {
    * @private
    */
   updateLocationData_(data) {
-    let xpos = ByteTools.signedBytesToInt([data[0], data[1]]);
-    let ypos = ByteTools.signedBytesToInt([data[2], data[3]]);
-    let xvel = ByteTools.signedBytesToInt([data[4], data[5]]);
-    let yvel = ByteTools.signedBytesToInt([data[6], data[7]]);
-    let speed = ByteTools.bytesToInt([data[8], data[9]]);
+    let xpos = cwc.utils.ByteTools.signedBytesToInt([data[0], data[1]]);
+    let ypos = cwc.utils.ByteTools.signedBytesToInt([data[2], data[3]]);
+    let xvel = cwc.utils.ByteTools.signedBytesToInt([data[4], data[5]]);
+    let yvel = cwc.utils.ByteTools.signedBytesToInt([data[6], data[7]]);
+    let speed = cwc.utils.ByteTools.bytesToInt([data[8], data[9]]);
 
     if (xpos != this.locationPosX_ || ypos != this.locationPosY_) {
       this.locationPosX_ = xpos;
@@ -205,12 +190,12 @@ class Api extends DefaultApi {
    * @private
    */
   parseCollisionData_(data) {
-    let x = ByteTools.signedBytesToInt([data[0], data[1]]);
-    let y = ByteTools.signedBytesToInt([data[2], data[3]]);
-    let z = ByteTools.signedBytesToInt([data[4], data[5]]);
+    let x = cwc.utils.ByteTools.signedBytesToInt([data[0], data[1]]);
+    let y = cwc.utils.ByteTools.signedBytesToInt([data[2], data[3]]);
+    let z = cwc.utils.ByteTools.signedBytesToInt([data[4], data[5]]);
     let axis = data[6] == 0x01 ? 'y' : 'x';
-    let xMagnitude = ByteTools.signedBytesToInt([data[7], data[8]]);
-    let yMagnitude = ByteTools.signedBytesToInt([data[9], data[10]]);
+    let xMagnitude = cwc.utils.ByteTools.signedBytesToInt([data[7], data[8]]);
+    let yMagnitude = cwc.utils.ByteTools.signedBytesToInt([data[9], data[10]]);
     let speed = data[11];
     this.eventTarget_.dispatchEvent(
       Events.collision({
@@ -228,11 +213,12 @@ class Api extends DefaultApi {
 
 
   /**
-   * @param {!Array} buffer
+   * Handles packets from the Bluetooth socket.
+   * @param {Event} e
    * @private
    */
-  handleData_(buffer) {
-    let dataBuffer = this.streamReader_.readByHeader(buffer);
+  handleData_(e) {
+    let dataBuffer = this.streamReader_.readByHeader(e.data);
     if (!dataBuffer) {
       return;
     }
@@ -253,8 +239,11 @@ class Api extends DefaultApi {
     let seq = dataBuffer[3];
     let len = dataBuffer[4];
     let data = dataBuffer.slice(5, 4 + len);
-
     if (messageType === Constants.ResponseType.ACKNOWLEDGEMENT) {
+      if (len = 1 && messageResponse === Constants.ResponseType.PRE_SLEEP) {
+        this.log_.warn('Pre-sleep warning (10 sec)');
+        return;
+      }
       // Handles received data and callbacks from the Bluetooth socket.
       switch (seq) {
         case Constants.CallbackType.RGB:
@@ -272,10 +261,9 @@ class Api extends DefaultApi {
       // Handles async packets from the Bluetooth socket.
       switch (messageResponse) {
         case Constants.MessageType.PRE_SLEEP:
-          this.log_.info('Sphero SPRK+ is tired ...');
+          this.log_.info('Sphero 2.0 is tired ...');
           break;
         case Constants.MessageType.COLLISION_DETECTED:
-          this.log_.info('Collision', data);
           this.parseCollisionData_(data);
           break;
         default:

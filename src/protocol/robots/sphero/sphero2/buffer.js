@@ -1,5 +1,5 @@
 /**
- * @fileoverview Sphero SPRK+ Communication buffer
+ * @fileoverview Sphero 2.0 Communication buffer
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.module('cwc.lib.protocol.sphero.sprkPlus.Buffer');
+goog.module('cwc.lib.protocol.sphero.sphero2.Buffer');
 
 const ByteArrayBuffer = goog.require('cwc.lib.utils.byte.array.BufferMSB');
 
@@ -32,16 +32,16 @@ class Buffer extends ByteArrayBuffer {
   constructor() {
     super();
 
-    /** @type {!cwc.lib.protocol.sphero.sprkPlus.Constants.CallbackType} */
+    /** @type {!cwc.lib.protocol.sphero.sphero2.Constants.CallbackType} */
     this.callbackType = 0x00;
 
-    /** @type {!cwc.lib.protocol.sphero.sprkPlus.Constants.Command|Array} */
+    /** @type {!cwc.lib.protocol.sphero.sphero2.Constants.Command|Array} */
     this.command = [0x00, 0x01];
   }
 
 
   /**
-   * @param {!cwc.lib.protocol.sphero.sprkPlus.Constants.CallbackType} callback
+   * @param {!cwc.lib.protocol.sphero.sphero2.Constants.CallbackType} callback
    * @return {THIS}
    * @template THIS
    */
@@ -52,7 +52,7 @@ class Buffer extends ByteArrayBuffer {
 
 
   /**
-   * @param {!cwc.lib.protocol.sphero.sprkPlus.Constants.Command|Array} command
+   * @param {!cwc.lib.protocol.sphero.sphero2.Constants.Command|Array} command
    * @return {THIS}
    * @template THIS
    */

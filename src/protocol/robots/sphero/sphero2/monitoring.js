@@ -1,5 +1,5 @@
 /**
- * @fileoverview Sphero SPRK+ monitoring logic.
+ * @fileoverview Sphero 2.0 monitoring logic.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.module('cwc.lib.protocol.sphero.sprkPlus.Monitoring');
+goog.module('cwc.lib.protocol.sphero.sphero2.Monitoring');
 
 const EventHandler = goog.require('cwc.lib.utils.event.Handler');
 const Logger = goog.require('cwc.lib.utils.log.Logger');
@@ -29,14 +29,14 @@ const Timer = goog.require('goog.Timer');
  */
 class Monitoring {
   /**
-   * @param {!cwc.lib.protocol.sphero.sprkPlus.Api'} api
+   * @param {!cwc.lib.protocol.sphero.sphero2.Api'} api
    */
   constructor(api) {
-    /** @type {!cwc.lib.protocol.sphero.sprkPlus.Api'} */
+    /** @type {!cwc.lib.protocol.sphero.sphero2.Api'} */
     this.api = api;
 
     /** @type {string} */
-    this.name = 'Sphero SPRK+ Monitoring';
+    this.name = 'Sphero 2.0 Monitoring';
 
     /** @type {boolean} */
     this.monitor = false;

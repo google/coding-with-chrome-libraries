@@ -1,5 +1,5 @@
 /**
- * @fileoverview Byte commands for the Sphero SPRK+ communication.
+ * @fileoverview Byte commands for the Sphero 2.0 communication.
  *
  * @license Copyright 2016 The Coding with Chrome Authors.
  *
@@ -17,12 +17,10 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.module('cwc.lib.protocol.sphero.sprkPlus.Commands');
+goog.module('cwc.lib.protocol.sphero.sphero2.Commands');
 
-const Buffer = goog.require('cwc.lib.protocol.sphero.sprkPlus.Buffer');
-const Constants = goog.require('cwc.lib.protocol.sphero.sprkPlus.Constants');
-
-const defaultCharacteristic = '22bb746f-2ba1-7554-2d6f-726568705327';
+const Buffer = goog.require('cwc.lib.protocol.sphero.sphero2.Buffer');
+const Constants = goog.require('cwc.lib.protocol.sphero.sphero2.Constants');
 
 
 /**
@@ -31,11 +29,10 @@ const defaultCharacteristic = '22bb746f-2ba1-7554-2d6f-726568705327';
  * @param {number} green 0-255
  * @param {number} blue 0-255
  * @param {boolean=} persistent
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!cwc.lib.protocol.sphero.sphero2.Buffer}
  */
 exports.setRGB = function(red = 0, green = 0, blue = 0, persistent = false) {
   return new Buffer()
-    .setCharacteristic(defaultCharacteristic)
     .setCommand(Constants.Command.RGB_LED.SET)
     .writeByte(red)
     .writeByte(green)
@@ -46,11 +43,10 @@ exports.setRGB = function(red = 0, green = 0, blue = 0, persistent = false) {
 
 /**
  * Gets current RGB LED color.
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!cwc.lib.protocol.sphero.sphero2.Buffer}
  */
 exports.getRGB = function() {
   return new Buffer()
-    .setCharacteristic(defaultCharacteristic)
     .setCallback(Constants.CallbackType.RGB)
     .setCommand(Constants.Command.RGB_LED.GET);
 };
@@ -59,11 +55,10 @@ exports.getRGB = function() {
 /**
  * Sets back-light LED brightness.
  * @param {number} brightness 0-255
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!cwc.lib.protocol.sphero.sphero2.Buffer}
  */
 exports.setBackLed = function(brightness = 0) {
   return new Buffer()
-    .setCharacteristic(defaultCharacteristic)
     .setCommand(Constants.Command.BACK_LED)
     .writeByte(brightness);
 };
@@ -72,11 +67,10 @@ exports.setBackLed = function(brightness = 0) {
 /**
  * Sets heading.
  * @param {number} heading 0-359
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!cwc.lib.protocol.sphero.sphero2.Buffer}
  */
 exports.setHeading = function(heading = 0) {
   return new Buffer()
-    .setCharacteristic(defaultCharacteristic)
     .setCommand(Constants.Command.HEADING)
     .writeShort(heading);
 };
@@ -87,11 +81,10 @@ exports.setHeading = function(heading = 0) {
  * @param {number} speed 0-255
  * @param {number=} heading 0-359
  * @param {boolean=} state
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!cwc.lib.protocol.sphero.sphero2.Buffer}
  */
 exports.roll = function(speed = 50, heading = 0, state = undefined) {
   return new Buffer()
-    .setCharacteristic(defaultCharacteristic)
     .setCommand(Constants.Command.ROLL)
     .writeByte(speed)
     .writeShort(heading)
@@ -107,13 +100,12 @@ exports.roll = function(speed = 50, heading = 0, state = undefined) {
  * @param {number=} speedX
  * @param {number=} speedY
  * @param {number=} interval in 10msec
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!cwc.lib.protocol.sphero.sphero2.Buffer}
  */
 exports.setCollisionDetection = function(method = 0x01,
     thresholdX = 0x60, thresholdY = 0x60, speedX = 0x60, speedY = 0x60,
     interval = 0x0A) {
   return new Buffer()
-    .setCharacteristic(defaultCharacteristic)
     .setCommand(Constants.Command.COLLISION_DETECTION)
     .writeByte(method)
     .writeByte(thresholdX)
@@ -127,33 +119,21 @@ exports.setCollisionDetection = function(method = 0x01,
 /**
  * Sets montion timeout.
  * @param {number} timeout in msec
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!cwc.lib.protocol.sphero.sphero2.Buffer}
  */
 exports.setMotionTimeout = function(timeout) {
   return new Buffer()
-    .setCharacteristic(defaultCharacteristic)
     .setCommand(Constants.Command.MOTION_TIMEOUT)
     .writeByte(timeout);
 };
 
 
 /**
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
- */
-exports.enableDeloperMode = function() {
-  return new Buffer()
-    .setCharacteristic('22bb746f-2bbd-7554-2d6f-726568705327')
-    .write(new TextEncoder('utf-8').encode('011i3'));
-};
-
-
-/**
  * @param {boolean} enabled
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!cwc.lib.protocol.sphero.sphero2.Buffer}
  */
 exports.boost = function(enabled = true) {
   return new Buffer()
-    .setCharacteristic(defaultCharacteristic)
     .setCommand(Constants.Command.BOOST)
     .writeByte(enabled ? 0x01 : 0x00);
 };
@@ -164,11 +144,10 @@ exports.boost = function(enabled = true) {
  * @param {number=} wakeup
  * @param {number=} macro
  * @param {number=} orb_basic
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!cwc.lib.protocol.sphero.sphero2.Buffer}
  */
 exports.sleep = function(wakeup = 0x00, macro = 0x00, orb_basic = 0x00) {
   return new Buffer()
-    .setCharacteristic(defaultCharacteristic)
     .setCommand(Constants.Command.SYSTEM.SLEEP)
     .writeByte(wakeup)
     .writeByte(macro)
@@ -178,11 +157,10 @@ exports.sleep = function(wakeup = 0x00, macro = 0x00, orb_basic = 0x00) {
 
 /**
  * Reads the current Sphero location.
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!cwc.lib.protocol.sphero.sphero2.Buffer}
  */
 exports.getLocation = function() {
   return new Buffer()
-    .setCharacteristic(defaultCharacteristic)
     .setCallback(Constants.CallbackType.LOCATION)
     .setCommand(Constants.Command.LOCATION.GET);
 };
@@ -190,11 +168,10 @@ exports.getLocation = function() {
 
 /**
  * Reads current Sphero version.
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!cwc.lib.protocol.sphero.sphero2.Buffer}
  */
 exports.getVersion = function() {
   return new Buffer()
-    .setCharacteristic(defaultCharacteristic)
     .setCallback(Constants.CallbackType.VERSION)
     .setCommand(Constants.Command.SYSTEM.VERSION);
 };

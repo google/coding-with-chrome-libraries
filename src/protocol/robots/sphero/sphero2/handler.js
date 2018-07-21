@@ -1,5 +1,5 @@
 /**
- * @fileoverview Command Handler for Sphero SPRK+ implementation.
+ * @fileoverview Command Handler for Sphero 2.0 implementation.
  *
  * This api allows to read and control the Sphero sensors and actors over an
  * Bluetooth connection.
@@ -20,9 +20,9 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.module('cwc.lib.protocol.sphero.sprkPlus.Handler');
+goog.module('cwc.lib.protocol.sphero.sphero2.Handler');
 
-const Commands = goog.require('cwc.lib.protocol.sphero.sprkPlus.Commands');
+const Commands = goog.require('cwc.lib.protocol.sphero.sphero2.Commands');
 
 
 /**

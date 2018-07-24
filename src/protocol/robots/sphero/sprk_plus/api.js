@@ -79,8 +79,7 @@ class Api extends DefaultApi {
   connect(device) {
     if (super.connect(device)) {
       this.log_.info('Preparing Sphero bluetooth LE api for', device.getId());
-      this.eventTarget_.dispatchEvent(
-        Events.connect('Preparing device ...', 1));
+      this.connectEvent('Preparing device ...', 1);
 
       // Enable Developer mode.
       this.device.sendRaw(
@@ -93,8 +92,8 @@ class Api extends DefaultApi {
       // Power on device.
       this.device.sendRaw(
         new Uint8Array([0x07]), '22bb746f-2bb2-7554-2d6f-726568705327', () => {
-          this.eventTarget_.dispatchEvent(Events.connect(
-            'Power on device. Waiting until device wakes up ...', 2));
+          this.connectEvent(
+            'Power on device. Waiting until device wakes up ...', 2);
       });
 
       // Wakeup device.
@@ -102,7 +101,7 @@ class Api extends DefaultApi {
         new Uint8Array([0x01]), '22bb746f-2bbf-7554-2d6f-726568705327', () => {
           this.prepare();
           this.runTest();
-          this.eventTarget_.dispatchEvent(Events.connect('Ready ...', 3));
+          this.connectEvent('Ready ...', 3);
       });
       return true;
     }

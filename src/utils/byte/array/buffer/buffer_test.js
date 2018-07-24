@@ -25,6 +25,11 @@ const ByteBuffer = goog.module.get('cwc.lib.utils.byte.array.Buffer');
 const DataType = goog.module.get('cwc.lib.utils.byte.array.DataType');
 
 describe('ByteBuffer', function() {
+  it('constructor', function() {
+    let byteBufferTest = new ByteBuffer();
+    expect(typeof byteBufferTest).toEqual('object');
+  });
+
   it('write', function() {
     let byteBufferTest = new ByteBuffer();
     byteBufferTest.write(0x00);

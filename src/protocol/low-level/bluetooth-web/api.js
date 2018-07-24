@@ -52,7 +52,10 @@ class Api {
    * Prepares the bluetooth le api and monitors Bluetooth adapter.
    */
   prepare() {
-    if (this.prepared) {
+    if (!navigator.bluetooth) {
+      this.log_.warn('Bluetooth Web support is not available!');
+      return;
+    } else if (this.prepared) {
       return;
     }
 

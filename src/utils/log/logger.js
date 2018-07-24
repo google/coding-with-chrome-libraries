@@ -38,7 +38,8 @@ class Logger {
     this.displayName = this.name ? '%c' + this.name : '';
 
     /** @type {number} */
-    this.logLevel = typeof cwc.config !== 'undefined' ?
+    this.logLevel = typeof cwc !== 'undefined' &&
+      typeof cwc.config !== 'undefined' ?
       Number(cwc.config.Logging.LEVEL) : logLevel;
 
     /** @type {boolean} */

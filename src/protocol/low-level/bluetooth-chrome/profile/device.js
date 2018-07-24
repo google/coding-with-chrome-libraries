@@ -65,8 +65,8 @@ exports.MAKEBLOCK_MBOT = {
  * Makeblock mBot
  * @enum {number|string}
  */
-exports.MAKEBLOCK_RANGER = {
-  name: 'Makeblock Ranger',
+exports.MAKEBLOCK_MBOT_RANGER = {
+  name: 'Makeblock mBot Ranger',
   namePrefix: 'Makeblock',
   deviceClass: 5898756,
   uuid: Service.SSP,

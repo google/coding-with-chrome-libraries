@@ -201,20 +201,14 @@ class Device extends DefaultDevice {
   /**
    * Sends the buffer to the socket.
    * @param {!Array<ArrayBuffer>|ArrayBuffer} buffer
+   * @param {string=} opt_characteristicId_unused
    */
-  send(buffer) {
+  send(buffer, opt_characteristicId_unused) {
     if (this.socketId == null) {
       return;
     }
-    if (Array.isArray(buffer)) {
-      for (let i = 0, len = buffer.length; i < len; ++i) {
-        chrome.bluetoothSocket.send(this.socketId, buffer[i],
-          this.handleSend_.bind(this));
-      }
-    } else {
-      chrome.bluetoothSocket.send(this.socketId, buffer,
-        this.handleSend_.bind(this));
-    }
+    chrome.bluetoothSocket.send(this.socketId, buffer,
+      this.handleSend_.bind(this));
   }
 
 

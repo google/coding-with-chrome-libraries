@@ -79,14 +79,11 @@ class Api extends DefaultApi {
   connect(device) {
     if (super.connect(device)) {
       this.log_.info('Preparing Sphero 2.0 api for', device.getAddress());
-      this.eventTarget_.dispatchEvent(
-        Events.connect('Preparing device ...', 1));
-      this.eventTarget_.dispatchEvent(
-        Events.connect('Prepare Sphero 2.0 api for' + device.getAddress(), 2));
+      this.connectEvent('Preparing device ...', 1);
+      this.connectEvent('Prepare Sphero 2.0 api for' + device.getAddress(), 2);
       this.prepare();
       this.runTest();
-      this.eventTarget_.dispatchEvent(
-        Events.connect('Ready ...', 3));
+      this.connectEvent('Ready ...', 3);
       return true;
     }
     return false;

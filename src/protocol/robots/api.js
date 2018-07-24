@@ -19,6 +19,7 @@
  */
 goog.module('cwc.lib.protocol.Api');
 
+const EventData = goog.require('cwc.lib.utils.event.Data');
 const EventTarget = goog.require('goog.events.EventTarget');
 const EventHandler = goog.require('cwc.lib.utils.event.Handler');
 const Logger = goog.require('cwc.lib.utils.log.Logger');
@@ -81,6 +82,14 @@ class Api {
     return false;
   }
 
+  /**
+   * @param {string} message
+   * @param {number} step
+   */
+  connectEvent(message, step) {
+    this.eventTarget_.dispatchEvent(new EventData('connect', message, step));
+  }
+
 
   /**
    * Disconnects the device.
@@ -127,6 +136,16 @@ class Api {
    */
   getBuffer(command, data = {}) {
     return this.handler_[command](data);
+  }
+
+
+  /**
+   * @param {string} command
+   * @param {Object=} data
+   * @return {!ArrayBuffer}
+   */
+  getBufferSigned(command, data = {}) {
+    return this.handler_[command](data).readSigned();
   }
 
 

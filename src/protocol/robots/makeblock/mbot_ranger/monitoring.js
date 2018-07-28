@@ -31,9 +31,9 @@ const Logger = goog.require('cwc.lib.utils.log.Logger');
 const MonitoringIntervals = {
   'LIGHTSENSOR_1': 1500,
   'LIGHTSENSOR_2': 1750,
-  'LINEFOLLOWER': 175,
+  'LINEFOLLOWER': 275,
   'TEMPERATUR': 1500,
-  'ULTRASONIC': 200,
+  'ULTRASONIC': 250,
 };
 
 

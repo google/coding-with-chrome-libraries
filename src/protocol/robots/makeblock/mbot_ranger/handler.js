@@ -137,10 +137,12 @@ class Handler {
    */
   ['stop']() {
     return [
+      this['reset'](),
       this['setRGBLED']({}),
       Commands.movePower(0, Constants.Slot.ONE),
       Commands.movePower(0, Constants.Slot.TWO),
-      this['reset'](),
+      Commands.movePower(0, Constants.Slot.ONE),
+      Commands.movePower(0, Constants.Slot.TWO),
     ];
   }
 }

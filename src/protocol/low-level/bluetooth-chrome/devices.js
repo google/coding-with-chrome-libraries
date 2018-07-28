@@ -224,6 +224,7 @@ class Devices {
   /**
    * @param {string} name
    * @param {Function} callback
+   * @return {boolean}
    */
   autoConnectDevice(name, callback) {
     let device = this.getDeviceByName(name);
@@ -236,7 +237,9 @@ class Devices {
         };
         device.connect(connectEvent.bind(this));
       }
+      return true;
     }
+    return false;
   }
 
 

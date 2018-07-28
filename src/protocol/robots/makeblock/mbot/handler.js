@@ -120,10 +120,10 @@ class Handler {
    */
   ['stop']() {
     return [
+      this['reset'](),
       this['setRGBLED']({}),
       Commands.movePower(0, Constants.Port.LEFT_MOTOR),
       Commands.movePower(0, Constants.Port.RIGHT_MOTOR),
-      this['reset'](),
     ];
   }
 }

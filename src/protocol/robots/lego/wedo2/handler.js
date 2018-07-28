@@ -39,7 +39,7 @@ class Handler {
 
   /**
    * @param {!Object} data
-   * @return {!ArrayBuffer}
+   * @return {!cwc.lib.protocol.lego.weDo2.Buffer}
    */
   ['playTone'](data) {
     return Commands.playTone(data['frequency'], data['duration']);
@@ -48,7 +48,7 @@ class Handler {
 
   /**
    * @param {!Object} data
-   * @return {!ArrayBuffer}
+   * @return {!cwc.lib.protocol.lego.weDo2.Buffer}
    */
   ['setRGB'](data) {
     return Commands.setRGB(data['color']);
@@ -57,7 +57,7 @@ class Handler {
 
   /**
    * @param {!Object} data
-   * @return {!ArrayBuffer}
+   * @return {!cwc.lib.protocol.lego.weDo2.Buffer}
    */
   ['movePower'](data) {
     return Commands.movePower(data['power'], data['port']);
@@ -66,7 +66,7 @@ class Handler {
 
   /**
    * @param {!Object} data
-   * @return {!ArrayBuffer}
+   * @return {!cwc.lib.protocol.lego.weDo2.Buffer}
    */
   ['moveSpeed'](data) {
     let speed = data['reverse'] ? 255 - Constants.Speed[data['speed']] :
@@ -77,7 +77,7 @@ class Handler {
 
   /**
    * @param {!Object} data
-   * @return {!ArrayBuffer}
+   * @return {!cwc.lib.protocol.lego.weDo2.Buffer}
    */
   ['setSensorMode'](data) {
     return Commands.setSensorMode(data['port'], data['type'], data['mode']);
@@ -86,7 +86,7 @@ class Handler {
 
   /**
    * Stops the Sphero device.
-   * @return {!Array<ArrayBuffer>}
+   * @return {!Array<cwc.lib.protocol.lego.weDo2.Buffer>}
    */
   ['stop']() {
     return [

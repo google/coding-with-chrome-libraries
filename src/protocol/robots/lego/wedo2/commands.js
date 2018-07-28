@@ -29,7 +29,7 @@ const defaultCharacteristic = '00001565-1212-efde-1523-785feabcd123';
  * Plays a tone with the frequency and duration.
  * @param {number} frequency
  * @param {number=} duration
- * @return {!ArrayBuffer}
+ * @return {!cwc.lib.protocol.lego.weDo2.Buffer}
  */
 exports.playTone = function(frequency, duration = 500) {
   return new Buffer()
@@ -45,7 +45,7 @@ exports.playTone = function(frequency, duration = 500) {
 /**
  * Sets RGB pre-defined color.
  * @param {number=} color 1-9 (0 = off)
- * @return {!ArrayBuffer}
+ * @return {!cwc.lib.protocol.lego.weDo2.Buffer}
  */
 exports.setRGB = function(color = 0) {
   return new Buffer()
@@ -61,7 +61,7 @@ exports.setRGB = function(color = 0) {
  * Sets motor power
  * @param {number} power 0-127 forwward / 255 - 127 backwards
  * @param {!Constants.Channel.PORT1|Constants.Channel.PORT2} port
- * @return {!ArrayBuffer}
+ * @return {!cwc.lib.protocol.lego.weDo2.Buffer}
  */
 exports.movePower = function(power, port = Constants.Channel.PORT1) {
   return new Buffer()
@@ -77,7 +77,7 @@ exports.movePower = function(power, port = Constants.Channel.PORT1) {
  * @param {!Constants.Channel.PORT1|Constants.Channel.PORT2} port
  * @param {!Constants.Device.GYROSCOPE|Constants.Device.MOTION} type
  * @param {number=} mode (0x00 or 0x01)
- * @return {!ArrayBuffer}
+ * @return {!cwc.lib.protocol.lego.weDo2.Buffer}
  */
 exports.setSensorMode = function(port, type, mode = 0x00) {
   return new Buffer()

@@ -27,6 +27,13 @@ goog.addDependency('../../../../src/protocol/robots/makeblock/mbot/constants.js'
 goog.addDependency('../../../../src/protocol/robots/makeblock/mbot/events.js', ['cwc.lib.protocol.makeblock.mBot.Events'], ['cwc.lib.utils.event.Data'], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/robots/makeblock/mbot/handler.js', ['cwc.lib.protocol.makeblock.mBot.Handler'], ['cwc.lib.protocol.makeblock.mBot.Commands', 'cwc.lib.protocol.makeblock.mBot.Constants'], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/robots/makeblock/mbot/monitoring.js', ['cwc.lib.protocol.makeblock.mBot.Monitoring'], ['cwc.lib.protocol.makeblock.mBot.Constants', 'cwc.lib.utils.event.Handler', 'cwc.lib.utils.log.Logger'], {'module': 'goog'});
+goog.addDependency('../../../../src/protocol/robots/makeblock/mbot_ranger/api.js', ['cwc.lib.protocol.makeblock.mBotRanger.Api'], ['cwc.lib.protocol.Api', 'cwc.lib.protocol.bluetoothChrome.Events', 'cwc.lib.protocol.makeblock.mBotRanger.Constants', 'cwc.lib.protocol.makeblock.mBotRanger.Events', 'cwc.lib.protocol.makeblock.mBotRanger.Handler', 'cwc.lib.protocol.makeblock.mBotRanger.Monitoring', 'cwc.lib.utils.stream.Reader'], {'module': 'goog'});
+goog.addDependency('../../../../src/protocol/robots/makeblock/mbot_ranger/buffer.js', ['cwc.lib.protocol.makeblock.mBotRanger.Buffer'], ['cwc.lib.utils.byte.array.BufferLSB'], {'module': 'goog'});
+goog.addDependency('../../../../src/protocol/robots/makeblock/mbot_ranger/commands.js', ['cwc.lib.protocol.makeblock.mBotRanger.Commands'], ['cwc.lib.protocol.makeblock.mBotRanger.Buffer', 'cwc.lib.protocol.makeblock.mBotRanger.Constants'], {'module': 'goog'});
+goog.addDependency('../../../../src/protocol/robots/makeblock/mbot_ranger/constants.js', ['cwc.lib.protocol.makeblock.mBotRanger.Constants'], [], {'module': 'goog'});
+goog.addDependency('../../../../src/protocol/robots/makeblock/mbot_ranger/events.js', ['cwc.lib.protocol.makeblock.mBotRanger.Events'], ['cwc.lib.utils.event.Data'], {'module': 'goog'});
+goog.addDependency('../../../../src/protocol/robots/makeblock/mbot_ranger/handler.js', ['cwc.lib.protocol.makeblock.mBotRanger.Handler'], ['cwc.lib.protocol.makeblock.mBotRanger.Commands', 'cwc.lib.protocol.makeblock.mBotRanger.Constants'], {'module': 'goog'});
+goog.addDependency('../../../../src/protocol/robots/makeblock/mbot_ranger/monitoring.js', ['cwc.lib.protocol.makeblock.mBotRanger.Monitoring'], ['cwc.lib.protocol.makeblock.mBotRanger.Constants', 'cwc.lib.utils.event.Handler', 'cwc.lib.utils.log.Logger'], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/robots/sphero/sphero2/api.js', ['cwc.lib.protocol.sphero.sphero2.Api'], ['cwc.lib.protocol.Api', 'cwc.lib.protocol.bluetoothChrome.Events', 'cwc.lib.protocol.sphero.sphero2.Constants', 'cwc.lib.protocol.sphero.sphero2.Events', 'cwc.lib.protocol.sphero.sphero2.Handler', 'cwc.lib.protocol.sphero.sphero2.Monitoring', 'cwc.lib.utils.stream.Reader'], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/robots/sphero/sphero2/buffer.js', ['cwc.lib.protocol.sphero.sphero2.Buffer'], ['cwc.lib.utils.byte.array.BufferMSB'], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/robots/sphero/sphero2/commands.js', ['cwc.lib.protocol.sphero.sphero2.Commands'], ['cwc.lib.protocol.sphero.sphero2.Buffer', 'cwc.lib.protocol.sphero.sphero2.Constants'], {'module': 'goog'});
@@ -48,6 +55,7 @@ goog.addDependency('../../../../src/utils/byte/array/data_type.js', ['cwc.lib.ut
 goog.addDependency('../../../../src/utils/byte/tools/tools.js', ['cwc.lib.utils.byte.Tools'], [], {'module': 'goog'});
 goog.addDependency('../../../../src/utils/event/data.js', ['cwc.lib.utils.event.Data'], [], {'module': 'goog'});
 goog.addDependency('../../../../src/utils/event/handler.js', ['cwc.lib.utils.event.Handler'], ['cwc.lib.utils.log.Logger', 'goog.events'], {'module': 'goog'});
+goog.addDependency('../../../../src/utils/feature/feature.js', ['cwc.lib.utils.Feature'], [], {'module': 'goog'});
 goog.addDependency('../../../../src/utils/log/level.js', ['cwc.lib.utils.log.Level'], [], {'module': 'goog'});
 goog.addDependency('../../../../src/utils/log/logger.js', ['cwc.lib.utils.log.Logger'], ['cwc.lib.utils.log.Level'], {'module': 'goog'});
 goog.addDependency('../../../../src/utils/stack/stack.js', ['cwc.lib.utils.Stack'], [], {'module': 'goog'});

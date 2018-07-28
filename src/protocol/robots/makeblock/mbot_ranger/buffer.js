@@ -1,5 +1,5 @@
 /**
- * @fileoverview mBot Communication buffer
+ * @fileoverview mBot Ranger Communication buffer
  *
  * @license Copyright 2015 The Coding with Chrome Authors.
  *
@@ -17,7 +17,7 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.module('cwc.lib.protocol.makeblock.mBot.Buffer');
+goog.module('cwc.lib.protocol.makeblock.mBotRanger.Buffer');
 
 const ByteArrayBuffer = goog.require('cwc.lib.utils.byte.array.BufferLSB');
 
@@ -38,7 +38,17 @@ class Buffer extends ByteArrayBuffer {
 
 
   /**
-   * @param {!cwc.protocol.makeblock.mBot.Device} device
+   * @param {!cwc.protocol.makeblock.mBotRanger.Action} action
+   * @return {THIS}
+   * @template THIS
+   */
+  writeAction(action) {
+    return this.writeByte(action);
+  }
+
+
+  /**
+   * @param {!cwc.protocol.makeblock.mBotRanger.Device} device
    * @return {THIS}
    * @template THIS
    */
@@ -48,7 +58,7 @@ class Buffer extends ByteArrayBuffer {
 
 
   /**
-   * @param {!cwc.protocol.makeblock.mBot.CommandType} type
+   * @param {!cwc.protocol.makeblock.mBotRanger.CommandType} type
    * @return {THIS}
    * @template THIS
    */
@@ -58,7 +68,7 @@ class Buffer extends ByteArrayBuffer {
 
 
   /**
-   * @param {!cwc.protocol.makeblock.mBot.Port} port
+   * @param {!cwc.protocol.makeblock.mBotRanger.Port} port
    * @return {THIS}
    * @template THIS
    */
@@ -68,7 +78,17 @@ class Buffer extends ByteArrayBuffer {
 
 
   /**
-   * @param {!cwc.protocol.makeblock.mBot.CallbackType} index
+   * @param {!cwc.protocol.makeblock.mBotRanger.Slot} slot
+   * @return {THIS}
+   * @template THIS
+   */
+  writeSlot(slot) {
+    return this.writeByte(slot);
+  }
+
+
+  /**
+   * @param {!cwc.protocol.makeblock.mBotRanger.CallbackType} index
    * @return {THIS}
    * @template THIS
    */
@@ -79,6 +99,8 @@ class Buffer extends ByteArrayBuffer {
 
   /**
    * Construct communication package with the current data.
+   * ff 55 len idx action device port  slot  data
+   * 0  1  2   3   4      5      6     7     8
    * @return {!ArrayBuffer}
    */
   readSigned() {

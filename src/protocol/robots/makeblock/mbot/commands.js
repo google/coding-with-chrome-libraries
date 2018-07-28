@@ -29,7 +29,7 @@ const Constants = goog.require('cwc.lib.protocol.makeblock.mBot.Constants');
  * @param {number} green 0-255
  * @param {number} blue 0-255
  * @param {number=} index 0 for all lights; 1 for left, 2 for right
- * @return {!ArrayBuffer}
+ * @return {!cwc.lib.protocol.makeblock.mBot.Buffer}
  */
 exports.setRGBLED = function(red = 0, green = 0, blue = 0, index = 0x00) {
   return new Buffer()
@@ -49,7 +49,7 @@ exports.setRGBLED = function(red = 0, green = 0, blue = 0, index = 0x00) {
  * Plays a tone through mBot's buzzer
  * @param {number} frequency Frequency of the tone to play
  * @param {number=} duration Duration of the tone, in ms
- * @return {!ArrayBuffer}
+ * @return {!cwc.lib.protocol.makeblock.mBot.Buffer}
  */
 exports.playTone = function(frequency, duration = 500) {
   return new Buffer()
@@ -65,7 +65,7 @@ exports.playTone = function(frequency, duration = 500) {
  * Sets motor power
  * @param {number} power (0-255)
  * @param {cwc.protocol.makeblock.mBot.Port=} port
- * @return {!ArrayBuffer}
+ * @return {!cwc.lib.protocol.makeblock.mBot.Buffer}
  */
 exports.movePower = function(power, port = Constants.Port.RIGHT_MOTOR) {
   return new Buffer()
@@ -82,7 +82,7 @@ exports.movePower = function(power, port = Constants.Port.RIGHT_MOTOR) {
  * @param {!Constants.CallbackType} callbackType
  * @param {!cwc.protocol.makeblock.mBot.Device} device
  * @param {!cwc.protocol.makeblock.mBot.Port} port
- * @return {!ArrayBuffer}
+ * @return {!cwc.lib.protocol.makeblock.mBot.Buffer}
  */
 exports.getSensorData = function(callbackType, device, port) {
   return new Buffer()
@@ -95,7 +95,7 @@ exports.getSensorData = function(callbackType, device, port) {
 
 /**
  * Gets current firmware version.
- * @return {!ArrayBuffer}
+ * @return {!cwc.lib.protocol.makeblock.mBot.Buffer}
  */
 exports.getVersion = function() {
   return new Buffer()
@@ -107,7 +107,7 @@ exports.getVersion = function() {
 
 /**
  * Resets the mBot.
- * @return {!ArrayBuffer}
+ * @return {!cwc.lib.protocol.makeblock.mBot.Buffer}
  */
 exports.reset = function() {
   return new Buffer()
@@ -118,7 +118,7 @@ exports.reset = function() {
 
 /**
  * Starts the mBot.
- * @return {!ArrayBuffer}
+ * @return {!cwc.lib.protocol.makeblock.mBot.Buffer}
  */
 exports.start = function() {
   return new Buffer()

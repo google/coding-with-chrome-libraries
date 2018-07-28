@@ -1,5 +1,5 @@
 /**
- * @fileoverview Command Handler for Makeblock mBots implementation.
+ * @fileoverview Command Handler for Makeblock mBot Ranger implementation.
  *
  * @license Copyright 2018 The Coding with Chrome Authors.
  *
@@ -17,10 +17,11 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.module('cwc.lib.protocol.makeblock.mBot.Handler');
+goog.module('cwc.lib.protocol.makeblock.mBotRanger.Handler');
 
-const Commands = goog.require('cwc.lib.protocol.makeblock.mBot.Commands');
-const Constants = goog.require('cwc.lib.protocol.makeblock.mBot.Constants');
+const Commands = goog.require('cwc.lib.protocol.makeblock.mBotRanger.Commands');
+const Constants =
+  goog.require('cwc.lib.protocol.makeblock.mBotRanger.Constants');
 
 
 /**
@@ -36,13 +37,13 @@ class Handler {
   /**
    * Powers the motor.
    * @param {!Object} data
-   * @return {!cwc.lib.protocol.makeblock.mBot.Buffer}
+   * @return {!ArrayBuffer}
    */
   ['movePower'](data) {
     if (data['slot'] === undefined) {
       return [
-        Commands.movePower(-data['power'], Constants.Port.LEFT_MOTOR),
-        Commands.movePower(data['power'], Constants.Port.RIGHT_MOTOR),
+        Commands.movePower(-data['power'], Constants.Slot.ONE),
+        Commands.movePower(data['power'], Constants.Slot.TWO),
       ];
     }
     return Commands.movePower(data['power'], data['slot']);
@@ -52,13 +53,13 @@ class Handler {
   /**
    * Powers the motor.
    * @param {!Object} data
-   * @return {!cwc.lib.protocol.makeblock.mBot.Buffer}
+   * @return {!ArrayBuffer}
    */
   ['rotatePower'](data) {
     if (data['slot'] === undefined) {
       return [
-        Commands.movePower(data['power'], Constants.Port.LEFT_MOTOR),
-        Commands.movePower(data['power'], Constants.Port.RIGHT_MOTOR),
+        Commands.movePower(data['power'], Constants.Slot.ONE),
+        Commands.movePower(data['power'], Constants.Slot.TWO),
       ];
     }
     return Commands.movePower(data['power'], data['slot']);
@@ -66,9 +67,25 @@ class Handler {
 
 
   /**
+   * Rotates the motor for the given steps.
+   * @param {!Object} data
+   * @return {!ArrayBuffer}
+   */
+  ['moveSteps'](data) {
+    if (data['slot'] === undefined) {
+      return [
+        Commands.moveSteps(-data['steps'], data['power'], Constants.Slot.ONE),
+        Commands.moveSteps(data['steps'], data['power'], Constants.Slot.TWO),
+      ];
+    }
+    return Commands.moveSteps(data['steps'], data['power'], data['slot']);
+  }
+
+
+  /**
    * Sets led light on the top of the mbot
    * @param {!Object} data
-   * @return {!cwc.lib.protocol.makeblock.mBot.Buffer}
+   * @return {!ArrayBuffer}
    */
   ['setRGBLED'](data) {
     return Commands.setRGBLED(
@@ -79,7 +96,7 @@ class Handler {
   /**
    * Plays a tone through mBot's buzzer
    * @param {!Object} data
-   * @return {!cwc.lib.protocol.makeblock.mBot.Buffer}
+   * @return {!ArrayBuffer}
    */
   ['playTone'](data) {
     return Commands.playTone(data['frequency'], data['duration']);
@@ -88,7 +105,7 @@ class Handler {
 
   /**
    * Device version
-   * @return {!cwc.lib.protocol.makeblock.mBot.Buffer}
+   * @return {!ArrayBuffer}
    */
   ['getVersion']() {
     return Commands.getVersion();
@@ -98,7 +115,7 @@ class Handler {
   /**
    * Reads out sensor value.
    * @param {!Object} data
-   * @return {!cwc.lib.protocol.makeblock.mBot.Buffer}
+   * @return {!ArrayBuffer}
    */
   ['getSensorData'](data) {
     return Commands.getSensorData(data['index'], data['device'], data['port']);
@@ -107,7 +124,7 @@ class Handler {
 
   /**
    * Resets the mBot.
-   * @return {!cwc.lib.protocol.makeblock.mBot.Buffer}
+   * @return {!ArrayBuffer}
    */
   ['reset']() {
     return Commands.reset();
@@ -116,13 +133,13 @@ class Handler {
 
   /**
    * Stops mBot.
-   * @return {!Array<cwc.lib.protocol.makeblock.mBot.Buffer>}
+   * @return {!ArrayBuffer}
    */
   ['stop']() {
     return [
       this['setRGBLED']({}),
-      Commands.movePower(0, Constants.Port.LEFT_MOTOR),
-      Commands.movePower(0, Constants.Port.RIGHT_MOTOR),
+      Commands.movePower(0, Constants.Slot.ONE),
+      Commands.movePower(0, Constants.Slot.TWO),
       this['reset'](),
     ];
   }

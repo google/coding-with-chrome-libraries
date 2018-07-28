@@ -1,10 +1,7 @@
 /**
- * @fileoverview Handles the communication with Makeblock mBots.
+ * @fileoverview Handles the Communication with the Makeblock mBot Ranger.
  *
- * This api allows to read and control the Makeblock mBot kits with
- * bluetooth connection.
- *
- * @license Copyright 2016 Shenzhen Maker Works Co, Ltd. All Rights Reserved.
+ * @license Copyright 2015 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,17 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author wangyu@makeblock.cc (Yu Wang)
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.module('cwc.lib.protocol.makeblock.mBot.Api');
+goog.module('cwc.lib.protocol.makeblock.mBotRanger.Api');
 
 const BluetoothEvents = goog.require('cwc.lib.protocol.bluetoothChrome.Events');
 const DefaultApi = goog.require('cwc.lib.protocol.Api');
-const Constants = goog.require('cwc.lib.protocol.makeblock.mBot.Constants');
-const Events = goog.require('cwc.lib.protocol.makeblock.mBot.Events');
-const Handler = goog.require('cwc.lib.protocol.makeblock.mBot.Handler');
-const Monitoring = goog.require('cwc.lib.protocol.makeblock.mBot.Monitoring');
+const Constants =
+  goog.require('cwc.lib.protocol.makeblock.mBotRanger.Constants');
+const Events = goog.require('cwc.lib.protocol.makeblock.mBotRanger.Events');
+const Handler = goog.require('cwc.lib.protocol.makeblock.mBotRanger.Handler');
+const Monitoring =
+  goog.require('cwc.lib.protocol.makeblock.mBotRanger.Monitoring');
 const StreamReader = goog.require('cwc.lib.utils.stream.Reader');
 
 
@@ -40,7 +38,7 @@ class Api extends DefaultApi {
    *
    */
   constructor() {
-    super('mBot', Handler);
+    super('mBot Ranger', Handler);
 
     /** @type {!Constants.Monitoring} */
     this.monitoring = new Monitoring(this);
@@ -64,9 +62,10 @@ class Api extends DefaultApi {
    */
   connect(device) {
     if (super.connect(device)) {
-      this.log_.info('Preparing mBot api for', device.getAddress());
+      this.log_.info('Preparing mBot Ranger api for', device.getAddress());
       this.connectEvent('Preparing device ...', 1);
-      this.connectEvent('Prepare mBot api for' + device.getAddress(), 2);
+      this.connectEvent(
+        'Prepare mBot Ranger api for' + device.getAddress(), 2);
       this.prepare();
       this.connectEvent('Ready ...', 3);
       return true;
@@ -85,6 +84,7 @@ class Api extends DefaultApi {
       this.handleOnReceive_.bind(this));
     this.exec('playTone', {'frequency': 524, 'duration': 240});
     this.exec('playTone', {'frequency': 584, 'duration': 240});
+    this.exec('setRGBLED', {'red': 0, 'green': 0, 'blue': 0, 'index': 0});
     this.exec('getVersion');
     this.prepared = true;
   }
@@ -204,15 +204,15 @@ class Api extends DefaultApi {
     let data = dataBuffer.slice(4);
     switch (indexType) {
       case Constants.CallbackType.VERSION:
-        this.log_.info('mBot Firmware', new TextDecoder('utf-8').decode(data));
+        this.log_.info('mBot Ranger Firmware',
+          new TextDecoder('utf-8').decode(data));
         break;
       case Constants.CallbackType.ULTRASONIC:
       case Constants.CallbackType.LINEFOLLOWER:
-      case Constants.CallbackType.LIGHTSENSOR:
+      case Constants.CallbackType.LIGHTSENSOR_1:
+      case Constants.CallbackType.LIGHTSENSOR_2:
+      case Constants.CallbackType.TEMPERATURE:
         this.handleSensorData_(indexType, data, 4);
-        break;
-      case Constants.CallbackType.INNER_BUTTON:
-        this.handleSensorData_(indexType, data);
         break;
       default:
         this.log_.info('UNKNOWN index', len, indexType, dataType, dataBuffer);
@@ -240,12 +240,14 @@ class Api extends DefaultApi {
     this.sensorDataCache_[type] = data;
 
     switch (type) {
-      case Constants.CallbackType.INNER_BUTTON:
-        this.dispatchSensorEvent_(type, Events.ButtonPressed, data[0]);
-        break;
-      case Constants.CallbackType.LIGHTSENSOR:
-        this.dispatchSensorEvent_(type, Events.LightnessSensorValue,
-          this.parseFloatBytes_(data));
+      case Constants.CallbackType.LIGHTSENSOR_1:
+      case Constants.CallbackType.LIGHTSENSOR_2:
+        this.dispatchSensorEvent_(type, Events.LightnessSensorValue, {
+            'sensor_1': this.parseFloatBytes_(
+              this.sensorDataCache_[Constants.CallbackType.LIGHTSENSOR_1]),
+            'sensor_2': this.parseFloatBytes_(
+              this.sensorDataCache_[Constants.CallbackType.LIGHTSENSOR_2]),
+          });
         break;
       case Constants.CallbackType.LINEFOLLOWER:
         this.dispatchSensorEvent_(type, Events.LinefollowerSensorValue, {
@@ -253,6 +255,10 @@ class Api extends DefaultApi {
             'right': data[2] >= 64,
             'raw': data,
           });
+        break;
+      case Constants.CallbackType.TEMPERATURE:
+        this.dispatchSensorEvent_(type, Events.TemperatureSensorValue,
+          this.parseFloatBytes_(data));
         break;
       case Constants.CallbackType.ULTRASONIC:
         this.dispatchSensorEvent_(type, Events.UltrasonicSensorValue,

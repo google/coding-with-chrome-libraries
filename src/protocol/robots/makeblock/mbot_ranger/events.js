@@ -1,10 +1,7 @@
 /**
- * @fileoverview mBot events.
+ * @fileoverview mBot Ranger events.
  *
- * This api allows to read and control the Makeblock mBot kits with
- * bluetooth connection.
- *
- * @license Copyright 2016 Shenzhen Maker Works Co, Ltd. All Rights Reserved.
+ * @license Copyright 2016 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @author wangyu@makeblock.cc (Yu Wang)
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.module('cwc.lib.protocol.makeblock.mBot.Events');
+goog.module('cwc.lib.protocol.makeblock.mBotRanger.Events');
 
 const EventData = goog.require('cwc.lib.utils.event.Data');
 
@@ -32,24 +28,13 @@ const EventData = goog.require('cwc.lib.utils.event.Data');
  */
 const Type = {
   CONNECT: 'connect',
-  BUTTON_PRESSED: 'BUTTON_PRESSED',
   LIGHTNESS_SENSOR: 'CHANGED_LIGHTNESS',
   LINEFOLLOWER_SENSOR: 'CHANGED_LINEFOLLOWER',
+  TEMPERATURE_SENSOR: 'CHANGED_TEMPERATURE',
   ULTRASONIC_SENSOR: 'CHANGED_ULTRASONIC',
 };
 
 exports.Type = Type;
-
-
-/**
- * @param {Object} data
- * @param {number=} port
- * @return {!cwc.utils.EventData}
- * @final
- */
-exports.ButtonPressed = function(data, port) {
-  return new EventData(Type.BUTTON_PRESSED, data, port);
-};
 
 
 /**
@@ -82,4 +67,15 @@ exports.LightnessSensorValue = function(data, port) {
  */
 exports.LinefollowerSensorValue = function(data, port) {
   return new EventData(Type.LINEFOLLOWER_SENSOR, data, port);
+};
+
+
+/**
+ * @param {Object|number} data
+ * @param {number=} port
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+exports.TemperatureSensorValue = function(data, port) {
+  return new EventData(Type.TEMPERATURE_SENSOR, data, port);
 };

@@ -131,7 +131,7 @@ class Logger {
    */
   setLogger_(name, logLevel, logger, raw) {
     // Enable logger for all errors and higher by default.
-    if ((this.enabled_ || this.logLevel <= 3) && this.logLevel >= logLevel) {
+    if ((this.enabled_ || logLevel <= 3) && this.logLevel >= logLevel) {
       this[name] = this.log_(logger, raw);
     } else {
       this[name] = function() {};

@@ -33,6 +33,7 @@ exports.AntiDOS = {
  */
 exports.CallbackType = {
   NONE: 0x00,
+  DEVICE_INFO: 0x05,
   LOCATION: 0x10,
   RGB: 0x15,
   VERSION: 0x20,
@@ -47,10 +48,22 @@ exports.Command = {
   SYSTEM: {
     PING: [0x00, 0x01],
     VERSION: [0x00, 0x02],
+    DEVICE_NAME: {
+      SET: [0x00, 0x10],
+    },
+    DEVICE_INFO: [0x00, 0x11],
+    AUTO_RECONNECT: {
+      SET: [0x00, 0x12],
+      GET: [0x00, 0x13],
+    },
     POWER_STATE: [0x00, 0x20],
     SLEEP: [0x00, 0x22],
+    INACTIVITY_TIMEOUT: [0x00, 0x25],
   },
   HEADING: [0x02, 0x01],
+  STABILIZATION: [0x02, 0x02],
+  ROTATION_RATE: [0x02, 0x03],
+  SELF_LEVEL: [0x02, 0x09],
   DATA_STREAMING: [0x02, 0x11],
   COLLISION_DETECTION: [0x02, 0x12],
   LOCATION: {

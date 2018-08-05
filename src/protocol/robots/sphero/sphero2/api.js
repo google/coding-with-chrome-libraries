@@ -137,7 +137,7 @@ class Api extends DefaultApi {
     this.exec('setBackLed', {'brightness': 25});
     this.exec('setBackLed');
     this.exec('setRGB', {'green': 128});
-    this.exec('roll', {'speed': 0, 'heading': 180});
+    this.exec('roll', {'speed': 0, 'heading': 0});
   }
 
 
@@ -157,10 +157,10 @@ class Api extends DefaultApi {
    * @private
    */
   updateLocationData_(data) {
-    let xpos = cwc.utils.ByteTools.signedBytesToInt([data[0], data[1]]);
-    let ypos = cwc.utils.ByteTools.signedBytesToInt([data[2], data[3]]);
-    let xvel = cwc.utils.ByteTools.signedBytesToInt([data[4], data[5]]);
-    let yvel = cwc.utils.ByteTools.signedBytesToInt([data[6], data[7]]);
+    let xpos = cwc.utils.ByteTools.signedShortToInt([data[0], data[1]]);
+    let ypos = cwc.utils.ByteTools.signedShortToInt([data[2], data[3]]);
+    let xvel = cwc.utils.ByteTools.signedShortToInt([data[4], data[5]]);
+    let yvel = cwc.utils.ByteTools.signedShortToInt([data[6], data[7]]);
     let speed = cwc.utils.ByteTools.bytesToInt([data[8], data[9]]);
 
     if (xpos != this.locationPosX_ || ypos != this.locationPosY_) {
@@ -187,12 +187,12 @@ class Api extends DefaultApi {
    * @private
    */
   parseCollisionData_(data) {
-    let x = cwc.utils.ByteTools.signedBytesToInt([data[0], data[1]]);
-    let y = cwc.utils.ByteTools.signedBytesToInt([data[2], data[3]]);
-    let z = cwc.utils.ByteTools.signedBytesToInt([data[4], data[5]]);
+    let x = cwc.utils.ByteTools.signedShortToInt([data[0], data[1]]);
+    let y = cwc.utils.ByteTools.signedShortToInt([data[2], data[3]]);
+    let z = cwc.utils.ByteTools.signedShortToInt([data[4], data[5]]);
     let axis = data[6] == 0x01 ? 'y' : 'x';
-    let xMagnitude = cwc.utils.ByteTools.signedBytesToInt([data[7], data[8]]);
-    let yMagnitude = cwc.utils.ByteTools.signedBytesToInt([data[9], data[10]]);
+    let xMagnitude = cwc.utils.ByteTools.signedShortToInt([data[7], data[8]]);
+    let yMagnitude = cwc.utils.ByteTools.signedShortToInt([data[9], data[10]]);
     let speed = data[11];
     this.eventTarget_.dispatchEvent(
       Events.collision({

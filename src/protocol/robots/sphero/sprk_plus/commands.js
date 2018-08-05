@@ -70,6 +70,18 @@ exports.setBackLed = function(brightness = 0) {
 
 
 /**
+ * Gets basic device information.
+ * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ */
+exports.getDeviceInfo = function() {
+  return new Buffer()
+    .setCharacteristic(defaultCharacteristic)
+    .setCallback(Constants.CallbackType.DEVICE_INFO)
+    .setCommand(Constants.Command.SYSTEM.DEVICE_INFO);
+};
+
+
+/**
  * Sets heading.
  * @param {number} heading 0-359
  * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}

@@ -24,6 +24,7 @@ goog.module('cwc.lib.protocol.sphero.sprkPlus.Api');
 
 const ByteTools = goog.require('cwc.lib.utils.byte.Tools');
 const Constants = goog.require('cwc.lib.protocol.sphero.sprkPlus.Constants');
+const Decoder = goog.require('cwc.lib.protocol.sphero.sprkPlus.Decoder');
 const DefaultApi = goog.require('cwc.lib.protocol.Api');
 const Events = goog.require('cwc.lib.protocol.sphero.sprkPlus.Events');
 const Handler = goog.require('cwc.lib.protocol.sphero.sprkPlus.Handler');
@@ -43,24 +44,6 @@ class Api extends DefaultApi {
 
     /** @type {!cwc.lib.protocol.sphero.sprkPlus.Monitoring} */
     this.monitoring = new Monitoring(this);
-
-    /** @private {number} */
-    this.locationPosX_ = 0;
-
-    /** @private {number} */
-    this.locationPosY_ = 0;
-
-    /** @private {number} */
-    this.locationVelX_ = 0;
-
-    /** @private {number} */
-    this.locationVelY_ = 0;
-
-    /** @private {number} */
-    this.locationSog_ = 0;
-
-    /** @private {number} */
-    this.locationSpeed_ = 0;
 
     /** @private {!cwc.lib.utils.StreamReader} */
     this.streamReader_ = new StreamReader()
@@ -112,16 +95,25 @@ class Api extends DefaultApi {
   /**
    * @export
    */
+  disconnect() {
+    this.log_.info('Disconnecting Sphero bluetooth LE api for',
+      this.device.getId());
+    this.exec('stop');
+    this.events_.clear();
+    this.monitoring.cleanUp();
+    this.device.disconnect();
+  }
+
+
+  /**
+   * @export
+   */
   prepare() {
     this.device.listen('22bb746f-2ba6-7554-2d6f-726568705327',
       this.handleData_.bind(this));
-    this.exec('setRGB', {'red': 255, 'persistent': true});
-    this.exec('getRGB');
-    this.exec('setRGB', {'green': 255, 'persistent': true});
-    this.exec('getRGB');
-    this.exec('setRGB', {'blue': 255, 'persistent': true});
-    this.exec('getRGB');
+    this.exec('getDeviceInfo');
     this.exec('setCollisionDetection');
+    this.monitoring.start();
     this.prepared = true;
   }
 
@@ -131,6 +123,7 @@ class Api extends DefaultApi {
    * @export
    */
   monitor(enable) {
+    console.log('monitor', enable, this.isConnected());
     if (enable && this.isConnected()) {
       this.monitoring.start();
     } else if (!enable) {
@@ -145,9 +138,11 @@ class Api extends DefaultApi {
   runTest() {
     this.log_.info('Prepare self test…');
     this.exec('setRGB', {'red': 255, 'persistent': true});
+    this.exec('getRGB');
     this.exec('setRGB', {'green': 255, 'persistent': true});
+    this.exec('getRGB');
     this.exec('setRGB', {'blue': 255, 'persistent': true});
-    this.exec('setRGB', {'persistent': true});
+    this.exec('getRGB');
     this.exec('setBackLed', {'brightness': 100});
     this.exec('setBackLed', {'brightness': 75});
     this.exec('setBackLed', {'brightness': 50});
@@ -159,57 +154,16 @@ class Api extends DefaultApi {
 
 
   /**
-   * Basic cleanup for the Sphero ball.
-   */
-  cleanUp() {
-    this.log_.info('Clean up ...');
-    this.exec('stop');
-    this.events_.clear();
-    this.monitoring.cleanUp();
-  }
-
-
-  /**
-   * @param {Object} data
-   * @private
-   */
-  updateLocationData_(data) {
-    let xpos = ByteTools.signedBytesToInt([data[0], data[1]]);
-    let ypos = ByteTools.signedBytesToInt([data[2], data[3]]);
-    let xvel = ByteTools.signedBytesToInt([data[4], data[5]]);
-    let yvel = ByteTools.signedBytesToInt([data[6], data[7]]);
-    let speed = ByteTools.bytesToInt([data[8], data[9]]);
-
-    if (xpos != this.locationPosX_ || ypos != this.locationPosY_) {
-      this.locationPosX_ = xpos;
-      this.locationPosY_ = ypos;
-      this.eventTarget_.dispatchEvent(Events.locationData({x: xpos, y: ypos}));
-    }
-
-    if (xvel != this.locationVelX_ || yvel != this.locationVelY_) {
-      this.locationVelX_ = xvel;
-      this.locationVelY_ = yvel;
-      this.eventTarget_.dispatchEvent(Events.velocityData({x: xvel, y: yvel}));
-    }
-
-    if (speed != this.locationSpeed_) {
-      this.locationSpeed_ = speed;
-      this.eventTarget_.dispatchEvent(Events.speedValue(speed));
-    }
-  }
-
-
-  /**
    * @param {Object} data
    * @private
    */
   parseCollisionData_(data) {
-    let x = ByteTools.signedBytesToInt([data[0], data[1]]);
-    let y = ByteTools.signedBytesToInt([data[2], data[3]]);
-    let z = ByteTools.signedBytesToInt([data[4], data[5]]);
+    let x = ByteTools.signedShortToInt([data[0], data[1]]);
+    let y = ByteTools.signedShortToInt([data[2], data[3]]);
+    let z = ByteTools.signedShortToInt([data[4], data[5]]);
     let axis = data[6] == 0x01 ? 'y' : 'x';
-    let xMagnitude = ByteTools.signedBytesToInt([data[7], data[8]]);
-    let yMagnitude = ByteTools.signedBytesToInt([data[9], data[10]]);
+    let xMagnitude = ByteTools.signedShortToInt([data[7], data[8]]);
+    let yMagnitude = ByteTools.signedShortToInt([data[9], data[10]]);
     let speed = data[11];
     this.eventTarget_.dispatchEvent(
       Events.collision({
@@ -256,13 +210,21 @@ class Api extends DefaultApi {
     if (messageType === Constants.ResponseType.ACKNOWLEDGEMENT) {
       // Handles received data and callbacks from the Bluetooth socket.
       switch (seq) {
-        case Constants.CallbackType.RGB:
-          this.log_.info('RGB:', data[0], data[1], data[2]);
+        case Constants.CallbackType.DEVICE_INFO: {
+          let deviceInfo = Decoder.deviceInfo(data);
+          this.log_.info('Name:', deviceInfo.name,
+            'Address:', deviceInfo.address, 'Id:', deviceInfo.id);
           break;
-        case Constants.CallbackType.LOCATION:
-          this.log_.info('Location', data);
-          this.updateLocationData_(data);
+        }
+        case Constants.CallbackType.RGB: {
+          this.eventTarget_.dispatchEvent(Events.rgb(Decoder.rgb(data)));
           break;
+        }
+        case Constants.CallbackType.LOCATION: {
+          let location = Decoder.location(data);
+          this.eventTarget_.dispatchEvent(Events.position(location.position));
+          break;
+        }
         default:
           this.log_.info('Received type', seq, 'with', len,
             ' bytes of unknown data:', data);

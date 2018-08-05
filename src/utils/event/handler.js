@@ -47,6 +47,9 @@ class Handler {
 
     /** @private {!Array} */
     this.listener_ = [];
+
+    /** @private {!Object} */
+    this.timer_ = {};
   }
 
 
@@ -85,14 +88,64 @@ class Handler {
 
 
   /**
-   * Removes all defined event listeners in the provided list.
+   * @param {string} key
+   */
+  unlisten(key) {
+    if (typeof key === 'undefined') {
+      this.log_.error('Unknown listener key.');
+    }
+    let result = goog.events.unlistenByKey(key);
+    if (!result) {
+      this.log_.error('Was unable to remove event', event);
+    }
+  }
+
+
+  /**
+   * Adds an event timer with the specific interval.
+   *
+   * @param {function(?)} func
+   * @param {number} interval
+   * @param {string=} name
+   * @return {string}
+   */
+  addTimer(func, interval, name = Math.random().toString(36).substr(2, 9)) {
+    this.timer_[name] = setInterval(func, interval);
+    return name;
+  }
+
+
+  /**
+   * @param {string} name
+   */
+  stopTimer(name) {
+    if (typeof this.timer_[name] === 'undefined') {
+      this.log_.error('Unknown timer', name);
+    } else {
+      clearInterval(this.timer_[name]);
+    }
+  }
+
+
+  /**
+   * Removes all defined event listeners over which are added over .listen.
    */
   clear() {
     this.log_.debug('Clearing', this.listener_.length, 'events listener');
-    for (let i = 0, len = this.listener_.length; i < len; i++) {
-      goog.events.unlistenByKey(this.listener_[i]);
+
+    // Clear Event Listener
+    for (let event of this.listener_) {
+      this.unlisten(event.key);
     }
     this.listener_ = [];
+
+    // Clear Timer
+    for (let timer in this.timer_) {
+      if (this.timer_.hasOwnProperty(timer)) {
+        this.stopTimer(timer);
+      }
+    }
+    this.timer_ = {};
   }
 }
 

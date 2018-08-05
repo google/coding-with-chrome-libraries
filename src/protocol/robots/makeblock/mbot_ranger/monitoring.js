@@ -87,7 +87,7 @@ class Monitoring {
     this.enableMonitor('LINEFOLLOWER',
       Constants.CallbackType.LINEFOLLOWER,
       Constants.Device.LINEFOLLOWER,
-      Constants.Port.LINEFOLLOWER,
+      Constants.Port.LINEFOLLOWER
     );
     this.enableMonitor('TEMPERATUR',
       Constants.CallbackType.TEMPERATURE,

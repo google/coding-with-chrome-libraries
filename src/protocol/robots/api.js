@@ -57,6 +57,9 @@ class Api {
     /** @private {!cwc.lib.utils.event.Handler} */
     this.events_ = new EventHandler(this.name);
 
+    /** @private {!Object} */
+    this.devices_ = {};
+
     /** @private {!Function} */
     this.handler_ = new Handler();
 
@@ -148,6 +151,13 @@ class Api {
     return this.handler_[command](data).readSigned();
   }
 
+
+  /**
+   * @return {Object}
+   */
+  getDevices() {
+    return this.devices_;
+  }
 
   /**
    * @return {!goog.events.EventTarget}

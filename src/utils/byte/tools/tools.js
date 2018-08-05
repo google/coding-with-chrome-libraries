@@ -25,7 +25,7 @@ goog.module('cwc.lib.utils.byte.Tools');
  * @return {number}
  */
 exports.bytesToInt = function(data) {
-  return data[0] << 8 | data[1];
+  return ((data[0] & 0xFF) << 8) + (data[1] & 0xFF);
 };
 
 
@@ -33,8 +33,9 @@ exports.bytesToInt = function(data) {
  * @param {Object} data
  * @return {number}
  */
-exports.signedBytesToInt = function(data) {
-  return ((data[0] << 8 | data[1]) << 16) >> 16;
+exports.signedShortToInt = function(data) {
+  let result = exports.bytesToInt(data);
+  return data[0] & 128 ? 0xffff0000 | result : result;
 };
 
 

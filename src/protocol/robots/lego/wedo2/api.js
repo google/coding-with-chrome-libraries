@@ -87,6 +87,7 @@ class Api extends DefaultApi {
    */
   runTest() {
     this.log_.info('Prepare self test…');
+    this.exec('setRGB', {'color': 10});
     this.exec('setRGB', {'color': 9});
     this.exec('setRGB', {'color': 8});
     this.exec('setRGB', {'color': 7});
@@ -132,7 +133,12 @@ class Api extends DefaultApi {
     if (connected && (type === 34 || type === 35)) {
       this.enableSensorEvents_(port, type);
     }
+    this.devices_[type] = port;
     this.eventTarget_.dispatchEvent(Events.changedDevice(type, port));
+
+    if (this.handler_) {
+      this.handler_.setDevices_(this.devices_);
+    }
   }
 
 

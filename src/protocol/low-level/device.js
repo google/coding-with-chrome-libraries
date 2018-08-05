@@ -63,6 +63,9 @@ class Device {
 
     /** @type {!goog.events.EventTarget} */
     this.eventTarget = new EventTarget();
+
+    /** @private {!Object} */
+    this.listener_ = {};
   }
 
 

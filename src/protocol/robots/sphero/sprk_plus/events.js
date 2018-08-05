@@ -31,6 +31,8 @@ const Type = {
   CHANGED_VELOCITY: 'changed_values',
   COLLISION: 'COLLISION',
   CONNECT: 'connect',
+  POSITION: 'position',
+  RGB: 'rgb',
 };
 
 exports.Type = Type;
@@ -84,4 +86,24 @@ exports.collision = function(data) {
  */
 exports.connect = function(data, step) {
   return new EventData(Type.CONNECT, data, step);
+};
+
+
+/**
+ * @param {string} data
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+exports.rgb = function(data) {
+  return new EventData(Type.RGB, data);
+};
+
+
+/**
+ * @param {string} data
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+exports.position = function(data) {
+  return new EventData(Type.POSITION, data);
 };

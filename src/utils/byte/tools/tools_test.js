@@ -26,22 +26,22 @@ const ByteTools = goog.module.get('cwc.lib.utils.byte.Tools');
 
 describe('ByteTools', function() {
   it('bytesToInt', function() {
-    expect(ByteTools.bytesToInt([0x00000000, 0x00000001])).toEqual(1);
-    expect(ByteTools.bytesToInt([0x00000001, 0x00000000])).toEqual(256);
-    expect(ByteTools.bytesToInt([0x00000001, 0x00000001])).toEqual(257);
-    expect(ByteTools.bytesToInt([0x00000011, 0x00000001])).toEqual(4353);
-    expect(ByteTools.bytesToInt([0x10101010, 0x10101010])).toEqual(269488144);
+    expect(ByteTools.bytesToInt([0x00, 0x00])).toEqual(0);
+    expect(ByteTools.bytesToInt([0x00, 0x01])).toEqual(1);
+    expect(ByteTools.bytesToInt([0x00, 0xFF])).toEqual(255);
+    expect(ByteTools.bytesToInt([0x01, 0x01])).toEqual(257);
+    expect(ByteTools.bytesToInt([0xF0, 0x00])).toEqual(61440);
+    expect(ByteTools.bytesToInt([0xFF, 0xFF])).toEqual(65535);
   });
 
-  it('signedBytesToInt', function() {
-    expect(ByteTools.signedBytesToInt([0xF0F0F0F0, 0xF0F0F0F0])).toBe(-3856);
-    expect(ByteTools.signedBytesToInt([0xFFFFFFFF, 0x00000000])).toBe(-256);
-    expect(ByteTools.signedBytesToInt([0xFFFFFFFF, 0xFFFFFFFF])).toBe(-1);
-    expect(ByteTools.signedBytesToInt([0x00000000, 0x00000001])).toBe(1);
-    expect(ByteTools.signedBytesToInt([0x00000001, 0x00000000])).toBe(256);
-    expect(ByteTools.signedBytesToInt([0x00000001, 0x00000001])).toBe(257);
-    expect(ByteTools.signedBytesToInt([0x00000011, 0x00000001])).toBe(4353);
-    expect(ByteTools.signedBytesToInt([0x10101010, 0x10101010])).toBe(4112);
+  it('signedShortToInt', function() {
+    expect(ByteTools.signedShortToInt([0x80, 0x00])).toBe(-32768);
+    expect(ByteTools.signedShortToInt([0x80, 0x01])).toBe(-32767);
+    expect(ByteTools.signedShortToInt([0xFF, 0xFF])).toBe(-1);
+    expect(ByteTools.signedShortToInt([0x00, 0x00])).toBe(0);
+    expect(ByteTools.signedShortToInt([0x00, 0x01])).toBe(1);
+    expect(ByteTools.signedShortToInt([0x7F, 0xFE])).toBe(32766);
+    expect(ByteTools.signedShortToInt([0x7F, 0xFF])).toBe(32767);
   });
 
   it('bytesToInt32', function() {

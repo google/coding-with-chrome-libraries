@@ -76,10 +76,10 @@ class Api {
 
 
   /**
-   * @param {Function=} callback Will be only called  after an connection.
+   * @return {Promise}
    */
-  requestDevices(callback) {
-    this.devices_.requestDevices(callback);
+  requestDevices() {
+    return this.devices_.requestDevices();
   }
 
 

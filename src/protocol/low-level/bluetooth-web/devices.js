@@ -20,7 +20,7 @@
 goog.module('cwc.lib.protocol.bluetoothWeb.Devices');
 
 const BluetoothDevice = goog.require('cwc.lib.protocol.bluetoothWeb.Device');
-const BluetoothProfile =
+const BluetoothDeviceProfile =
   goog.require('cwc.lib.protocol.bluetoothWeb.profile.Device');
 const Logger = goog.require('cwc.lib.utils.log.Logger');
 
@@ -72,9 +72,7 @@ class Devices {
     return new Promise((resolve, reject) => {
       navigator.bluetooth.requestDevice(filter).then((bluetoothDevice) => {
         try {
-          let device = this.handleRequestDevice_(
-            bluetoothDevice, deviceProfile);
-          resolve(device);
+          resolve(this.handleRequestDevice_(bluetoothDevice, deviceProfile));
         } catch (error) {
           reject(error);
         }
@@ -86,21 +84,27 @@ class Devices {
 
 
   /**
-   * @param {Function=} callback Will be only called  after an connection.
+   * @return {Promise}
    */
-  requestDevices(callback) {
+  requestDevices() {
     let filter = this.getDevicesFilter_();
     this.log_.info('Searching for devices with filter', filter);
-    navigator.bluetooth.requestDevice(filter).then((bluetoothDevice) => {
-      this.handleRequestDevice_(bluetoothDevice);
-      if (callback) {
-        callback();
-      }
+    return new Promise((resolve, reject) => {
+      navigator.bluetooth.requestDevice(filter).then((bluetoothDevice) => {
+        try {
+          resolve(this.handleRequestDevice_(bluetoothDevice));
+        } catch (error) {
+          reject(error);
+        }
+      }).catch((error) => {
+        reject(error);
+      });
     });
   }
 
 
   /**
+   * Get device filter for an single device.
    * @param {!cwc.lib.protocol.bluetoothWeb.profile.Device} device
    * @return {!Object}
    */
@@ -109,6 +113,9 @@ class Devices {
     let services = Object.keys(device.service).map(
       (service) => device.service[service]._id_
     );
+    if (!services) {
+      this.log_.error('Unable to find any service for device', device);
+    }
     if (device.namePrefix) {
       return {
         'filters': [
@@ -126,22 +133,19 @@ class Devices {
   }
 
   /**
+   * Get device filter for all known devices.
    * @return {Object}
    * @private
    */
   getDevicesFilter_() {
     let filters = [];
     let services = [];
-    for (let entry in BluetoothProfile.Device) {
-      if (
-        BluetoothProfile.Device.hasOwnProperty(entry)) {
-        let device = BluetoothProfile.Device[entry];
-        filters.push({'namePrefix': device.namePrefix});
-        services = [...new Set(
-          [...services, ...Object.keys(device.services).map(
-            (service) => device.services[service]
-        )])];
-      }
+    for (let device of BluetoothDeviceProfile.LIST) {
+      filters.push({'namePrefix': device.namePrefix});
+      services = [...new Set(
+        [...services, ...Object.keys(device.service).map(
+          (service) => device.service[service]._id_
+      )])];
     }
     return {
       'filters': filters,
@@ -168,18 +172,19 @@ class Devices {
    * @return {!BluetoothProfile.Device|null}
    */
    getDeviceProfile(device) {
-    for (let entry in BluetoothProfile.Device) {
-      if (
-        BluetoothProfile.Device.hasOwnProperty(entry)) {
-        let profile = BluetoothProfile.Device[entry];
-        if (device['name'] == profile.name ||
-            device['name'].includes(profile.namePrefix)) {
-          this.log_.debug('Found device profile', profile.name, 'for', device);
-          return profile;
-        }
+    let deviceProfile = null;
+    for (let profile of BluetoothDeviceProfile.LIST) {
+      if (profile &&
+          device['name'] == profile.name ||
+          device['name'].includes(profile.namePrefix)) {
+        this.log_.debug('Found device profile', profile.name, 'for', device);
+        deviceProfile = profile;
       }
     }
-    return null;
+    if (!deviceProfile) {
+      this.log_.error('Unable to find device profile for', device);
+    }
+    return deviceProfile;
   }
 
 
@@ -205,11 +210,13 @@ class Devices {
 
   /**
    * @param {?} bluetoothDevice
-   * @param {cwc.lib.protocol.bluetoothWeb.profile.Device=} deviceProfile
+   * @param {cwc.lib.protocol.bluetoothWeb.profile.Device=} profile
    * @return {cwc.protocol.bluetooth.lowEnergy.Device}
    * @private
    */
-  handleRequestDevice_(bluetoothDevice, deviceProfile) {
+  handleRequestDevice_(bluetoothDevice, profile) {
+    let deviceProfile = profile ?
+      profile : this.getDeviceProfile(bluetoothDevice) || {};
     let deviceId = bluetoothDevice['id'];
     let deviceName = bluetoothDevice['name'];
     let device = new BluetoothDevice()

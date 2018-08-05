@@ -34,6 +34,7 @@ class Handler {
    *
    */
   constructor() {
+    this.devices_ = [];
   }
 
 
@@ -93,6 +94,14 @@ class Handler {
       Commands.movePower(0x7f, 0x01),
       Commands.movePower(0x7f, 0x02),
     ];
+  }
+
+  /**
+   * @param {!Object} devices
+   * @private
+   */
+  setDevices_(devices) {
+    this.devices_ = devices;
   }
 }
 

@@ -80,6 +80,15 @@ class Handler {
 
 
   /**
+   * Gets device information.
+   * @return {!ArrayBuffer}
+   */
+  ['getDeviceInfo']() {
+    return Commands.getDeviceInfo();
+  }
+
+
+  /**
    * Reads the current Sphero location.
    * @return {!ArrayBuffer}
    */

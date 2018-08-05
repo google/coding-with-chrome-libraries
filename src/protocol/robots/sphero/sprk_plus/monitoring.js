@@ -21,7 +21,6 @@ goog.module('cwc.lib.protocol.sphero.sprkPlus.Monitoring');
 
 const EventHandler = goog.require('cwc.lib.utils.event.Handler');
 const Logger = goog.require('cwc.lib.utils.log.Logger');
-const Timer = goog.require('goog.Timer');
 
 
 /**
@@ -36,26 +35,16 @@ class Monitoring {
     this.api = api;
 
     /** @type {string} */
-    this.name = 'Sphero SPRK+ Monitoring';
+    this.name = 'Sphero Sprk+ Monitoring';
 
     /** @type {boolean} */
     this.monitor = false;
-
-    /** @type {number} */
-    this.monitorLocationInterval = 1000; // Duration in ms.
-
-    /** @type {goog.Timer} */
-    this.monitorLocation = new Timer(this.monitorLocationInterval);
 
     /** @type {boolean} */
     this.started = false;
 
     /** @private {!cwc.utils.Events} */
     this.events_ = new EventHandler(this.name);
-
-   // Monitor Events
-    this.events_.listen(this.monitorLocation, goog.Timer.TICK,
-      this.updateLocation.bind(this));
 
     /** @private {!cwc.utils.Logger|null} */
     this.log_ = new Logger(this.name);
@@ -70,7 +59,8 @@ class Monitoring {
       return;
     }
     this.log_.info('Starting...');
-    this.monitorLocation.start();
+    this.events_.addTimer(this.updateLocation.bind(this), 1000);
+    this.events_.addTimer(this.updateRGB.bind(this), 2000);
     this.started = true;
   }
 
@@ -83,7 +73,7 @@ class Monitoring {
       return;
     }
     this.log_.info('Stopping...');
-    this.monitorLocation.stop();
+    this.events_.stopTimer('updateLocation');
     this.started = false;
   }
 
@@ -93,10 +83,16 @@ class Monitoring {
    */
   cleanUp() {
     this.log_.info('Clean up ...');
-    this.stop();
     this.events_.clear();
   }
 
+
+  /**
+   * Updates the current RGB.
+   */
+  updateRGB() {
+    this.api.exec('getRGB');
+  }
 
   /**
    * Updates the current location of the Sphero device.

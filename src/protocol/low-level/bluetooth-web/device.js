@@ -43,6 +43,9 @@ class Device extends DefaultDevice {
     this.characteristic_ = {};
 
     /** @private {Object} */
+    this.characteristicListener_ = {};
+
+    /** @private {Object} */
     this.device_ = {};
 
     /** @private {!cwc.utils.StackQueue} */
@@ -92,19 +95,90 @@ class Device extends DefaultDevice {
     });
   }
 
+
+  /**
+   * Disconencts device
+   * @return {boolean}
+   */
+  disconnect() {
+    this.log.info('Diconnecting...');
+    if (this.device_['gatt']['connected']) {
+      if (this.listener_) {
+        this.unlistenAll().then(() => {
+          this.device_['gatt']['disconnect']();
+        });
+      } else {
+        this.device_['gatt']['disconnect']();
+      }
+    }
+    return super.disconnect();
+  }
+
+
   /**
    * Listen to the specific characteristic id.
    * @param {string} characteristicId
    * @param {!Function} func
    */
   listen(characteristicId, func) {
-    this.characteristic_[characteristicId]['startNotifications']().then(() => {
-      this.log.info('Adding event listener for', characteristicId);
-      this.characteristic_[characteristicId]['addEventListener'](
-        'characteristicvaluechanged', (e) => {
-          this.handleData_(e.target.value.buffer, func);
-        });
+    if (typeof func !== 'function') {
+      this.log.error('Invalid listener', func);
+      return;
+    }
+    this.log.info('Adding event listener for', characteristicId);
+    if (!this.listener_[characteristicId]) {
+      this.characteristicListener_[characteristicId] = (event) => {
+        this.handleData_(event, characteristicId);
+      };
+      this.listener_[characteristicId] = [];
+      this.characteristic_[characteristicId]['startNotifications']().then(
+        () => {
+        this.log.info('Start notifications for', characteristicId);
+        this.characteristic_[characteristicId]['addEventListener'](
+          'characteristicvaluechanged',
+          this.characteristicListener_[characteristicId]);
+      });
+    }
+    this.listener_[characteristicId].push(func);
+  }
+
+
+  /**
+   * Remove event listener from the specific characteristic id.
+   * @param {string} characteristicId
+   * @param {!Function} func
+   * @return {Promise}
+   */
+  unlisten(characteristicId) {
+    return new Promise((resolve) => {
+      this.characteristic_[characteristicId]['stopNotifications']().then(() => {
+        this.log.info('Stop notifications for', characteristicId);
+        if (this.characteristicListener_[characteristicId]) {
+          this.log.info('Remove event listener for', characteristicId);
+          this.characteristic_[characteristicId]['removeEventListener'](
+            'characteristicvaluechanged',
+            this.characteristicListener_[characteristicId]);
+          this.characteristicListener_[characteristicId] = null;
+        }
+        resolve();
+      });
+      this.listener_[characteristicId] = null;
     });
+  }
+
+
+  /**
+   * Removes all known event listener.
+   * @return {Promise}
+   */
+  unlistenAll() {
+    let promises = [];
+    for (let characteristic in this.listener_) {
+      if (this.listener_.hasOwnProperty(characteristic)) {
+        promises.push(this.unlisten(characteristic));
+      }
+    }
+    return Promise.all(promises);
   }
 
 
@@ -162,7 +236,7 @@ class Device extends DefaultDevice {
    * @return {string}
    */
   getAddress() {
-    console.error('Bluetooth Web devices are not using addresses.');
+    console.warn('Bluetooth Web devices are not using addresses.');
     return this.id || '';
   }
 
@@ -270,14 +344,19 @@ class Device extends DefaultDevice {
 
 
   /**
-   * @param {?} data
-   * @param {?} callback
+   * @param {?} event
+   * @param {string} characteristicId
    */
-  handleData_(data, callback) {
+  handleData_(event, characteristicId) {
+    let data = event.target.value.buffer;
     if (!data) {
       return;
     }
-    callback(data);
+    if (this.listener_[characteristicId]) {
+      for (let eventHandler of this.listener_[characteristicId]) {
+        eventHandler(data);
+      }
+    }
   }
 }
 

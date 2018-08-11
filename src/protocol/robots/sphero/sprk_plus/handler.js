@@ -171,6 +171,15 @@ class Handler {
 
 
   /**
+   * @param {Object=} data
+   * @return {!ArrayBuffer}
+   */
+  ['setStabilization'](data = {}) {
+    return Commands.setStabilization(data['enable']);
+  }
+
+
+  /**
    * @param {!Object} data
    * @return {!ArrayBuffer}
    */

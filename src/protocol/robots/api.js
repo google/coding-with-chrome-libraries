@@ -44,6 +44,7 @@ class Api {
     /** @type {cwc.lib.protocol.bluetoothWeb.Device|Object} */
     this.device = {
       disconnect: function() {},
+      getId: function() {},
       isConnected: function() {
         return false;
       },

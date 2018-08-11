@@ -70,6 +70,19 @@ exports.setBackLed = function(brightness = 0) {
 
 
 /**
+ * Turns on or off the internal stabilization.
+ * @param {boolean} enable
+ * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ */
+exports.setStabilization = function(enable) {
+  return new Buffer()
+    .setCharacteristic(defaultCharacteristic)
+    .setCommand(Constants.Command.STABILIZATION)
+    .writeByte(enable ? 0x01 : 0x00);
+};
+
+
+/**
  * Gets basic device information.
  * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
  */

@@ -60,7 +60,7 @@ class Monitoring {
     }
     this.log_.info('Starting...');
     this.events_.addTimer(this.updateLocation.bind(this), 1000);
-    this.events_.addTimer(this.updateRGB.bind(this), 2000);
+    this.events_.addTimer(this.updateRGB.bind(this), 10000);
     this.started = true;
   }
 

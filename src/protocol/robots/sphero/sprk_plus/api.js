@@ -68,8 +68,7 @@ class Api extends DefaultApi {
       this.device.sendRaw(
         new TextEncoder('utf-8').encode('011i3'),
         '22bb746f-2bbd-7554-2d6f-726568705327', () => {
-          this.eventTarget_.dispatchEvent(Events.connect(
-            'Enable developer mode ...', 2));
+          this.connectEvent('Enable developer mode ...', 2);
       });
 
       // Power on device.

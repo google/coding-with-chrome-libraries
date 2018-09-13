@@ -155,6 +155,7 @@ exports.setCollisionDetection = function(method = 0x01,
  * @param {number=} x cordination
  * @param {number=} y cordination
  * @param {number=} yaw tare
+ * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
  */
 exports.setLocation = function(flags = 0x01, x = 0x00, y = 0x00, yaw = 0x00) {
   return new Buffer()

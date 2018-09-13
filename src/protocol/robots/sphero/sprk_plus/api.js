@@ -22,7 +22,6 @@
  */
 goog.module('cwc.lib.protocol.sphero.sprkPlus.Api');
 
-const ByteTools = goog.require('cwc.lib.utils.byte.Tools');
 const Constants = goog.require('cwc.lib.protocol.sphero.sprkPlus.Constants');
 const Decoder = goog.require('cwc.lib.protocol.sphero.sprkPlus.Decoder');
 const DefaultApi = goog.require('cwc.lib.protocol.Api');
@@ -205,17 +204,20 @@ class Api extends DefaultApi {
     } else if (messageType === Constants.ResponseType.ASYNCHRONOUS) {
       // Handles async packets from the Bluetooth socket.
       switch (messageResponse) {
-        case Constants.MessageType.PRE_SLEEP:
+        case Constants.MessageType.PRE_SLEEP: {
           this.log_.info('Sphero SPRK+ is tired ...');
           break;
-        case Constants.MessageType.COLLISION_DETECTED:
+        }
+        case Constants.MessageType.COLLISION_DETECTED: {
           let collision = Decoder.collision(data);
           this.log_.info('Collision', data, collision);
           this.eventTarget_.dispatchEvent(Events.collision(collision));
           break;
-        default:
+        }
+        default: {
           this.log_.info('Received message', messageResponse, 'with', len,
             ' bytes of unknown data:', data);
+        }
       }
     } else {
       this.log_.error('Data error ...', dataBuffer);

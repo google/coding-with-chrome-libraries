@@ -153,33 +153,6 @@ class Api extends DefaultApi {
 
 
   /**
-   * @param {Object} data
-   * @private
-   */
-  parseCollisionData_(data) {
-    let x = ByteTools.signedShortToInt([data[0], data[1]]);
-    let y = ByteTools.signedShortToInt([data[2], data[3]]);
-    let z = ByteTools.signedShortToInt([data[4], data[5]]);
-    let axis = data[6] == 0x01 ? 'y' : 'x';
-    let xMagnitude = ByteTools.signedShortToInt([data[7], data[8]]);
-    let yMagnitude = ByteTools.signedShortToInt([data[9], data[10]]);
-    let speed = data[11];
-    this.eventTarget_.dispatchEvent(
-      Events.collision({
-        x: x,
-        y: y,
-        z: z,
-        axis: axis,
-        magnitude: {
-          x: xMagnitude,
-          y: yMagnitude,
-        },
-        speed: speed,
-      }));
-  }
-
-
-  /**
    * @param {!Array} buffer
    * @private
    */
@@ -222,6 +195,7 @@ class Api extends DefaultApi {
         case Constants.CallbackType.LOCATION: {
           let location = Decoder.location(data);
           this.eventTarget_.dispatchEvent(Events.position(location.position));
+          this.eventTarget_.dispatchEvent(Events.velocity(location.velocity));
           break;
         }
         default:
@@ -235,8 +209,9 @@ class Api extends DefaultApi {
           this.log_.info('Sphero SPRK+ is tired ...');
           break;
         case Constants.MessageType.COLLISION_DETECTED:
-          this.log_.info('Collision', data);
-          this.parseCollisionData_(data);
+          let collision = Decoder.collision(data);
+          this.log_.info('Collision', data, collision);
+          this.eventTarget_.dispatchEvent(Events.collision(collision));
           break;
         default:
           this.log_.info('Received message', messageResponse, 'with', len,

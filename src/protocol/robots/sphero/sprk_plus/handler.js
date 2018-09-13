@@ -200,6 +200,16 @@ class Handler {
 
 
   /**
+   * @param {Object=} data
+   * @return {!ArrayBuffer}
+   */
+  ['setLocation'](data = {}) {
+    return Commands.setLocation(
+      data['flags'], data['x'], data['y'], data['yaw']);
+  }
+
+
+  /**
    * Puts the Sphero into sleep.
    * @param {Object=} data
    * @return {!ArrayBuffer}

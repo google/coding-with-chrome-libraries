@@ -135,7 +135,7 @@ exports.roll = function(speed = 50, heading = 0, state = undefined) {
  * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
  */
 exports.setCollisionDetection = function(method = 0x01,
-    thresholdX = 0x60, thresholdY = 0x60, speedX = 0x60, speedY = 0x60,
+    thresholdX = 0x40, thresholdY = 0x40, speedX = 0x40, speedY = 0x40,
     interval = 0x0A) {
   return new Buffer()
     .setCharacteristic(defaultCharacteristic)
@@ -146,6 +146,24 @@ exports.setCollisionDetection = function(method = 0x01,
     .writeByte(speedX)
     .writeByte(speedY)
     .writeByte(interval);
+};
+
+
+/**
+ * Configure locator.
+ * @param {number=} flags 0x00 to disable automatic yaw tare correction.
+ * @param {number=} x cordination
+ * @param {number=} y cordination
+ * @param {number=} yaw tare
+ */
+exports.setLocation = function(flags = 0x01, x = 0x00, y = 0x00, yaw = 0x00) {
+  return new Buffer()
+    .setCharacteristic(defaultCharacteristic)
+    .setCommand(Constants.Command.LOCATION.SET)
+    .writeByte(flags)
+    .writeShort(x)
+    .writeShort(y)
+    .writeShort(yaw);
 };
 
 

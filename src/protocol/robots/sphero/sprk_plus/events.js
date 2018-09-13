@@ -30,6 +30,7 @@ const Type = {
   CONNECT: 'connect',
   POSITION: 'POSITION',
   RGB: 'RGB',
+  VELOCITY: 'VELOCITY',
 };
 
 exports.Type = Type;
@@ -63,6 +64,16 @@ exports.connect = function(data, step) {
  */
 exports.position = function(data) {
   return new EventData(Type.POSITION, data);
+};
+
+
+/**
+ * @param {string} data
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+exports.velocity = function(data) {
+  return new EventData(Type.VELOCITY, data);
 };
 
 

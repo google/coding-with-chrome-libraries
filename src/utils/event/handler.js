@@ -96,7 +96,7 @@ class Handler {
     }
     let result = goog.events.unlistenByKey(key);
     if (!result) {
-      this.log_.error('Was unable to remove event', event);
+      this.log_.error('Was unable to remove event', key);
     }
   }
 

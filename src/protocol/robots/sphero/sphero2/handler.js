@@ -80,6 +80,15 @@ class Handler {
 
 
   /**
+   * Gets device information.
+   * @return {!ArrayBuffer}
+   */
+  ['getDeviceInfo']() {
+    return Commands.getDeviceInfo();
+  }
+
+
+  /**
    * Reads the current Sphero location.
    * @return {!ArrayBuffer}
    */
@@ -178,6 +187,16 @@ class Handler {
   ['setRGB'](data = {}) {
     return Commands.setRGB(
       data['red'], data['green'], data['blue'], data['persistent']);
+  }
+
+
+  /**
+   * @param {Object=} data
+   * @return {!ArrayBuffer}
+   */
+  ['setLocation'](data = {}) {
+    return Commands.setLocation(
+      data['flags'], data['x'], data['y'], data['yaw']);
   }
 
 

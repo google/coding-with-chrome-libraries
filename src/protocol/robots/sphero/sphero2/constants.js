@@ -25,6 +25,7 @@ goog.module('cwc.lib.protocol.sphero.sphero2.Constants');
  */
 exports.CallbackType = {
   NONE: 0x00,
+  DEVICE_INFO: 0x05,
   LOCATION: 0x10,
   RGB: 0x15,
   VERSION: 0x20,
@@ -39,6 +40,7 @@ exports.Command = {
   SYSTEM: {
     PING: [0x00, 0x01],
     VERSION: [0x00, 0x02],
+    DEVICE_INFO: [0x00, 0x11],
     POWER_STATE: [0x00, 0x20],
     SLEEP: [0x00, 0x22],
   },

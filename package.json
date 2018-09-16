@@ -13,7 +13,7 @@
     "jasmine-core": "^3.2.1",
     "jsdoc": "^3.5.5",
     "jsdoc-to-markdown": "^4.0.1",
-    "karma": "^2.0.5",
+    "karma": "^3.0.0",
     "karma-chrome-launcher": "latest",
     "karma-coverage": "^1.1.2",
     "karma-jasmine": "^1.1.2",

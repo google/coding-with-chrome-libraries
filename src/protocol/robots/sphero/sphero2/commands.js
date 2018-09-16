@@ -53,6 +53,17 @@ exports.getRGB = function() {
 
 
 /**
+ * Gets basic device information.
+ * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ */
+exports.getDeviceInfo = function() {
+  return new Buffer()
+    .setCallback(Constants.CallbackType.DEVICE_INFO)
+    .setCommand(Constants.Command.SYSTEM.DEVICE_INFO);
+};
+
+
+/**
  * Sets back-light LED brightness.
  * @param {number} brightness 0-255
  * @return {!cwc.lib.protocol.sphero.sphero2.Buffer}
@@ -113,6 +124,24 @@ exports.setCollisionDetection = function(method = 0x01,
     .writeByte(speedX)
     .writeByte(speedY)
     .writeByte(interval);
+};
+
+
+/**
+ * Configure locator.
+ * @param {number=} flags 0x00 to disable automatic yaw tare correction.
+ * @param {number=} x cordination
+ * @param {number=} y cordination
+ * @param {number=} yaw tare
+ * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ */
+exports.setLocation = function(flags = 0x01, x = 0x00, y = 0x00, yaw = 0x00) {
+  return new Buffer()
+    .setCommand(Constants.Command.LOCATION.SET)
+    .writeByte(flags)
+    .writeShort(x)
+    .writeShort(y)
+    .writeShort(yaw);
 };
 
 

@@ -26,44 +26,14 @@ const EventData = goog.require('cwc.lib.utils.event.Data');
  * @enum {string}
  */
 const Type = {
-  CHANGED_LOCATION: 'changed_devices',
-  CHANGED_SPEED: 'changed_speed',
-  CHANGED_VELOCITY: 'changed_values',
   COLLISION: 'COLLISION',
   CONNECT: 'connect',
+  POSITION: 'POSITION',
+  RGB: 'RGB',
+  VELOCITY: 'VELOCITY',
 };
 
 exports.Type = Type;
-
-
-/**
- * @param {Object} data
- * @return {!cwc.utils.EventData}
- * @final
- */
-exports.locationData = function(data) {
-  return new EventData(Type.CHANGED_LOCATION, data);
-};
-
-
-/**
- * @param {Object} data
- * @return {!cwc.utils.EventData}
- * @final
- */
-exports.velocityData = function(data) {
-  return new EventData(Type.CHANGED_VELOCITY, data);
-};
-
-
-/**
- * @param {Object|number} data
- * @return {!cwc.utils.EventData}
- * @final
- */
-exports.speedValue = function(data) {
-  return new EventData(Type.CHANGED_SPEED, data);
-};
 
 
 /**
@@ -84,4 +54,34 @@ exports.collision = function(data) {
  */
 exports.connect = function(data, step) {
   return new EventData(Type.CONNECT, data, step);
+};
+
+
+/**
+ * @param {string} data
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+exports.position = function(data) {
+  return new EventData(Type.POSITION, data);
+};
+
+
+/**
+ * @param {string} data
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+exports.velocity = function(data) {
+  return new EventData(Type.VELOCITY, data);
+};
+
+
+/**
+ * @param {string} data
+ * @return {!cwc.utils.EventData}
+ * @final
+ */
+exports.rgb = function(data) {
+  return new EventData(Type.RGB, data);
 };

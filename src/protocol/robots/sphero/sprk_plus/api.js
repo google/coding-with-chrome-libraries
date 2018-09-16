@@ -94,8 +94,8 @@ class Api extends DefaultApi {
    * @export
    */
   disconnect() {
-    this.log_.info('Disconnecting Sphero bluetooth LE api for',
-      this.device.getId());
+    this.log_.info('Disconnecting Sphero bluetooth LE api ',
+      this.device.getId() ? 'for ' + this.device.getId() : '...');
     this.exec('stop');
     this.events_.clear();
     this.monitoring.cleanUp();
@@ -121,7 +121,7 @@ class Api extends DefaultApi {
    * @export
    */
   monitor(enable) {
-    console.log('monitor', enable, this.isConnected());
+    this.log_.info('monitor', enable && this.isConnected());
     if (enable && this.isConnected()) {
       this.monitoring.start();
     } else if (!enable) {

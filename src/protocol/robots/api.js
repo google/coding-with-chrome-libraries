@@ -96,6 +96,19 @@ class Api {
 
 
   /**
+   * Perform basic cleanup for device.
+   */
+  cleanUp() {
+    this.log_.info('Clean up ...');
+    this.exec('stop');
+    this.events_.clear();
+    if (this.monitoring) {
+      this.monitoring.cleanUp();
+    }
+  }
+
+
+  /**
    * Disconnects the device.
    */
   disconnect() {

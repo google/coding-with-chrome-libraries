@@ -24,6 +24,7 @@ goog.module('cwc.lib.protocol.sphero.sphero2.Api');
 
 const BluetoothEvents = goog.require('cwc.lib.protocol.bluetoothChrome.Events');
 const Constants = goog.require('cwc.lib.protocol.sphero.sphero2.Constants');
+const Decoder = goog.require('cwc.lib.protocol.sphero.sprkPlus.Decoder');
 const DefaultApi = goog.require('cwc.lib.protocol.Api');
 const Events = goog.require('cwc.lib.protocol.sphero.sphero2.Events');
 const Handler = goog.require('cwc.lib.protocol.sphero.sphero2.Handler');
@@ -43,24 +44,6 @@ class Api extends DefaultApi {
 
     /** @type {!cwc.lib.protocol.sphero.sphero2.Monitoring} */
     this.monitoring = new Monitoring(this);
-
-    /** @private {number} */
-    this.locationPosX_ = 0;
-
-    /** @private {number} */
-    this.locationPosY_ = 0;
-
-    /** @private {number} */
-    this.locationVelX_ = 0;
-
-    /** @private {number} */
-    this.locationVelY_ = 0;
-
-    /** @private {number} */
-    this.locationSog_ = 0;
-
-    /** @private {number} */
-    this.locationSpeed_ = 0;
 
     /** @private {!cwc.lib.utils.StreamReader} */
     this.streamReader_ = new StreamReader()
@@ -98,13 +81,9 @@ class Api extends DefaultApi {
       this.device.getEventTarget(),
       BluetoothEvents.Type.ON_RECEIVE,
       this.handleData_.bind(this));
-    this.exec('setRGB', {'red': 255, 'persistent': true});
-    this.exec('getRGB');
-    this.exec('setRGB', {'green': 255, 'persistent': true});
-    this.exec('getRGB');
-    this.exec('setRGB', {'blue': 255, 'persistent': true});
-    this.exec('getRGB');
+    this.exec('getDeviceInfo');
     this.exec('setCollisionDetection');
+    this.monitoring.start();
     this.prepared = true;
   }
 
@@ -115,8 +94,10 @@ class Api extends DefaultApi {
    */
   monitor(enable) {
     if (enable && this.isConnected()) {
+      this.log_.info('Enable monitoring ...');
       this.monitoring.start();
     } else if (!enable) {
+      this.log_.info('Disable monitoring ...');
       this.monitoring.stop();
     }
   }
@@ -128,84 +109,18 @@ class Api extends DefaultApi {
   runTest() {
     this.log_.info('Prepare self test…');
     this.exec('setRGB', {'red': 255, 'persistent': true});
+    this.exec('getRGB');
     this.exec('setRGB', {'green': 255, 'persistent': true});
+    this.exec('getRGB');
     this.exec('setRGB', {'blue': 255, 'persistent': true});
-    this.exec('setRGB', {'persistent': true});
+    this.exec('getRGB');
     this.exec('setBackLed', {'brightness': 100});
     this.exec('setBackLed', {'brightness': 75});
     this.exec('setBackLed', {'brightness': 50});
     this.exec('setBackLed', {'brightness': 25});
     this.exec('setBackLed');
     this.exec('setRGB', {'green': 128});
-    this.exec('roll', {'speed': 0, 'heading': 0});
-  }
-
-
-  /**
-   * Basic cleanup for the Sphero device.
-   */
-  cleanUp() {
-    this.log_.info('Clean up ...');
-    this.exec('stop');
-    this.events_.clear();
-    this.monitoring.cleanUp();
-  }
-
-
-  /**
-   * @param {Object} data
-   * @private
-   */
-  updateLocationData_(data) {
-    let xpos = cwc.utils.ByteTools.signedShortToInt([data[0], data[1]]);
-    let ypos = cwc.utils.ByteTools.signedShortToInt([data[2], data[3]]);
-    let xvel = cwc.utils.ByteTools.signedShortToInt([data[4], data[5]]);
-    let yvel = cwc.utils.ByteTools.signedShortToInt([data[6], data[7]]);
-    let speed = cwc.utils.ByteTools.bytesToInt([data[8], data[9]]);
-
-    if (xpos != this.locationPosX_ || ypos != this.locationPosY_) {
-      this.locationPosX_ = xpos;
-      this.locationPosY_ = ypos;
-      this.eventTarget_.dispatchEvent(Events.locationData({x: xpos, y: ypos}));
-    }
-
-    if (xvel != this.locationVelX_ || yvel != this.locationVelY_) {
-      this.locationVelX_ = xvel;
-      this.locationVelY_ = yvel;
-      this.eventTarget_.dispatchEvent(Events.velocityData({x: xvel, y: yvel}));
-    }
-
-    if (speed != this.locationSpeed_) {
-      this.locationSpeed_ = speed;
-      this.eventTarget_.dispatchEvent(Events.speedValue(speed));
-    }
-  }
-
-
-  /**
-   * @param {Object} data
-   * @private
-   */
-  parseCollisionData_(data) {
-    let x = cwc.utils.ByteTools.signedShortToInt([data[0], data[1]]);
-    let y = cwc.utils.ByteTools.signedShortToInt([data[2], data[3]]);
-    let z = cwc.utils.ByteTools.signedShortToInt([data[4], data[5]]);
-    let axis = data[6] == 0x01 ? 'y' : 'x';
-    let xMagnitude = cwc.utils.ByteTools.signedShortToInt([data[7], data[8]]);
-    let yMagnitude = cwc.utils.ByteTools.signedShortToInt([data[9], data[10]]);
-    let speed = data[11];
-    this.eventTarget_.dispatchEvent(
-      Events.collision({
-        x: x,
-        y: y,
-        z: z,
-        axis: axis,
-        magnitude: {
-          x: xMagnitude,
-          y: yMagnitude,
-        },
-        speed: speed,
-      }));
+    this.exec('roll', {'speed': 0, 'heading': 180});
   }
 
 
@@ -243,13 +158,21 @@ class Api extends DefaultApi {
       }
       // Handles received data and callbacks from the Bluetooth socket.
       switch (seq) {
+        case Constants.CallbackType.DEVICE_INFO: {
+          let deviceInfo = Decoder.deviceInfo(data);
+          this.log_.info('Name:', deviceInfo.name,
+            'Address:', deviceInfo.address, 'Id:', deviceInfo.id);
+          break;
+        }
         case Constants.CallbackType.RGB:
-          this.log_.info('RGB:', data[0], data[1], data[2]);
+          this.eventTarget_.dispatchEvent(Events.rgb(Decoder.rgb(data)));
           break;
-        case Constants.CallbackType.LOCATION:
-          this.log_.info('Location', data);
-          this.updateLocationData_(data);
+        case Constants.CallbackType.LOCATION: {
+          let location = Decoder.location(data);
+          this.eventTarget_.dispatchEvent(Events.position(location.position));
+          this.eventTarget_.dispatchEvent(Events.velocity(location.velocity));
           break;
+        }
         default:
           this.log_.info('Received type', seq, 'with', len,
             ' bytes of unknown data:', data);
@@ -260,9 +183,11 @@ class Api extends DefaultApi {
         case Constants.MessageType.PRE_SLEEP:
           this.log_.info('Sphero 2.0 is tired ...');
           break;
-        case Constants.MessageType.COLLISION_DETECTED:
-          this.parseCollisionData_(data);
+        case Constants.MessageType.COLLISION_DETECTED: {
+          let collision = Decoder.collision(data);
+          this.eventTarget_.dispatchEvent(Events.collision(collision));
           break;
+        }
         default:
           this.log_.info('Received message', messageResponse, 'with', len,
             ' bytes of unknown data:', data);

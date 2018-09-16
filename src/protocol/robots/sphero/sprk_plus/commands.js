@@ -57,6 +57,18 @@ exports.getRGB = function() {
 
 
 /**
+ * Gets basic device information.
+ * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ */
+exports.getDeviceInfo = function() {
+  return new Buffer()
+    .setCharacteristic(defaultCharacteristic)
+    .setCallback(Constants.CallbackType.DEVICE_INFO)
+    .setCommand(Constants.Command.SYSTEM.DEVICE_INFO);
+};
+
+
+/**
  * Sets back-light LED brightness.
  * @param {number} brightness 0-255
  * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
@@ -79,18 +91,6 @@ exports.setStabilization = function(enable) {
     .setCharacteristic(defaultCharacteristic)
     .setCommand(Constants.Command.STABILIZATION)
     .writeByte(enable ? 0x01 : 0x00);
-};
-
-
-/**
- * Gets basic device information.
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
- */
-exports.getDeviceInfo = function() {
-  return new Buffer()
-    .setCharacteristic(defaultCharacteristic)
-    .setCallback(Constants.CallbackType.DEVICE_INFO)
-    .setCommand(Constants.Command.SYSTEM.DEVICE_INFO);
 };
 
 

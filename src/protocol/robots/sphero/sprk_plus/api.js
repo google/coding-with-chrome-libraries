@@ -60,8 +60,9 @@ class Api extends DefaultApi {
    */
   connect(device) {
     if (super.connect(device)) {
+      this.connectEvent('Connected!', 1);
       this.log_.info('Preparing Sphero bluetooth LE api for', device.getId());
-      this.connectEvent('Preparing device ...', 1);
+      this.connectEvent('Preparing device ...', 2);
 
       // Enable Developer mode.
       this.device.sendRaw(
@@ -82,7 +83,7 @@ class Api extends DefaultApi {
         new Uint8Array([0x01]), '22bb746f-2bbf-7554-2d6f-726568705327', () => {
           this.prepare();
           this.runTest();
-          this.connectEvent('Ready ...', 3);
+          this.connectEvent('Ready!', 3);
       });
       return true;
     }

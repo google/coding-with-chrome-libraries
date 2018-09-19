@@ -59,8 +59,8 @@ class Monitoring {
       return;
     }
     this.log_.info('Starting...');
-    this.events_.addTimer(this.updateLocation.bind(this), 1000);
-    this.events_.addTimer(this.updateRGB.bind(this), 10000);
+    this.events_.addTimer(this.updateLocation.bind(this), 500);
+    this.events_.addTimer(this.updateRGB.bind(this), 9000);
     this.started = true;
   }
 

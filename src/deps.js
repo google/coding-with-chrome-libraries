@@ -8,9 +8,10 @@ goog.addDependency('../../../../src/protocol/low-level/bluetooth-chrome/events.j
 goog.addDependency('../../../../src/protocol/low-level/bluetooth-chrome/profile.js', ['cwc.lib.protocol.bluetoothChrome.Profile'], [], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/low-level/bluetooth-chrome/profile/device.js', ['cwc.lib.protocol.bluetoothChrome.profile.Device'], ['cwc.lib.protocol.bluetoothChrome.profile.Service'], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/low-level/bluetooth-chrome/profile/service.js', ['cwc.lib.protocol.bluetoothChrome.profile.Service'], [], {'module': 'goog'});
-goog.addDependency('../../../../src/protocol/low-level/bluetooth-web/api.js', ['cwc.lib.protocol.bluetoothWeb.Api'], ['cwc.lib.protocol.bluetoothWeb.Devices', 'cwc.lib.utils.log.Logger'], {'module': 'goog'});
-goog.addDependency('../../../../src/protocol/low-level/bluetooth-web/device.js', ['cwc.lib.protocol.bluetoothWeb.Device'], ['cwc.lib.protocol.Device', 'cwc.lib.utils.Stack'], {'module': 'goog'});
+goog.addDependency('../../../../src/protocol/low-level/bluetooth-web/api.js', ['cwc.lib.protocol.bluetoothWeb.Api'], ['cwc.lib.protocol.bluetoothWeb.Devices', 'cwc.lib.utils.log.Logger', 'goog.events.EventTarget'], {'module': 'goog'});
+goog.addDependency('../../../../src/protocol/low-level/bluetooth-web/device.js', ['cwc.lib.protocol.bluetoothWeb.Device'], ['cwc.lib.protocol.Device', 'cwc.lib.protocol.bluetoothWeb.Events', 'cwc.lib.utils.Stack'], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/low-level/bluetooth-web/devices.js', ['cwc.lib.protocol.bluetoothWeb.Devices'], ['cwc.lib.protocol.bluetoothWeb.Device', 'cwc.lib.protocol.bluetoothWeb.profile.Device', 'cwc.lib.utils.log.Logger'], {'module': 'goog'});
+goog.addDependency('../../../../src/protocol/low-level/bluetooth-web/events.js', ['cwc.lib.protocol.bluetoothWeb.Events'], ['cwc.lib.utils.event.Data'], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/low-level/bluetooth-web/profile/device/device.js', ['cwc.lib.protocol.bluetoothWeb.profile.Device'], [], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/low-level/device.js', ['cwc.lib.protocol.Device'], ['cwc.lib.utils.log.Logger', 'goog.events.EventTarget'], {'module': 'goog'});
 goog.addDependency('../../../../src/protocol/robots/api.js', ['cwc.lib.protocol.Api'], ['cwc.lib.utils.event.Data', 'cwc.lib.utils.event.Handler', 'cwc.lib.utils.log.Logger', 'cwc.lib.utils.stream.Reader', 'goog.events.EventTarget'], {'module': 'goog'});

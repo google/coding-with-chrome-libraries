@@ -64,6 +64,9 @@ class Device {
     /** @type {!goog.events.EventTarget} */
     this.eventTarget = new EventTarget();
 
+    /** @type {!goog.events.EventTarget} */
+    this.externalEventTarget = new EventTarget();
+
     /** @private {!Object} */
     this.listener_ = {};
   }
@@ -137,6 +140,18 @@ class Device {
     }
     return this.eventTarget;
   }
+
+
+  /**
+   * @param {!goog.events.EventTarget} eventTarget
+   * @return {THIS}
+   * @template THIS
+   */
+  setExternalEventTarget(eventTarget) {
+    this.externalEventTarget = eventTarget;
+    return this;
+  }
+
 
   /**
    * @param {boolean} paired

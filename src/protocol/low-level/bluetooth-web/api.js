@@ -20,6 +20,7 @@
 goog.module('cwc.lib.protocol.bluetoothWeb.Api');
 
 const BluetoothDevices = goog.require('cwc.lib.protocol.bluetoothWeb.Devices');
+const EventTarget = goog.require('goog.events.EventTarget');
 const Logger = goog.require('cwc.lib.utils.log.Logger');
 
 
@@ -40,8 +41,11 @@ class Api {
     /** @type {boolean} */
     this.prepared = false;
 
+    /** @private {!goog.events.EventTarget} */
+    this.eventTarget_ = new EventTarget();
+
     /** @private {cwc.lib.protocol.bluetoothWeb.Devices} */
-    this.devices_ = new BluetoothDevices();
+    this.devices_ = new BluetoothDevices(this.eventTarget_);
 
     /** @private {!cwc.utils.Logger} */
     this.log_ = new Logger(this.name);
@@ -49,7 +53,7 @@ class Api {
 
 
   /**
-   * Prepares the bluetooth le api and monitors Bluetooth adapter.
+   * Prepares the bluetooth web api and monitors Bluetooth adapter.
    */
   prepare() {
     if (!navigator.bluetooth) {
@@ -82,7 +86,6 @@ class Api {
     return this.devices_.requestDevices();
   }
 
-
   /**
    * @param {string} id
    * @return {cwc.protocol.bluetooth.lowEnergy.Device}
@@ -106,6 +109,13 @@ class Api {
    */
   getDevicesByName(name) {
     return this.devices_.getDevicesByName(name);
+  }
+
+  /**
+   * @return {!goog.events.EventTarget}
+   */
+  getEventTarget() {
+    return this.eventTarget_;
   }
 }
 

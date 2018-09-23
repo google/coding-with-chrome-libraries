@@ -30,9 +30,9 @@ const Logger = goog.require('cwc.lib.utils.log.Logger');
  */
 class Devices {
   /**
-   *
+   * @param {!goog.events.EventTarget} eventTarget
    */
-  constructor() {
+  constructor(eventTarget) {
     /** @type {string} */
     this.name = 'Bluetooth Web Devices';
 
@@ -44,6 +44,9 @@ class Devices {
 
     /** @private {Object} */
     this.deviceTypeMap_ = {};
+
+    /** @private {!goog.events.EventTarget} */
+    this.eventTarget_ = eventTarget;
 
     /** @private {!cwc.lib.utils.Logger} */
     this.log_ = new Logger(this.name);
@@ -222,11 +225,11 @@ class Devices {
     let device = new BluetoothDevice()
       .setConnected(bluetoothDevice['gatt']['connected'])
       .setDevice(bluetoothDevice)
+      .setExternalEventTarget(this.eventTarget_)
       .setId(deviceId)
       .setLogName('Bluetooth LE Device ' + deviceId)
       .setName(deviceName)
       .setProfile(deviceProfile);
-    device.addEventHandler();
     this.devices[deviceId] = device;
 
     // Storing device in type map for easy access.

@@ -19,6 +19,7 @@
  */
 goog.module('cwc.lib.protocol.bluetoothWeb.Device');
 
+const BluetoothEvents = goog.require('cwc.lib.protocol.bluetoothWeb.Events');
 const DefaultDevice = goog.require('cwc.lib.protocol.Device');
 const StackQueue = goog.require('cwc.lib.utils.Stack');
 
@@ -50,15 +51,6 @@ class Device extends DefaultDevice {
 
     /** @private {!cwc.utils.StackQueue} */
     this.stack_ = new StackQueue.Queue();
-  }
-
-
-  /**
-   * Add relevant event handler.
-   */
-  addEventHandler() {
-    this.device_.addEventListener('gattserverdisconnected',
-      this.handleDisconnect_.bind(this));
   }
 
 
@@ -274,6 +266,12 @@ class Device extends DefaultDevice {
         promises.push(this.connectService_(serviceId, characteristics));
       }
     }
+    this.device_['addEventListener']('gattserverdisconnected',
+      this.handleDisconnect_.bind(this));
+    this.eventTarget.dispatchEvent(
+      BluetoothEvents.deviceState({connected: true}));
+    this.externalEventTarget.dispatchEvent(
+      BluetoothEvents.deviceState({connected: true}));
     return Promise.all(promises);
   }
 
@@ -285,6 +283,10 @@ class Device extends DefaultDevice {
   handleDisconnect_(event) {
     console.log('Disconnected!', event);
     this.connected = false;
+    this.eventTarget.dispatchEvent(
+      BluetoothEvents.deviceState({connected: false}));
+    this.externalEventTarget.dispatchEvent(
+      BluetoothEvents.deviceState({connected: false}));
   }
 
 

@@ -25,6 +25,14 @@ goog.module('cwc.lib.utils.Feature');
 /**
  * @return {boolean}
  */
+exports.hasBluetooth = function() {
+  return typeof chrome.bluetooth !== 'undefined';
+};
+
+
+/**
+ * @return {boolean}
+ */
 exports.hasBluetoothWeb = function() {
   return typeof navigator.bluetooth !== 'undefined';
 };

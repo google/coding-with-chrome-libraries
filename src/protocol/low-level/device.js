@@ -37,6 +37,9 @@ class Device {
     /** @type {boolean} */
     this.connected = false;
 
+    /** @type {boolean} */
+    this.prepared = false;
+
     /** @type {string} */
     this.name = 'Default Device';
 

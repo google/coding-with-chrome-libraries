@@ -254,7 +254,6 @@ class Device extends DefaultDevice {
    */
   handleConnect_() {
     let promises = [];
-
     // Pre-connect available services and characteristics.
     for (let service in this.profile.service) {
       if (this.profile.service.hasOwnProperty(service)) {
@@ -266,8 +265,11 @@ class Device extends DefaultDevice {
         promises.push(this.connectService_(serviceId, characteristics));
       }
     }
-    this.device_['addEventListener']('gattserverdisconnected',
-      this.handleDisconnect_.bind(this));
+    if (!this.prepared) {
+      this.device_['addEventListener']('gattserverdisconnected',
+        this.handleDisconnect_.bind(this));
+      this.prepared = true;
+    }
     this.eventTarget.dispatchEvent(
       BluetoothEvents.deviceState({connected: true}));
     this.externalEventTarget.dispatchEvent(
@@ -277,12 +279,14 @@ class Device extends DefaultDevice {
 
 
   /**
-   * @param {!Object} event
+   * Handles disconnect.
    * @private
    */
-  handleDisconnect_(event) {
-    console.log('Disconnected!', event);
+  handleDisconnect_() {
+    this.log.info('Disconnected!');
     this.connected = false;
+    this.device_['removeEventListener']('gattserverdisconnected',
+      this.handleDisconnect_.bind(this));
     this.eventTarget.dispatchEvent(
       BluetoothEvents.deviceState({connected: false}));
     this.externalEventTarget.dispatchEvent(

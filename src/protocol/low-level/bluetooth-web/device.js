@@ -282,6 +282,8 @@ class Device extends DefaultDevice {
    */
   handleDisconnect_(event) {
     console.log('Disconnected!', event);
+    this.device_['removeEventListener']('gattserverdisconnected',
+      this.handleDisconnect_.bind(this));
     this.connected = false;
     this.eventTarget.dispatchEvent(
       BluetoothEvents.deviceState({connected: false}));

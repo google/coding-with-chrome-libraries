@@ -248,13 +248,12 @@ class Device extends DefaultDevice {
 
 
   /**
-   * Handles connect and pre-connect avaible services.
+   * Handles connect and pre-connect available services.
    * @return {Promise}
    * @private
    */
   handleConnect_() {
     let promises = [];
-
     // Pre-connect available services and characteristics.
     for (let service in this.profile.service) {
       if (this.profile.service.hasOwnProperty(service)) {
@@ -266,8 +265,11 @@ class Device extends DefaultDevice {
         promises.push(this.connectService_(serviceId, characteristics));
       }
     }
-    this.device_['addEventListener']('gattserverdisconnected',
-      this.handleDisconnect_.bind(this));
+    if (!this.prepared) {
+      this.device_['addEventListener']('gattserverdisconnected',
+        this.handleDisconnect_.bind(this));
+      this.prepared = true;
+    }
     this.eventTarget.dispatchEvent(
       BluetoothEvents.deviceState({connected: true}));
     this.externalEventTarget.dispatchEvent(
@@ -277,14 +279,15 @@ class Device extends DefaultDevice {
 
 
   /**
-   * @param {!Object} event
+   * Handles disconnect.
+   * @param {?} event
    * @private
    */
   handleDisconnect_(event) {
     console.log('Disconnected!', event);
+    this.connected = false;
     this.device_['removeEventListener']('gattserverdisconnected',
       this.handleDisconnect_.bind(this));
-    this.connected = false;
     this.eventTarget.dispatchEvent(
       BluetoothEvents.deviceState({connected: false}));
     this.externalEventTarget.dispatchEvent(
@@ -293,7 +296,7 @@ class Device extends DefaultDevice {
 
 
   /**
-   * Handles connected service and pre-connect avalible characteristic.
+   * Handles connected service and pre-connect available characteristic.
    * @param {string} serviceId
    * @param {Array=} characteristics
    * @return {Promise}

@@ -26,7 +26,7 @@ goog.module('cwc.lib.utils.Feature');
  * @return {boolean}
  */
 exports.hasBluetooth = function() {
-  return typeof chrome.bluetooth !== 'undefined';
+  return exports.getChromeFeature('bluetooth') ? true : false;
 };
 
 
@@ -42,7 +42,7 @@ exports.hasBluetoothWeb = function() {
  * @return {boolean}
  */
 exports.hasBluetoothWebLight = function() {
-  return exports.isWindows() && exports.hasBluetoothWeb();
+  return exports.isWindows() && exports.hasBluetoothWeb() ? true : false;
 };
 
 
@@ -62,23 +62,31 @@ exports.getChromeFeature = function(name) {
   if (typeof chrome === 'undefined') {
     return false;
   }
-  return exports.getFeature(
-    name.startsWith('chrome.') ? name : 'chrome.' + name);
+  let feature = null;
+  switch (name) {
+    case 'bluetooth':
+      feature = chrome.bluetooth;
+      break;
+  }
+  return exports.getFeature(feature, 'chrome.' + name);
 };
 
 
 /**
- * @param {string} name
+ * @param {Object|Function} feature
+ * @param {string=} name
  * @return {boolean|Object|Function}
  */
-exports.getFeature = function(name) {
+exports.getFeature = function(feature, name = '') {
+  let result = false;
   try {
-    let feature = Function('return ' + name)();
     if (typeof feature === 'object' || typeof feature === 'function') {
-      return feature;
+      result = feature;
     }
   } finally {
-    console.warn('Feature', name, 'is unsupported!');
+    if (name && !result) {
+      console.warn('Feature', name, 'is unsupported!');
+    }
   }
-  return false;
+  return result;
 };

@@ -27,6 +27,7 @@ const Commands = goog.require('cwc.lib.protocol.sphero.sphero2.Commands');
 
 /**
  * @class
+ * @unrestricted
  */
 class Handler {
   /**

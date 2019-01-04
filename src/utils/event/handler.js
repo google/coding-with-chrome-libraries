@@ -39,7 +39,7 @@ class Handler {
     /** @type {string} */
     this.prefix = prefix || '';
 
-    /** @type {Object} */
+    /** @type {Object|undefined} */
     this.scope = scope;
 
     /** @private {!cwc.utils.Logger} */
@@ -71,14 +71,14 @@ class Handler {
       eventTarget = document.getElementById(this.prefix + src);
       if (!eventTarget) {
         this.log_.error('Unable to find listener element', this.prefix + src);
-        return;
+        return null;
       }
     } else {
       eventTarget = src;
     }
     if (!eventTarget) {
       this.log_.error('Undefined listener event target!', eventTarget);
-      return;
+      return null;
     }
     let listenerKey = goog.events.listen(eventTarget, type, listener, capture,
         scope || this.scope);
@@ -88,7 +88,7 @@ class Handler {
 
 
   /**
-   * @param {string} key
+   * @param {number|goog.events.ListenableKey|null} key
    */
   unlisten(key) {
     if (typeof key === 'undefined') {

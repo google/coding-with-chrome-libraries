@@ -205,7 +205,7 @@ class Buffer {
 
 
   /**
-   * @return {string}
+   * @return {string|number}
    */
   getCharacteristic() {
     return this.meta['characteristic'];

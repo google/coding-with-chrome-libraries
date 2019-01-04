@@ -28,6 +28,7 @@ const Constants = goog.require('cwc.lib.protocol.lego.weDo2.Constants');
 
 /**
  * @class
+ * @unrestricted
  */
 class Handler {
   /**

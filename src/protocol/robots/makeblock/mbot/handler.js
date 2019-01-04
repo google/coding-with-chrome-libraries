@@ -25,6 +25,7 @@ const Constants = goog.require('cwc.lib.protocol.makeblock.mBot.Constants');
 
 /**
  * @class
+ * @unrestricted
  */
 class Handler {
   /**

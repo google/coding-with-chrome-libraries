@@ -26,6 +26,7 @@ const Constants =
 
 /**
  * @class
+ * @unrestricted
  */
 class Handler {
   /**

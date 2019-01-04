@@ -29,6 +29,7 @@ class Logger {
   /**
    * @param {string=} name
    * @param {number=} logLevel
+   * @unrestricted
    */
   constructor(name = 'Logger', logLevel = LogLevel.NOTICE) {
     /** @type {string} */
@@ -84,7 +85,7 @@ class Logger {
 
 
   /**
-   * @param {!cwc.lib.utils.LogLevel} logLevel
+   * @param {!cwc.lib.utils.log.Level} logLevel
    */
   setLogLevel(logLevel) {
     this.logLevel = logLevel;
@@ -124,7 +125,7 @@ class Logger {
 
   /**
    * @param {string} name
-   * @param {!cwc.lib.utils.LogLevel} logLevel
+   * @param {!cwc.lib.utils.log.Level} logLevel
    * @param {!Function} logger
    * @param {boolean=} raw
    * @private

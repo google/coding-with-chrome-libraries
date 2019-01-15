@@ -20,8 +20,8 @@
 goog.module('cwc.lib.protocol.Api');
 
 const EventData = goog.require('cwc.lib.utils.event.Data');
-const EventTarget = goog.require('goog.events.EventTarget');
 const EventHandler = goog.require('cwc.lib.utils.event.Handler');
+const EventTarget = goog.require('goog.events.EventTarget');
 const Logger = goog.require('cwc.lib.utils.log.Logger');
 const StreamReader = goog.require('cwc.lib.utils.stream.Reader');
 
@@ -41,7 +41,7 @@ class Api {
     /** @type {boolean} */
     this.prepared = false;
 
-    /** @type {cwc.lib.protocol.bluetoothWeb.Device|Object} */
+    /** @type {!cwc.lib.protocol.bluetoothWeb.Device|!Object} */
     this.device = {
       disconnect: function() {},
       getId: function() {},
@@ -52,10 +52,10 @@ class Api {
       send: function() {},
     };
 
-    /** @type {!goog.events.EventTarget} */
+    /** @type {!EventTarget} */
     this.eventTarget_ = new EventTarget();
 
-    /** @private {!cwc.lib.utils.event.Handler} */
+    /** @private {!EventHandler} */
     this.events_ = new EventHandler(this.name);
 
     /** @private {!Object} */
@@ -64,10 +64,10 @@ class Api {
     /** @private {!Function} */
     this.handler_ = new Handler();
 
-    /** @private {!cwc.lib.utils.StreamReader} */
+    /** @private {!StreamReader} */
     this.streamReader_ = new StreamReader();
 
-    /** @private {!cwc.lib.utils.Logger} */
+    /** @private {!Logger} */
     this.log_ = new Logger(this.name);
   }
 
@@ -131,7 +131,7 @@ class Api {
   /**
    * Executer for the default handler commands.
    * @param {string} command
-   * @param {Object=} data
+   * @param {?Object=} data
    * @export
    */
   exec(command, data = {}) {
@@ -148,7 +148,7 @@ class Api {
 
   /**
    * @param {string} command
-   * @param {Object=} data
+   * @param {?Object=} data
    * @return {!ArrayBuffer}
    */
   getBuffer(command, data = {}) {
@@ -158,7 +158,7 @@ class Api {
 
   /**
    * @param {string} command
-   * @param {Object=} data
+   * @param {?Object=} data
    * @return {!ArrayBuffer}
    */
   getBufferSigned(command, data = {}) {
@@ -167,14 +167,14 @@ class Api {
 
 
   /**
-   * @return {Object}
+   * @return {!Object}
    */
   getDevices() {
     return this.devices_;
   }
 
   /**
-   * @return {!goog.events.EventTarget}
+   * @return {!EventTarget}
    */
   getEventTarget() {
     return this.eventTarget_;
@@ -198,7 +198,7 @@ class Api {
 
 
   /**
-   * @param {!Array<ArrayBuffer>|ArrayBuffer} buffer
+   * @param {!Array<!ArrayBuffer>|!ArrayBuffer} buffer
    * @param {string=} characteristicId
    * @private
    */

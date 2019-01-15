@@ -88,7 +88,7 @@ class Handler {
 
   /**
    * Stops the Sphero device.
-   * @return {!Array<cwc.lib.protocol.lego.weDo2.Buffer>}
+   * @return {!Array<!cwc.lib.protocol.lego.weDo2.Buffer>}
    */
   ['stop']() {
     return [

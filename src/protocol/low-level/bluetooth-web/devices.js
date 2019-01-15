@@ -36,19 +36,19 @@ class Devices {
     /** @type {string} */
     this.name = 'Bluetooth Web Devices';
 
-    /** @type {Object} */
+    /** @type {!Object} */
     this.devices = {};
 
     /** @type {boolean} */
     this.prepared = false;
 
-    /** @private {Object} */
+    /** @private {!Object} */
     this.deviceTypeMap_ = {};
 
     /** @private {!goog.events.EventTarget} */
     this.eventTarget_ = eventTarget;
 
-    /** @private {!cwc.lib.utils.Logger} */
+    /** @private {!Logger} */
     this.log_ = new Logger(this.name);
   }
 
@@ -66,8 +66,8 @@ class Devices {
 
 
   /**
-   * @param {!cwc.lib.protocol.bluetoothWeb.profile.Device} deviceProfile
-   * @return {Promise}
+   * @param {!BluetoothDeviceProfile} deviceProfile
+   * @return {!Promise}
    */
   requestDevice(deviceProfile) {
     let filter = this.getDeviceFilter_(deviceProfile);
@@ -87,7 +87,7 @@ class Devices {
 
 
   /**
-   * @return {Promise}
+   * @return {!Promise}
    */
   requestDevices() {
     let filter = this.getDevicesFilter_();
@@ -108,7 +108,7 @@ class Devices {
 
   /**
    * Get device filter for an single device.
-   * @param {!cwc.lib.protocol.bluetoothWeb.profile.Device} device
+   * @param {!BluetoothDeviceProfile} device
    * @return {!Object}
    */
   getDeviceFilter_(device) {
@@ -137,7 +137,7 @@ class Devices {
 
   /**
    * Get device filter for all known devices.
-   * @return {Object}
+   * @return {!Object}
    * @private
    */
   getDevicesFilter_() {
@@ -159,7 +159,7 @@ class Devices {
 
   /**
    * @param {string} id
-   * @return {cwc.protocol.bluetooth.lowEnergy.Device}
+   * @return {?cwc.protocol.bluetooth.lowEnergy.Device}
    */
   getDevice(id) {
     if (id in this.devices) {
@@ -192,7 +192,7 @@ class Devices {
 
 
   /**
-   * @return {Object}
+   * @return {!Object}
    */
   getDevices() {
     return this.devices;
@@ -201,7 +201,7 @@ class Devices {
 
   /**
    * @param {string} name
-   * @return {Array.<cwc.protocol.bluetooth.lowEnergy.Device>}
+   * @return {?Array.<!cwc.protocol.bluetooth.lowEnergy.Device>}
    */
   getDevicesByName(name) {
     if (name in this.deviceTypeMap_) {
@@ -213,8 +213,8 @@ class Devices {
 
   /**
    * @param {?} bluetoothDevice
-   * @param {cwc.lib.protocol.bluetoothWeb.profile.Device=} profile
-   * @return {cwc.protocol.bluetooth.lowEnergy.Device}
+   * @param {?BluetoothDeviceProfile=} profile
+   * @return {!cwc.protocol.bluetooth.lowEnergy.Device}
    * @private
    */
   handleRequestDevice_(bluetoothDevice, profile) {

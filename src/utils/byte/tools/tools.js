@@ -21,7 +21,7 @@ goog.module('cwc.lib.utils.byte.Tools');
 
 
 /**
- * @param {Object} data
+ * @param {!Object} data
  * @return {number}
  */
 exports.bytesToInt = function(data) {
@@ -30,7 +30,7 @@ exports.bytesToInt = function(data) {
 
 
 /**
- * @param {Object} data
+ * @param {!Object} data
  * @return {number}
  */
 exports.signedShortToInt = function(data) {
@@ -40,7 +40,7 @@ exports.signedShortToInt = function(data) {
 
 
 /**
- * @param {Object} data
+ * @param {!Object} data
  * @return {number}
  */
 exports.bytesToInt32 = function(data) {
@@ -49,7 +49,7 @@ exports.bytesToInt32 = function(data) {
 
 
 /**
- * @param {Object} data
+ * @param {!Object} data
  * @return {number}
  */
 exports.bytesToInt32Alternative = function(data) {
@@ -59,7 +59,7 @@ exports.bytesToInt32Alternative = function(data) {
 
 
 /**
- * @param {Object} data
+ * @param {!Object} data
  * @return {number}
  */
 exports.bytesToFloat32 = function(data) {
@@ -91,7 +91,7 @@ exports.toUint8Array = function(data) {
 
 
 /**
- * @param {!ArrayBuffer|Uint8Array} data
+ * @param {!ArrayBuffer|!Uint8Array} data
  * @return {string}
  */
 exports.toString = function(data) {
@@ -100,7 +100,7 @@ exports.toString = function(data) {
 
 
 /**
- * @param {!ArrayBuffer|ArrayBufferView|Uint8Array} data
+ * @param {!ArrayBuffer|!ArrayBufferView|!Uint8Array} data
  * @return {string}
  */
 exports.toUTF8 = function(data) {
@@ -112,8 +112,8 @@ exports.toUTF8 = function(data) {
 
 
 /**
-  * @param {!ArrayBuffer|Array} data1
-  * @param {!ArrayBuffer|Array} data2
+  * @param {!ArrayBuffer|!Array} data1
+  * @param {!ArrayBuffer|!Array} data2
   * @return {boolean}
   */
 exports.isArrayBufferEqual = function(data1, data2) {
@@ -130,8 +130,8 @@ exports.isArrayBufferEqual = function(data1, data2) {
 
 
 /**
- * @param {Uint8Array} data1
- * @param {Uint8Array} data2
+ * @param {!Uint8Array} data1
+ * @param {!Uint8Array} data2
  * @return {!Uint8Array}
  */
 exports.joinUint8Array = function(data1, data2) {
@@ -146,7 +146,7 @@ exports.joinUint8Array = function(data1, data2) {
 
 
 /**
- * @param {!ArrayBuffer|Uint8Array} data
+ * @param {!ArrayBuffer|!Uint8Array} data
  * @return {!Uint8Array}
  */
 exports.getUint8Array = function(data) {
@@ -162,11 +162,11 @@ exports.getUint8Array = function(data) {
 
 
 /**
- * @param {ArrayBuffer|Uint8Array} data
- * @param {Array=} headers
+ * @param {!ArrayBuffer|!Uint8Array} data
+ * @param {?Array=} headers
  * @param {number=} size
- * @param {ArrayBuffer|Uint8Array=} buffer
- * @return {Object} with data and buffer
+ * @param {?ArrayBuffer|?Uint8Array=} buffer
+ * @return {!Object} with data and buffer
  */
 exports.getUint8Data = function(data, headers, size, buffer) {
   // Prepare Data Buffer
@@ -234,10 +234,10 @@ exports.getUint8Data = function(data, headers, size, buffer) {
 
 
 /**
- * Returns the bytes position in the given data stream.
- * @param {Uint8Array|Array} data
- * @param {Array} bytes
- * @return {Array|null}
+ * Returns the bytes positions in the given data stream.
+ * @param {!Uint8Array|!Array} data
+ * @param {!Array} bytes
+ * @return {?Array}
  */
 exports.getBytePositions = function(data, bytes) {
   if (!data || !bytes) {

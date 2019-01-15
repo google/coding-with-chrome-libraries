@@ -36,7 +36,7 @@ exports.Type = Type;
 
 
 /**
- * @param {Object} data
+ * @param {!Object} data
  * @return {!cwc.utils.EventData}
  */
 exports.buttonPressed = function(data) {
@@ -55,7 +55,7 @@ exports.connect = function(data, step) {
 
 
 /**
- * @param {Object} data
+ * @param {!Object} data
  * @param {number=} port
  * @return {!cwc.utils.EventData}
  */

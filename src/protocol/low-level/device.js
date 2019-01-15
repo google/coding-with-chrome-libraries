@@ -19,8 +19,8 @@
  */
 goog.module('cwc.lib.protocol.Device');
 
-const Logger = goog.require('cwc.lib.utils.log.Logger');
 const EventTarget = goog.require('goog.events.EventTarget');
+const Logger = goog.require('cwc.lib.utils.log.Logger');
 
 
 /**
@@ -61,13 +61,13 @@ class Device {
      */
     this.profile = {};
 
-    /** @type {!cwc.utils.Logger} */
+    /** @type {!Logger} */
     this.log = new Logger(this.name);
 
-    /** @type {!goog.events.EventTarget} */
+    /** @type {!EventTarget} */
     this.eventTarget = new EventTarget();
 
-    /** @type {!goog.events.EventTarget} */
+    /** @type {!EventTarget} */
     this.externalEventTarget = new EventTarget();
 
     /** @private {!Object} */
@@ -124,7 +124,7 @@ class Device {
 
 
   /**
-   * @param {!goog.events.EventTarget} eventTarget
+   * @param {!EventTarget} eventTarget
    * @return {THIS}
    * @template THIS
    */
@@ -135,7 +135,7 @@ class Device {
 
 
   /**
-   * @return {!goog.events.EventTarget}
+   * @return {!EventTarget}
    */
   getEventTarget() {
     if (!this.eventTarget) {
@@ -146,7 +146,7 @@ class Device {
 
 
   /**
-   * @param {!goog.events.EventTarget} eventTarget
+   * @param {!EventTarget} eventTarget
    * @return {THIS}
    * @template THIS
    */

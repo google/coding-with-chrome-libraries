@@ -1,7 +1,7 @@
 /**
- * @fileoverview Lego WeDo 2.0 Constants
+ * @fileoverview BUILD configuration for Coding with Chrome (Chrome app).
  *
- * @license Copyright 2018 The Coding with Chrome Authors.
+ * @license Copyright 2017 The Coding with Chrome Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,44 +17,23 @@
  *
  * @author mbordihn@google.com (Markus Bordihn)
  */
-goog.module('cwc.lib.protocol.lego.weDo2.Constants');
+let closureBuilder = require('closure-builder');
+let glob = closureBuilder.globSupport();
 
 
 /**
- * @enum {number}
+ * Closure Compiler Linting
  */
-exports.Channel = {
-  PORT1: 0x01,
-  PORT2: 0x02,
-  CURRENT: 0x03,
-  VOLTAGE: 0x04,
-  TONE: 0x05,
-  RGB: 0x06,
-};
-
-
-/**
- * @enum {number}
- */
-exports.Device = {
-  MOTOR: 0x01,
-  GYROSCOPE: 0x22,
-  MOTION: 0x23,
-};
-
-
-/**
- * @enum {number}
- */
-exports.Speed = {
-  0: 0x00,
-  1: 0x2a,
-  2: 0x30,
-  3: 0x36,
-  4: 0x3d,
-  5: 0x44,
-  6: 0x4a,
-  7: 0x50,
-  8: 0x5e,
-  9: 0x7f,
-};
+closureBuilder.build({
+  name: 'Compile Lint Checks',
+  srcs: glob([
+    'src/**/!(*_test).js',
+  ]),
+  externs: [],
+  options: {
+    closure: {
+      jscomp_warning: ['lintChecks'],
+      use_closure_library_ui: true,
+    },
+  },
+});

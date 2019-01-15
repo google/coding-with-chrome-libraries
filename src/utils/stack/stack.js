@@ -36,26 +36,26 @@ const StackType = {
 class StackEntry {
   /**
    * @param {!StackType} type
-   * @param {Function=} func
+   * @param {?Function=} func
    * @param {string|number=} value
-   * @param {Function=} callback
+   * @param {?Function=} callback
    */
   constructor(type, func = undefined, value = '', callback = undefined) {
     /** @private {!StackType} */
     this.type_ = type;
 
-    /** @private {Function|undefined} */
+    /** @private {?Function|undefined} */
     this.func_ = func;
 
     /** @private {string|number} */
     this.value_ = value;
 
-    /** @private {Function|undefined} */
+    /** @private {?Function|undefined} */
     this.callback_ = callback;
   }
 
   /**
-   * @return {StackType}
+   * @return {!StackType}
    * @export
    */
   getType() {
@@ -64,7 +64,7 @@ class StackEntry {
 
 
   /**
-   * @return {Function|undefined}
+   * @return {?Function|undefined}
    * @export
    */
   getFunc() {
@@ -73,7 +73,7 @@ class StackEntry {
 
 
   /**
-   * @return {Function|undefined}
+   * @return {?Function|undefined}
    * @export
    */
   getCallback() {
@@ -96,14 +96,14 @@ class StackEntry {
  */
 class StackQueue {
   /**
-   * @param {boolean=} autostart
+   * @param {?boolean=} autostart
    */
   constructor(autostart = true) {
     /** @type {number|string} */
     this.default_group = 'default';
 
     /** @type {boolean} */
-    this.autoStart = autostart;
+    this.autoStart = Boolean(autostart);
 
     /** @type {boolean} */
     this.active = false;
@@ -111,7 +111,7 @@ class StackQueue {
     /** @type {boolean} */
     this.run = false;
 
-    /** @private {Object} */
+    /** @private {!Object} */
     this.stack_ = {};
   }
 
@@ -143,12 +143,11 @@ class StackQueue {
   /**
    * Add promise command to the stack queue.
    * @param {!Function} command
-   * @param {Function=} callback
+   * @param {?Function=} callback
    * @param {number|string=} group
    * @export
    */
-  addPromise(command, callback,
-      group) {
+  addPromise(command, callback, group) {
     if (command && command instanceof Function) {
       this.addStack_(
         new StackEntry(StackType.PROMISE, command, '', callback), group);
@@ -182,7 +181,7 @@ class StackQueue {
 
   /**
    * Stops the stack queue timer.
-   * @param {Function=} callback
+   * @param {?Function=} callback
    * @export
    */
   stop(callback) {
@@ -213,7 +212,7 @@ class StackQueue {
 
   /**
    * Adds the entry to the stack queue.
-   * @param {StackEntry} stackEntry
+   * @param {!StackEntry} stackEntry
    * @param {number|string=} group
    * @private
    */

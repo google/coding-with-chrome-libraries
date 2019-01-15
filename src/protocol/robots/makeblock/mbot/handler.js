@@ -117,7 +117,7 @@ class Handler {
 
   /**
    * Stops mBot.
-   * @return {!Array<cwc.lib.protocol.makeblock.mBot.Buffer>}
+   * @return {!Array<!cwc.lib.protocol.makeblock.mBot.Buffer>}
    */
   ['stop']() {
     return [

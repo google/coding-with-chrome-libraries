@@ -34,10 +34,10 @@ class Buffer {
     /** @type {!Array} */
     this.data = [];
 
-    /** @type {Object.<DataType|string|number>} */
+    /** @type {!Object.<?DataType|string|number>} */
     this.headers = {};
 
-    /** @type {Object.<string|number>} */
+    /** @type {!Object.<string|number>} */
     this.meta = {};
   }
 
@@ -92,7 +92,7 @@ class Buffer {
 
 
   /**
-   * @param {!Array|!string} command
+   * @param {!Array|string} command
    * @return {THIS}
    * @template THIS
    */
@@ -154,7 +154,7 @@ class Buffer {
 
 
   /**
-   * @param {DataType} type
+   * @param {!DataType} type
    */
   addHeader(type) {
     if (this.hasHeader(type)) {
@@ -164,7 +164,7 @@ class Buffer {
 
 
   /**
-   * @param {DataType} type
+   * @param {!DataType} type
    * @param {string|number} data
    */
   setHeader(type, data) {
@@ -173,7 +173,7 @@ class Buffer {
 
 
   /**
-   * @param {DataType} type
+   * @param {!DataType} type
    * @return {boolean}
    */
   hasHeader(type) {
@@ -185,7 +185,7 @@ class Buffer {
 
 
   /**
-   * @param {DataType} type
+   * @param {!DataType} type
    * @return {string|number}
    */
   getHeader(type) {

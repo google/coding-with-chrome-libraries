@@ -42,10 +42,10 @@ class Api extends DefaultApi {
   constructor() {
     super('Sphero 2.0', Handler);
 
-    /** @type {!cwc.lib.protocol.sphero.sphero2.Monitoring} */
+    /** @type {!Monitoring} */
     this.monitoring = new Monitoring(this);
 
-    /** @private {!cwc.lib.utils.StreamReader} */
+    /** @private {!StreamReader} */
     this.streamReader_ = new StreamReader()
       .setChecksum(this.verifiyChecksum_)
       .setHeaders([[0xff, 0xff], [0xff, 0xfe]])
@@ -126,7 +126,7 @@ class Api extends DefaultApi {
 
   /**
    * Handles packets from the Bluetooth socket.
-   * @param {Event} e
+   * @param {!Event} e
    * @private
    */
   handleData_(e) {
@@ -200,7 +200,7 @@ class Api extends DefaultApi {
 
   /**
    * @param {!Array} buffer
-   * @param {Number=} checksum
+   * @param {number=} checksum
    * @return {boolean}
    * @private
    */

@@ -30,19 +30,19 @@ class Reader {
    *
    */
   constructor() {
-    /** @type {Array} */
+    /** @type {?Array} */
     this.footer = null;
 
-    /** @type {Array} */
+    /** @type {?Array} */
     this.headers = null;
 
     /** @type {number} */
     this.minSize = 0;
 
-    /** @private {Uint8Array} */
+    /** @private {?Uint8Array} */
     this.buffer_ = null;
 
-    /** @private {Function} */
+    /** @private {?Function} */
     this.checksum_ = null;
   }
 
@@ -94,7 +94,7 @@ class Reader {
 
 
   /**
-   * @param {Uint8Array} buffer
+   * @param {!Uint8Array} buffer
    */
   addBuffer(buffer) {
     this.buffer_ = ByteTools.joinUint8Array(this.buffer_, buffer);
@@ -104,7 +104,7 @@ class Reader {
   /**
    * Read stream by header and footer.
    * @param {!Uint8Array} data
-   * @return {Array.<Uint8Array>}
+   * @return {?Array.<?Uint8Array>}
    */
   readByHeaderAndFooter(data) {
     let result = [];
@@ -138,7 +138,7 @@ class Reader {
   /**
    * Read stream by header.
    * @param {!Uint8Array} data
-   * @return {Uint8Array}
+   * @return {!Uint8Array}
    */
   readByHeader(data) {
     return this.read(data);
@@ -148,7 +148,7 @@ class Reader {
   /**
    * Read stream.
    * @param {!Uint8Array} data
-   * @return {Uint8Array}
+   * @return {!Uint8Array}
    */
   read(data) {
     let buffer = ByteTools.getUint8Data(

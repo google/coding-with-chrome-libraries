@@ -57,7 +57,7 @@ class Handler {
   /**
    * Starts the calibration to calibrate the Sphero.
    * @param {!Object} data
-   * @return {!Array<ArrayBuffer>|ArrayBuffer}
+   * @return {!Array<!ArrayBuffer>}
    */
   ['calibrate'](data) {
     let cmds = [];
@@ -132,7 +132,7 @@ class Handler {
 
   /**
    * Sets the bridgthness of the back led.
-   * @param {Object=} data
+   * @param {?Object=} data
    * @return {!ArrayBuffer}
    */
   ['setBackLed'](data = {}) {
@@ -142,7 +142,7 @@ class Handler {
 
   /**
    * Ends the calibrate of the Sphero and store the new 0 point.
-   * @return {!Array<ArrayBuffer>|ArrayBuffer}
+   * @return {!Array<!ArrayBuffer>}
    */
   ['setCalibration']() {
     this.calibrate_ = false;
@@ -163,7 +163,7 @@ class Handler {
 
 
   /**
-   * @param {Object=} data
+   * @param {?Object=} data
    * @return {!ArrayBuffer}
    */
   ['setHeading'](data = {}) {
@@ -182,7 +182,7 @@ class Handler {
 
   /**
    * Sets the RGB color.
-   * @param {Object=} data
+   * @param {?Object=} data
    * @return {!ArrayBuffer}
    */
   ['setRGB'](data = {}) {
@@ -192,7 +192,7 @@ class Handler {
 
 
   /**
-   * @param {Object=} data
+   * @param {?Object=} data
    * @return {!ArrayBuffer}
    */
   ['setLocation'](data = {}) {
@@ -203,7 +203,7 @@ class Handler {
 
   /**
    * Puts the Sphero into sleep.
-   * @param {Object=} data
+   * @param {?Object=} data
    * @return {!ArrayBuffer}
    */
   ['sleep'](data = {}) {
@@ -214,7 +214,7 @@ class Handler {
 
   /**
    * Stops the Sphero device.
-   * @return {!Array<ArrayBuffer>}
+   * @return {!Array<!ArrayBuffer>}
    */
   ['stop']() {
     return [

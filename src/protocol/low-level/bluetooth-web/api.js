@@ -41,13 +41,13 @@ class Api {
     /** @type {boolean} */
     this.prepared = false;
 
-    /** @private {!goog.events.EventTarget} */
+    /** @private {!EventTarget} */
     this.eventTarget_ = new EventTarget();
 
-    /** @private {cwc.lib.protocol.bluetoothWeb.Devices} */
+    /** @private {!BluetoothDevices} */
     this.devices_ = new BluetoothDevices(this.eventTarget_);
 
-    /** @private {!cwc.utils.Logger} */
+    /** @private {!Logger} */
     this.log_ = new Logger(this.name);
   }
 
@@ -72,7 +72,7 @@ class Api {
 
   /**
    * @param {!cwc.protocol.bluetooth.lowEnergy.supportedDevices} device
-   * @return {Promise}
+   * @return {!Promise}
    */
   requestDevice(device) {
     return this.devices_.requestDevice(device);
@@ -80,7 +80,7 @@ class Api {
 
 
   /**
-   * @return {Promise}
+   * @return {!Promise}
    */
   requestDevices() {
     return this.devices_.requestDevices();
@@ -88,7 +88,7 @@ class Api {
 
   /**
    * @param {string} id
-   * @return {cwc.protocol.bluetooth.lowEnergy.Device}
+   * @return {!cwc.protocol.bluetooth.lowEnergy.Device}
    */
   getDevice(id) {
     return this.devices_.getDevice(id);
@@ -96,7 +96,7 @@ class Api {
 
 
   /**
-   * @return {Object}
+   * @return {!Object}
    */
   getDevices() {
     return this.devices_.getDevices();
@@ -105,14 +105,14 @@ class Api {
 
   /**
    * @param {string} name
-   * @return {Object}
+   * @return {!Object}
    */
   getDevicesByName(name) {
     return this.devices_.getDevicesByName(name);
   }
 
   /**
-   * @return {!goog.events.EventTarget}
+   * @return {!EventTarget}
    */
   getEventTarget() {
     return this.eventTarget_;

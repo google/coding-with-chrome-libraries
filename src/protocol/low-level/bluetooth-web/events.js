@@ -35,7 +35,7 @@ exports.Type = Type;
 
 
 /**
- * @param {Object} data
+ * @param {!Object} data
  * @return {!cwc.utils.EventData}
  * @final
  */
@@ -45,7 +45,7 @@ exports.adapterState = function(data) {
 
 
 /**
- * @param {Object} data
+ * @param {!Object} data
  * @return {!cwc.utils.EventData}
  * @final
  */

@@ -20,7 +20,7 @@
 goog.module('cwc.lib.utils.event.Handler');
 
 const Logger = goog.require('cwc.lib.utils.log.Logger');
-goog.require('goog.events');
+const googEvents = goog.require('goog.events');
 
 
 /**
@@ -30,7 +30,7 @@ class Handler {
   /**
    * @param {string=} name
    * @param {string=} prefix
-   * @param {Object=} scope
+   * @param {?Object=} scope
    */
   constructor(name = 'Events', prefix = '', scope = undefined) {
     /** @type {string} */
@@ -39,7 +39,7 @@ class Handler {
     /** @type {string} */
     this.prefix = prefix || '';
 
-    /** @type {Object|undefined} */
+    /** @type {?Object|undefined} */
     this.scope = scope;
 
     /** @private {!cwc.utils.Logger} */
@@ -58,12 +58,12 @@ class Handler {
    * target (such as a DOM element) or an object that has implemented
    * {@link goog.events.Listenable}.
    *
-   * @param {EventTarget|goog.events.Listenable|string} src
+   * @param {!EventTarget|!googEvents.Listenable|string} src
    * @param {string} type Event type or array of event types.
    * @param {function(?)} listener Callback method
    * @param {boolean=} capture
-   * @param {Object=} scope Object in whose scope to call the listener.
-   * @return {number|goog.events.ListenableKey|null} Unique key
+   * @param {?Object=} scope Object in whose scope to call the listener.
+   * @return {number|!googEvents.ListenableKey|null} Unique key
    */
   listen(src, type, listener, capture = false, scope = undefined) {
     let eventTarget = null;
@@ -80,7 +80,7 @@ class Handler {
       this.log_.error('Undefined listener event target!', eventTarget);
       return null;
     }
-    let listenerKey = goog.events.listen(eventTarget, type, listener, capture,
+    let listenerKey = googEvents.listen(eventTarget, type, listener, capture,
         scope || this.scope);
     this.listener_.push(listenerKey);
     return listenerKey;
@@ -88,13 +88,13 @@ class Handler {
 
 
   /**
-   * @param {number|goog.events.ListenableKey|null} key
+   * @param {number|string|!googEvents.ListenableKey|null} key
    */
   unlisten(key) {
     if (typeof key === 'undefined') {
       this.log_.error('Unknown listener key.');
     }
-    let result = goog.events.unlistenByKey(key);
+    let result = googEvents.unlistenByKey(key);
     if (!result) {
       this.log_.error('Was unable to remove event', key);
     }

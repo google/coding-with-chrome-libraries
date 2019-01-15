@@ -32,7 +32,7 @@ const MonitoringIntervals = {
   'LIGHTSENSOR_1': 1500,
   'LIGHTSENSOR_2': 1750,
   'LINEFOLLOWER': 275,
-  'TEMPERATUR': 1500,
+  'TEMPERATUR': 1600,
   'ULTRASONIC': 250,
 };
 

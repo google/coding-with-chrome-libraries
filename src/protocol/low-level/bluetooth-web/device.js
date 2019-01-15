@@ -34,22 +34,22 @@ class Device extends DefaultDevice {
   constructor() {
     super();
 
-    /** @private {Object} */
+    /** @private {!Object} */
     this.server_ = {};
 
-    /** @private {Object} */
+    /** @private {!Object} */
     this.services_ = {};
 
-    /** @private {Object} */
+    /** @private {!Object} */
     this.characteristic_ = {};
 
-    /** @private {Object} */
+    /** @private {!Object} */
     this.characteristicListener_ = {};
 
-    /** @private {Object} */
+    /** @private {!Object} */
     this.device_ = {};
 
-    /** @private {!cwc.utils.StackQueue} */
+    /** @private {!StackQueue} */
     this.stack_ = new StackQueue.Queue();
   }
 
@@ -66,7 +66,7 @@ class Device extends DefaultDevice {
 
 
   /**
-   * @return {Promise}
+   * @return {!Promise}
    */
   connect() {
     return new Promise((resolve) => {
@@ -138,8 +138,7 @@ class Device extends DefaultDevice {
   /**
    * Remove event listener from the specific characteristic id.
    * @param {string} characteristicId
-   * @param {!Function} func
-   * @return {Promise}
+   * @return {!Promise}
    */
   unlisten(characteristicId) {
     return new Promise((resolve) => {
@@ -161,7 +160,7 @@ class Device extends DefaultDevice {
 
   /**
    * Removes all known event listener.
-   * @return {Promise}
+   * @return {!Promise}
    */
   unlistenAll() {
     let promises = [];
@@ -176,7 +175,7 @@ class Device extends DefaultDevice {
 
   /**
    * Sends the buffer to the socket and the defined or default characteristic.
-   * @param {ArrayBuffer} buffer
+   * @param {!ArrayBuffer} buffer
    * @param {string=} characteristicId
    */
   send(buffer, characteristicId = this.defaultCharacteristic_) {
@@ -188,9 +187,9 @@ class Device extends DefaultDevice {
 
   /**
    * Sends the buffer to the socket.
-   * @param {!Array|ArrayBuffer|Uint8Array} buffer
+   * @param {!Array|!ArrayBuffer|!Uint8Array} buffer
    * @param {string} characteristicId
-   * @param {Function=} callback
+   * @param {?Function=} callback
    */
   sendRaw(buffer, characteristicId, callback) {
     this.stack_.addPromise(() => {
@@ -201,10 +200,10 @@ class Device extends DefaultDevice {
 
   /**
    * Sends the buffer to the specific characteristic and descriptor.
-   * @param {!Array|ArrayBuffer|Uint8Array} buffer
+   * @param {!Array|!ArrayBuffer|!Uint8Array} buffer
    * @param {string} characteristicId
    * @param {string} descriptorId
-   * @param {Function=} callback
+   * @param {?Function=} callback
    */
   sendDescriptor(buffer, characteristicId, descriptorId, callback) {
     this.stack_.addPromise(() => {
@@ -235,13 +234,13 @@ class Device extends DefaultDevice {
 
   /**
    * @param {string} characteristicId
-   * @return {Object}
+   * @return {?Object}
    */
   getCharacteristic(characteristicId) {
     if (!this.characteristic_[characteristicId]) {
       this.log.error('Unknown characteristic', characteristicId);
       this.log.error('Please make sure it\'s listed in the device profile!');
-      return;
+      return null;
     }
     return this.characteristic_[characteristicId];
   }
@@ -249,7 +248,7 @@ class Device extends DefaultDevice {
 
   /**
    * Handles connect and pre-connect available services.
-   * @return {Promise}
+   * @return {!Promise}
    * @private
    */
   handleConnect_() {
@@ -298,8 +297,8 @@ class Device extends DefaultDevice {
   /**
    * Handles connected service and pre-connect available characteristic.
    * @param {string} serviceId
-   * @param {Array=} characteristics
-   * @return {Promise}
+   * @param {?Array=} characteristics
+   * @return {!Promise}
    * @private
    */
   connectService_(serviceId, characteristics) {
@@ -312,8 +311,8 @@ class Device extends DefaultDevice {
 
   /**
    * @param {?} service
-   * @param {Array=} characteristics
-   * @return {Promise}
+   * @param {?Array=} characteristics
+   * @return {!Promise}
    * @private
    */
   handleConnectService_(service, characteristics) {
@@ -337,7 +336,7 @@ class Device extends DefaultDevice {
   /**
    * @param {string} characteristicId
    * @param {string} serviceId
-   * @return {Promise}
+   * @return {!Promise}
    * @private
    */
   connectCharacteristic_(characteristicId, serviceId) {

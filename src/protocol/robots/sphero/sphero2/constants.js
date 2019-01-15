@@ -34,7 +34,7 @@ exports.CallbackType = {
 
 
 /**
- * @enum {!Object.<Array>|Array}
+ * @enum {!Object.<!Array>|!Array}
  */
 exports.Command = {
   SYSTEM: {
@@ -76,7 +76,7 @@ exports.CommandType = {
 
 
 /**
- * @enum {!Object.<number>|number}
+ * @enum {number}
  */
 exports.ResponseType = {
   ACKNOWLEDGEMENT: 0xFF,

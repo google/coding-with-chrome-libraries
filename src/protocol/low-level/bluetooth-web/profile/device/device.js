@@ -143,7 +143,7 @@ exports.TEST_DEVICE = {
 
 
 /**
- * @return {Array}
+ * @return {!Array}
  */
 exports.LIST = [
   exports.LEGO_BOOST,

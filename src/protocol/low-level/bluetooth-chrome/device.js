@@ -247,7 +247,7 @@ class Device extends DefaultDevice {
 
   /**
    * Handles incoming data packets.
-   * @param {ArrayBuffer} data
+   * @param {!ArrayBuffer} data
    */
   handleData(data) {
     if (!data) {
@@ -353,7 +353,7 @@ class Device extends DefaultDevice {
 
 
   /**
-   * @param {Object=} opt_connection_info
+   * @param {?Object=} opt_connection_info
    * @private
    */
   handleConnect_(opt_connection_info) {

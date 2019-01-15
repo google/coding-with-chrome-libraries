@@ -44,7 +44,7 @@ class Monitoring {
     /** @type {number} */
     this.monitorLocationInterval = 1000; // Duration in ms.
 
-    /** @type {goog.Timer} */
+    /** @type {!Timer} */
     this.monitorLocation = new Timer(this.monitorLocationInterval);
 
     /** @type {boolean} */
@@ -54,7 +54,7 @@ class Monitoring {
     this.events_ = new EventHandler(this.name);
 
    // Monitor Events
-    this.events_.listen(this.monitorLocation, goog.Timer.TICK,
+    this.events_.listen(this.monitorLocation, Timer.TICK,
       this.updateLocation.bind(this));
 
     /** @private {!cwc.utils.Logger|null} */

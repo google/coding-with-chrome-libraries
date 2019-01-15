@@ -35,7 +35,7 @@ class Buffer extends ByteArrayBuffer {
     /** @type {!cwc.lib.protocol.sphero.sphero2.Constants.CallbackType} */
     this.callbackType = 0x00;
 
-    /** @type {!cwc.lib.protocol.sphero.sphero2.Constants.Command|Array} */
+    /** @type {!cwc.lib.protocol.sphero.sphero2.Constants.Command|!Array} */
     this.command = [0x00, 0x01];
   }
 
@@ -52,7 +52,7 @@ class Buffer extends ByteArrayBuffer {
 
 
   /**
-   * @param {!cwc.lib.protocol.sphero.sphero2.Constants.Command|Array} command
+   * @param {!cwc.lib.protocol.sphero.sphero2.Constants.Command|!Array} command
    * @return {THIS}
    * @template THIS
    */

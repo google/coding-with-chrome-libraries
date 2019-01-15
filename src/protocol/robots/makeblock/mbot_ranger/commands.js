@@ -26,11 +26,11 @@ const Constants =
 
 /**
  * Sets RGB LED color on the top of the mbot.
- * @param {number} red 0-255
- * @param {number} green 0-255
- * @param {number} blue 0-255
+ * @param {number=} red 0-255
+ * @param {number=} green 0-255
+ * @param {number=} blue 0-255
  * @param {number=} index 0 or 1 - 12
- * @return {!cwc.lib.protocol.makeblock.mBotRanger.Buffer}
+ * @return {!Buffer}
  */
 exports.setRGBLED = function(red = 0, green = 0, blue = 0, index = 0x00) {
   return new Buffer()
@@ -49,8 +49,8 @@ exports.setRGBLED = function(red = 0, green = 0, blue = 0, index = 0x00) {
 /**
  * Plays a tone through mBot's buzzer
  * @param {number} frequency Frequency of the tone to play
- * @param {number} duration Duration of the tone, in ms
- * @return {!cwc.lib.protocol.makeblock.mBotRanger.Buffer}
+ * @param {number=} duration Duration of the tone, in ms
+ * @return {!Buffer}
  */
 exports.playTone = function(frequency, duration = 500) {
   return new Buffer()
@@ -66,8 +66,8 @@ exports.playTone = function(frequency, duration = 500) {
 /**
  * Sets motor power
  * @param {number} power (0-255)
- * @param {Constants.Slot=} slot
- * @return {!cwc.lib.protocol.makeblock.mBotRanger.Buffer}
+ * @param {?Constants.Slot=} slot
+ * @return {!Buffer}
  */
 exports.movePower = function(power, slot = Constants.Slot.ONE) {
   return new Buffer()
@@ -84,8 +84,8 @@ exports.movePower = function(power, slot = Constants.Slot.ONE) {
  * Rotates the motor for the given steps.
  * @param {number} steps (−32768 - 32.767)
  * @param {number=} power (0-255)
- * @param {Constants.Slot=} slot
- * @return {!cwc.lib.protocol.makeblock.mBotRanger.Buffer}
+ * @param {?Constants.Slot=} slot
+ * @return {!Buffer}
  */
 exports.moveSteps = function(steps, power = 130, slot = Constants.Slot.ONE) {
   return new Buffer()
@@ -104,7 +104,7 @@ exports.moveSteps = function(steps, power = 130, slot = Constants.Slot.ONE) {
  * @param {!Constants.IndexType} indexType
  * @param {!Constants.Device} device
  * @param {!Constants.Port} port
- * @return {!cwc.lib.protocol.makeblock.mBotRanger.Buffer}
+ * @return {!Buffer}
  */
 exports.getSensorData = function(indexType, device, port) {
   return new Buffer()
@@ -117,7 +117,7 @@ exports.getSensorData = function(indexType, device, port) {
 
 /**
  * Gets current firmware version.
- * @return {!cwc.lib.protocol.makeblock.mBotRanger.Buffer}
+ * @return {!Buffer}
  */
 exports.getVersion = function() {
   return new Buffer()
@@ -128,8 +128,8 @@ exports.getVersion = function() {
 
 
 /**
- * Resets the mBot.
- * @return {!cwc.lib.protocol.makeblock.mBotRanger.Buffer}
+ * Resets the mBot Ranger.
+ * @return {!Buffer}
  */
 exports.reset = function() {
   return new Buffer()
@@ -139,8 +139,8 @@ exports.reset = function() {
 
 
 /**
- * Starts the mBot.
- * @return {!cwc.lib.protocol.makeblock.mBotRanger.Buffer}
+ * Starts the mBot Ranger.
+ * @return {!Buffer}
  */
 exports.start = function() {
   return new Buffer()

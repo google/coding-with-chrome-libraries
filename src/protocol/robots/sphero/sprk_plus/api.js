@@ -41,10 +41,10 @@ class Api extends DefaultApi {
   constructor() {
     super('Sphero Sprk+', Handler);
 
-    /** @type {!cwc.lib.protocol.sphero.sprkPlus.Monitoring} */
+    /** @type {!Monitoring} */
     this.monitoring = new Monitoring(this);
 
-    /** @private {!cwc.lib.utils.StreamReader} */
+    /** @private {!StreamReader} */
     this.streamReader_ = new StreamReader()
       .setChecksum(this.verifiyChecksum_)
       .setHeaders([[0xff, 0xff], [0xff, 0xfe]])
@@ -228,7 +228,7 @@ class Api extends DefaultApi {
 
   /**
    * @param {!Array} buffer
-   * @param {Number=} checksum
+   * @param {number=} checksum
    * @return {boolean}
    * @private
    */

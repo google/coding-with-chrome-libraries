@@ -24,12 +24,12 @@ const LogLevel = goog.require('cwc.lib.utils.log.Level');
 
 /**
  * @class
+ * @unrestricted
  */
 class Logger {
   /**
    * @param {string=} name
    * @param {number=} logLevel
-   * @unrestricted
    */
   constructor(name = 'Logger', logLevel = LogLevel.NOTICE) {
     /** @type {string} */
@@ -85,7 +85,7 @@ class Logger {
 
 
   /**
-   * @param {!cwc.lib.utils.log.Level} logLevel
+   * @param {!LogLevel} logLevel
    */
   setLogLevel(logLevel) {
     this.logLevel = logLevel;
@@ -125,7 +125,7 @@ class Logger {
 
   /**
    * @param {string} name
-   * @param {!cwc.lib.utils.log.Level} logLevel
+   * @param {!LogLevel} logLevel
    * @param {!Function} logger
    * @param {boolean=} raw
    * @private
@@ -143,7 +143,7 @@ class Logger {
   /**
    * @param {!Function} logger
    * @param {boolean=} raw
-   * @return {Function}
+   * @return {!Function}
    * @private
    */
   log_(logger, raw = false) {

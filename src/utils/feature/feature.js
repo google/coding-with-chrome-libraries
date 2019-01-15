@@ -56,7 +56,7 @@ exports.isWindows = function() {
 
 /**
  * @param {string} name
- * @return {boolean|Object|Function}
+ * @return {boolean|?Object|?Function}
  */
 exports.getChromeFeature = function(name) {
   if (typeof chrome === 'undefined') {
@@ -73,9 +73,9 @@ exports.getChromeFeature = function(name) {
 
 
 /**
- * @param {Object|Function} feature
+ * @param {?Object|?Function} feature
  * @param {string=} name
- * @return {boolean|Object|Function}
+ * @return {boolean|?Object|?Function}
  */
 exports.getFeature = function(feature, name = '') {
   let result = false;

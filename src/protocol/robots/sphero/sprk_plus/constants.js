@@ -21,7 +21,7 @@ goog.module('cwc.lib.protocol.sphero.sprkPlus.Constants');
 
 
 /**
- * @enum {number|Array}
+ * @enum {!Array}
  */
 exports.AntiDOS = {
   DEVELOPER_MODE: [0x30, 0x31, 0x31, 0x69, 0x33],
@@ -42,7 +42,7 @@ exports.CallbackType = {
 
 
 /**
- * @enum {!Object.<Array>|Array}
+ * @enum {!Object.<!Array>|!Array}
  */
 exports.Command = {
   SYSTEM: {
@@ -84,7 +84,7 @@ exports.Command = {
 
 
 /**
- * @enum {!Object.<number>|number}
+ * @enum {!Object.<number>}
  */
 exports.CommandType = {
   DIRECT: {
@@ -95,7 +95,7 @@ exports.CommandType = {
 
 
 /**
- * @enum {!Object.<number>|number}
+ * @enum {number}
  */
 exports.ResponseType = {
   ACKNOWLEDGEMENT: 0xFF,

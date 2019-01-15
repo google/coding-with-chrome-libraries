@@ -26,8 +26,8 @@ const ByteTools = goog.require('cwc.lib.utils.byte.Tools');
 
 
 /**
- * @param {Array.<Uint8Array>} data
- * @return {Object}
+ * @param {!Array.<!Uint8Array>} data
+ * @return {!Object}
  */
 exports.collision = function(data) {
   let x = ByteTools.signedShortToInt([data[0], data[1]]);
@@ -52,8 +52,8 @@ exports.collision = function(data) {
 
 
 /**
- * @param {Array.<Uint8Array>} data
- * @return {Object}
+ * @param {!Array.<!Uint8Array>} data
+ * @return {!Object}
  */
 exports.deviceInfo = function(data) {
   let name = new TextDecoder('utf-8').decode(data.slice(0, 16));
@@ -68,8 +68,8 @@ exports.deviceInfo = function(data) {
 
 
 /**
- * @param {Array.<Uint8Array>} data
- * @return {Object}
+ * @param {!Array.<!Uint8Array>} data
+ * @return {!Object}
  */
 exports.rgb = function(data) {
   return {
@@ -81,8 +81,8 @@ exports.rgb = function(data) {
 
 
 /**
- * @param {Array.<Uint8Array>} data
- * @return {Object}
+ * @param {!Array.<!Uint8Array>} data
+ * @return {!Object}
  */
 exports.location = function(data) {
   let xpos = ByteTools.signedShortToInt([data[0], data[1]]);

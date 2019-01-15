@@ -27,11 +27,11 @@ const defaultCharacteristic = '22bb746f-2ba1-7554-2d6f-726568705327';
 
 /**
  * Sets RGB LED color.
- * @param {number} red 0-255
- * @param {number} green 0-255
- * @param {number} blue 0-255
+ * @param {number=} red 0-255
+ * @param {number=} green 0-255
+ * @param {number=} blue 0-255
  * @param {boolean=} persistent
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!Buffer}
  */
 exports.setRGB = function(red = 0, green = 0, blue = 0, persistent = false) {
   return new Buffer()
@@ -46,7 +46,7 @@ exports.setRGB = function(red = 0, green = 0, blue = 0, persistent = false) {
 
 /**
  * Gets current RGB LED color.
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!Buffer}
  */
 exports.getRGB = function() {
   return new Buffer()
@@ -58,7 +58,7 @@ exports.getRGB = function() {
 
 /**
  * Gets basic device information.
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!Buffer}
  */
 exports.getDeviceInfo = function() {
   return new Buffer()
@@ -70,8 +70,8 @@ exports.getDeviceInfo = function() {
 
 /**
  * Sets back-light LED brightness.
- * @param {number} brightness 0-255
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @param {number=} brightness 0-255
+ * @return {!Buffer}
  */
 exports.setBackLed = function(brightness = 0) {
   return new Buffer()
@@ -84,7 +84,7 @@ exports.setBackLed = function(brightness = 0) {
 /**
  * Turns on or off the internal stabilization.
  * @param {boolean} enable
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!Buffer}
  */
 exports.setStabilization = function(enable) {
   return new Buffer()
@@ -96,8 +96,8 @@ exports.setStabilization = function(enable) {
 
 /**
  * Sets heading.
- * @param {number} heading 0-359
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @param {number=} heading 0-359
+ * @return {!Buffer}
  */
 exports.setHeading = function(heading = 0) {
   return new Buffer()
@@ -109,10 +109,10 @@ exports.setHeading = function(heading = 0) {
 
 /**
  * Rolls the Sphero.
- * @param {number} speed 0-255
+ * @param {number=} speed 0-255
  * @param {number=} heading 0-359
  * @param {boolean=} state
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!Buffer}
  */
 exports.roll = function(speed = 50, heading = 0, state = undefined) {
   return new Buffer()
@@ -132,7 +132,7 @@ exports.roll = function(speed = 50, heading = 0, state = undefined) {
  * @param {number=} speedX
  * @param {number=} speedY
  * @param {number=} interval in 10msec
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!Buffer}
  */
 exports.setCollisionDetection = function(method = 0x01,
     thresholdX = 0x40, thresholdY = 0x40, speedX = 0x40, speedY = 0x40,
@@ -155,7 +155,7 @@ exports.setCollisionDetection = function(method = 0x01,
  * @param {number=} x cordination
  * @param {number=} y cordination
  * @param {number=} yaw tare
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!Buffer}
  */
 exports.setLocation = function(flags = 0x01, x = 0x00, y = 0x00, yaw = 0x00) {
   return new Buffer()
@@ -171,7 +171,7 @@ exports.setLocation = function(flags = 0x01, x = 0x00, y = 0x00, yaw = 0x00) {
 /**
  * Sets montion timeout.
  * @param {number} timeout in msec
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!Buffer}
  */
 exports.setMotionTimeout = function(timeout) {
   return new Buffer()
@@ -182,7 +182,7 @@ exports.setMotionTimeout = function(timeout) {
 
 
 /**
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!Buffer}
  */
 exports.enableDeloperMode = function() {
   return new Buffer()
@@ -192,8 +192,8 @@ exports.enableDeloperMode = function() {
 
 
 /**
- * @param {boolean} enabled
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @param {boolean=} enabled
+ * @return {!Buffer}
  */
 exports.boost = function(enabled = true) {
   return new Buffer()
@@ -208,7 +208,7 @@ exports.boost = function(enabled = true) {
  * @param {number=} wakeup
  * @param {number=} macro
  * @param {number=} orb_basic
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!Buffer}
  */
 exports.sleep = function(wakeup = 0x00, macro = 0x00, orb_basic = 0x00) {
   return new Buffer()
@@ -222,7 +222,7 @@ exports.sleep = function(wakeup = 0x00, macro = 0x00, orb_basic = 0x00) {
 
 /**
  * Reads the current Sphero location.
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!Buffer}
  */
 exports.getLocation = function() {
   return new Buffer()
@@ -234,7 +234,7 @@ exports.getLocation = function() {
 
 /**
  * Reads current Sphero version.
- * @return {!cwc.lib.protocol.sphero.sprkPlus.Buffer}
+ * @return {!Buffer}
  */
 exports.getVersion = function() {
   return new Buffer()

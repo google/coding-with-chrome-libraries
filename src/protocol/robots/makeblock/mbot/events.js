@@ -42,7 +42,7 @@ exports.Type = Type;
 
 
 /**
- * @param {Object} data
+ * @param {!Object} data
  * @param {number=} port
  * @return {!cwc.utils.EventData}
  * @final
@@ -53,7 +53,7 @@ exports.ButtonPressed = function(data, port) {
 
 
 /**
- * @param {Object} data
+ * @param {!Object} data
  * @param {number=} port
  * @return {!cwc.utils.EventData}
  * @final
@@ -64,7 +64,7 @@ exports.UltrasonicSensorValue = function(data, port) {
 
 
 /**
- * @param {Object} data
+ * @param {!Object} data
  * @param {number=} port
  * @return {!cwc.utils.EventData}
  * @final
@@ -75,7 +75,7 @@ exports.LightnessSensorValue = function(data, port) {
 
 
 /**
- * @param {Object} data
+ * @param {!Object} data
  * @param {number=} port
  * @return {!cwc.utils.EventData}
  * @final

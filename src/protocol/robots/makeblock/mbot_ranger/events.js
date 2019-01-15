@@ -38,7 +38,7 @@ exports.Type = Type;
 
 
 /**
- * @param {Object} data
+ * @param {!Object} data
  * @param {number=} port
  * @return {!cwc.utils.EventData}
  * @final
@@ -49,7 +49,7 @@ exports.UltrasonicSensorValue = function(data, port) {
 
 
 /**
- * @param {Object} data
+ * @param {!Object} data
  * @param {number=} port
  * @return {!cwc.utils.EventData}
  * @final
@@ -60,7 +60,7 @@ exports.LightnessSensorValue = function(data, port) {
 
 
 /**
- * @param {Object} data
+ * @param {!Object} data
  * @param {number=} port
  * @return {!cwc.utils.EventData}
  * @final
@@ -71,7 +71,7 @@ exports.LinefollowerSensorValue = function(data, port) {
 
 
 /**
- * @param {Object|number} data
+ * @param {!Object|number} data
  * @param {number=} port
  * @return {!cwc.utils.EventData}
  * @final

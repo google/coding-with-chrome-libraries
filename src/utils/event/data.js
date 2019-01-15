@@ -22,7 +22,7 @@ goog.module('cwc.lib.utils.event.Data');
 
 /**
  * @param {string} type
- * @param {ArrayBuffer|Object|string|number=} data
+ * @param {!ArrayBuffer|!Object|string|number=} data
  * @param {string|number=} source
  * @constructor
  * @final
@@ -31,9 +31,9 @@ exports = function(type, data, source) {
   /** @type {string} */
   this.type = type;
 
-  /** @type {!ArrayBuffer|Object|string|number|null} */
+  /** @type {!ArrayBuffer|!Object|string|number|null} */
   this.data = typeof data !== 'undefined' ? data : {};
 
-  /** @type {!string|number} */
+  /** @type {string|number} */
   this.source = typeof source !== 'undefined' ? source : '';
 };

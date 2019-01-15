@@ -38,10 +38,10 @@ class Devices {
     /** @type {string} */
     this.name = 'Bluetooth Chrome Devices';
 
-    /** @type {Object} */
+    /** @type {!Object} */
     this.devices = {};
 
-    /** @type {Object} */
+    /** @type {!Object} */
     this.socketIds = {};
 
     /** @type {boolean} */
@@ -62,7 +62,7 @@ class Devices {
     /** @private {!Array} */
     this.autoConnectDeviceCache_ = [];
 
-    /** @type {!cwc.lib.utils.Logger} */
+    /** @type {!Logger} */
     this.log_ = new Logger(this.name);
 
     /** @type {!cwc.lib.protocol.bluetoothChrome.Profile} */
@@ -116,7 +116,7 @@ class Devices {
 
   /**
    * @param {string} socket_id
-   * @param {ArrayBuffer} data
+   * @param {!ArrayBuffer} data
    */
   receiveData(socket_id, data) {
     if (socket_id in this.socketIds) {
@@ -158,7 +158,7 @@ class Devices {
 
   /**
    * @param {string} address
-   * @return {cwc.lib.protocol.bluetoothChrome.Device}
+   * @return {!cwc.lib.protocol.bluetoothChrome.Device}
    */
   getDevice(address) {
     if (address in this.devices) {
@@ -171,7 +171,7 @@ class Devices {
 
   /**
    * @param {string} name
-   * @return {cwc.lib.protocol.bluetoothChrome.Device}
+   * @return {!cwc.lib.protocol.bluetoothChrome.Device}
    */
   getDeviceByName(name) {
     let connectedDevice = [];
@@ -214,7 +214,7 @@ class Devices {
 
 
   /**
-   * @return {Object}
+   * @return {!Object}
    */
   getDevices() {
     return this.devices;
@@ -223,7 +223,7 @@ class Devices {
 
   /**
    * @param {string} name
-   * @param {Function} callback
+   * @param {?Function} callback
    * @return {boolean}
    */
   autoConnectDevice(name, callback) {
@@ -260,7 +260,7 @@ class Devices {
 
 
   /**
-   * @param {Object} device
+   * @param {!Object} device
    * @private
    */
   handleDeviceRemoved_(device) {

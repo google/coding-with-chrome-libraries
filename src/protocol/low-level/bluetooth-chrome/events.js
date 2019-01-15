@@ -35,8 +35,8 @@ exports.Type = Type;
 
 
 /**
- * @param {Object} data
- * @return {!cwc.utils.EventData}
+ * @param {!Object} data
+ * @return {!EventData}
  * @final
  */
 exports.adapterState = function(data) {
@@ -45,8 +45,8 @@ exports.adapterState = function(data) {
 
 
 /**
- * @param {Object} data
- * @return {!cwc.utils.EventData}
+ * @param {!Object} data
+ * @return {!EventData}
  * @final
  */
 exports.deviceState = function(data) {
@@ -56,7 +56,7 @@ exports.deviceState = function(data) {
 
 /**
  * @param {!ArrayBuffer} data
- * @return {!cwc.utils.EventData}
+ * @return {!EventData}
  * @final
  */
 exports.onReceive = function(data) {

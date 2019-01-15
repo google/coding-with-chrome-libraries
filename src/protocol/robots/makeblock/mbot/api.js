@@ -24,8 +24,8 @@
 goog.module('cwc.lib.protocol.makeblock.mBot.Api');
 
 const BluetoothEvents = goog.require('cwc.lib.protocol.bluetoothChrome.Events');
-const DefaultApi = goog.require('cwc.lib.protocol.Api');
 const Constants = goog.require('cwc.lib.protocol.makeblock.mBot.Constants');
+const DefaultApi = goog.require('cwc.lib.protocol.Api');
 const Events = goog.require('cwc.lib.protocol.makeblock.mBot.Events');
 const Handler = goog.require('cwc.lib.protocol.makeblock.mBot.Handler');
 const Monitoring = goog.require('cwc.lib.protocol.makeblock.mBot.Monitoring');
@@ -45,10 +45,10 @@ class Api extends DefaultApi {
     /** @type {!Constants.Monitoring} */
     this.monitoring = new Monitoring(this);
 
-    /** @private {Object} */
+    /** @private {!Object} */
     this.sensorDataCache_ = {};
 
-    /** @private {!cwc.utils.StreamReader} */
+    /** @private {!StreamReader} */
     this.streamReader_ = new StreamReader()
       .setHeaders([0xff, 0x55])
       .setFooter([0x0d, 0x0a])
@@ -129,7 +129,7 @@ class Api extends DefaultApi {
 
   /**
    * Convert float bytes to float value in robot response;
-   * @param  {Array} dataBytes bytes from the robot
+   * @param {!Array} dataBytes bytes from the robot
    * @return {number} float value
    * @private
    */
@@ -157,8 +157,8 @@ class Api extends DefaultApi {
 
   /**
    * Convert from int (in byte form) to float
-   * @param {number} num   the input int value
-   * @return {number}     the result as float
+   * @param {number} num the input int value
+   * @return {number} the result as float
    * @private
    */
   intBitsToFloat_(num) {
@@ -173,7 +173,7 @@ class Api extends DefaultApi {
 
   /**
    * Handles packets from the Bluetooth socket.
-   * @param {Event} e
+   * @param {!Event} e
    * @private
    */
   handleOnReceive_(e) {
@@ -223,7 +223,7 @@ class Api extends DefaultApi {
   /**
    * Handles the different type of sensor data.
    * @param {!Constants.CallbackType} type
-   * @param {Array} data
+   * @param {!Array} data
    * @param {number=} data_size
    * @private
    */
@@ -266,7 +266,7 @@ class Api extends DefaultApi {
    * Dispatch event for sensor data change.
    * @param {!Constants.CallbackType} index
    * @param {!Function} event
-   * @param {Object|number} data
+   * @param {!Object|number} data
    * @private
    */
   dispatchSensorEvent_(index, event, data) {

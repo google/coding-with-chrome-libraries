@@ -54,7 +54,7 @@ class Device extends DefaultDevice {
     /** @type {!Function|null} */
     this.disconnectCallback = null;
 
-    /** @type {Object} */
+    /** @type {!Object} */
     this.socketProperties = {
       'persistent': false,
       'name': 'CwC Bluetooth Device',
@@ -116,7 +116,7 @@ class Device extends DefaultDevice {
 
 
   /**
-   * @param {Function=} callback Will be only called  after an connection.
+   * @param {Function?=} callback Will be only called  after an connection.
    */
   connect(callback) {
     if (this.connecting) {
@@ -156,7 +156,7 @@ class Device extends DefaultDevice {
 
   /**
    * @param {boolean=} force
-   * @param {Function=} callback
+   * @param {Function?=} callback
    */
   disconnect(force, callback) {
     if (this.socketId == null) {
@@ -200,7 +200,7 @@ class Device extends DefaultDevice {
 
   /**
    * Sends the buffer to the socket.
-   * @param {!Array<ArrayBuffer>|ArrayBuffer} buffer
+   * @param {!Array<!ArrayBuffer>|!ArrayBuffer} buffer
    * @param {string=} opt_characteristicId_unused
    */
   send(buffer, opt_characteristicId_unused) {
@@ -306,7 +306,7 @@ class Device extends DefaultDevice {
 
 
   /**
-   * @param {Object} socket_info
+   * @param {Object?} socket_info
    * @private
    */
   handleSocketInfo_(socket_info) {
@@ -328,7 +328,7 @@ class Device extends DefaultDevice {
 
 
   /**
-   * @param {Object} socket_info
+   * @param {Object?} socket_info
    * @private
    */
   handleSockets_(socket_info) {

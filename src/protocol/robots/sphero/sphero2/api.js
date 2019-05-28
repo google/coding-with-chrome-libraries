@@ -152,7 +152,7 @@ class Api extends DefaultApi {
     let len = dataBuffer[4];
     let data = dataBuffer.slice(5, 4 + len);
     if (messageType === Constants.ResponseType.ACKNOWLEDGEMENT) {
-      if (len = 1 && messageResponse === Constants.ResponseType.PRE_SLEEP) {
+      if (len === 1 && messageResponse === Constants.ResponseType.PRE_SLEEP) {
         this.log_.warn('Pre-sleep warning (10 sec)');
         return;
       }

@@ -47,7 +47,7 @@ class Devices {
     /** @type {boolean} */
     this.prepared = false;
 
-    /** @type {goog.async.Throttle} */
+    /** @type {goog.async.Throttle?} */
     this.throttledUpdateDevices = null;
 
     /** @type {number} */

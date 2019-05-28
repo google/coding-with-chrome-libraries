@@ -44,7 +44,7 @@ class Api {
     /** @type {boolean} */
     this.prepared = false;
 
-    /** @type {Object} */
+    /** @type {!Object} */
     this.connectionIds = {};
 
     /** @private {!goog.events.EventTarget} */
@@ -102,7 +102,7 @@ class Api {
 
   /**
    * @param {string} address
-   * @return {cwc.lib.protocol.bluetoothChrome.Device}
+   * @return {cwc.lib.protocol.bluetoothChrome.Device?}
    */
   getDevice(address) {
     return this.devices_.getDevice(address);
@@ -111,7 +111,7 @@ class Api {
 
   /**
    * @param {string} name
-   * @return {cwc.lib.protocol.bluetoothChrome.Device}
+   * @return {cwc.lib.protocol.bluetoothChrome.Device?}
    */
   getDeviceByName(name) {
     return this.devices_.getDeviceByName(name);
@@ -119,7 +119,7 @@ class Api {
 
 
   /**
-   * @return {Object}
+   * @return {Object?}
    */
   getDevices() {
     return this.devices_.getDevices();
@@ -136,7 +136,7 @@ class Api {
 
   /**
    * @param {string} deviceName
-   * @param {Function} callback
+   * @param {Function?} callback
    */
   autoConnectDevice(deviceName, callback) {
     this.devices_.autoConnectDevice(deviceName, callback);
@@ -160,7 +160,7 @@ class Api {
 
 
   /**
-   * @param {Object} info
+   * @param {!Object} info
    * @private
    */
   handleOnReceive_(info) {
@@ -169,7 +169,7 @@ class Api {
 
 
   /**
-   * @param {Object} info
+   * @param {!Object} info
    * @private
    */
   handleOnReceiveError_(info) {

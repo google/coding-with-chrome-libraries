@@ -1,7 +1,9 @@
 Coding with Chrome Libraries
 =============================
 
-[![Build Status](https://travis-ci.org/google/coding-with-chrome-libraries.svg?branch=master)](https://travis-ci.org/google/coding-with-chrome-libraries)
+NOTE: This repository is deprecated and no longer maintained by our community. 
+We are keeping it here for historical purposes and access to legacy documentation. 
+All further work will be done on the upcoming Coding with Chrome Suite instead.
 
 * [Licensing](#licensing)
 * [Report Issues](#report-issues)
